@@ -1,0 +1,5 @@
+---
+- hosts: default
+  roles:
+    - role: laniakea.rstudio
+      become: yes

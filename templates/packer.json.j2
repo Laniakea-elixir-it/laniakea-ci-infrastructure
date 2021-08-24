@@ -1,0 +1,26 @@
+{
+	"builders": [
+		{
+			"type": "openstack",
+			"ssh_username": "{{ ssh_username }}",
+			"image_name": "{{ name }}_{{ version }}",
+			"source_image": "{{ source_image }}",
+			"flavor": "{{ flavor }}",
+			"ssh_ip_version": "4",
+			"use_blockstorage_volume": "true",
+			"volume_size": "{{ volume_size }}",
+			"volume_availability_zone": "nova",
+			"image_disk_format": "qcow2",
+			"networks": [
+				"{{ network_id }}"
+			]
+		}
+	],
+	"provisioners": [
+		{
+			"type": "ansible",
+			"inventory_directory": "./",
+			"playbook_file": "./playbooks/{{ playbook_file }}"
+		}
+	]
+}

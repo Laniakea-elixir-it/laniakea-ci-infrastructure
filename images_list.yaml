@@ -1,0 +1,27 @@
+---
+
+
+images:
+    rstudio-minimal:
+        name: rstudio-minimal
+        version: v1.0.0
+        build: yes
+        packer:
+            ssh_username: centos
+            source_image: "671ce862-bd9e-448e-bf88-592bff65cfb8" # centos 7 2009
+            flavor: medium
+            volume_size: "10"
+            network_id: "9863761f-626c-4c72-878b-eb7b241be0fe"
+            playbook_file: "rstudio_minimal.yml"
+
+    rstudio-seraut:
+        name: rstudio-seraut
+        version: v1.0.0
+        build: no
+        packer:
+            ssh_username: centos
+            source_image: "671ce862-bd9e-448e-bf88-592bff65cfb8" # centos 7 2009
+            flavor: medium
+            volume_size: "10"
+            network_id: "9863761f-626c-4c72-878b-eb7b241be0fe"
+            playbook_file: "rstudio_seraut.yml"
