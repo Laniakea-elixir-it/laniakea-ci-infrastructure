@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import datetime
+import time
 import yaml
 import jinja2
 from jinja2 import Environment, FileSystemLoader
@@ -15,8 +15,9 @@ env = Environment( loader=FileSystemLoader(template_dir) )
 # Packer executable
 packer_exe='/usr/bin/packer'
 
-# Log facility
-logging.basicConfig(filename='report.log', level=logging.DEBUG)
+# Create Log facility
+report_file="./report/build_report_"+ str(time.strftime("%Y%m%d-%H%M%S"))+'.log'
+logging.basicConfig(filename=report_file, format='%(levelname)s %(asctime)s %(message)s', level=logging.DEBUG)
 
 #________________________________
 def load_list():
