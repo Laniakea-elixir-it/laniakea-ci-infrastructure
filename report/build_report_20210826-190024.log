@@ -1,0 +1,12 @@
+INFO 2021-08-26 19:00:24,607 Error: Failed to prepare build: "openstack"
+INFO 2021-08-26 19:00:24,608 
+INFO 2021-08-26 19:00:24,608 1 error(s) occurred:
+INFO 2021-08-26 19:00:24,608 
+INFO 2021-08-26 19:00:24,609 * Missing input for argument [auth_url]
+INFO 2021-08-26 19:00:24,609 
+INFO 2021-08-26 19:00:24,609 
+INFO 2021-08-26 19:00:24,609 
+INFO 2021-08-26 19:00:24,609 ==> Wait completed after 15 microseconds
+INFO 2021-08-26 19:00:24,609 
+INFO 2021-08-26 19:00:24,610 ==> Builds finished but no artifacts were created.
+INFO 2021-08-26 19:00:26,627 
