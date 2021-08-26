@@ -6,6 +6,7 @@ import jinja2
 from jinja2 import Environment, FileSystemLoader
 import tempfile
 import subprocess
+import logging
 
 # Load Jinja2 templates
 template_dir = './templates'
@@ -13,6 +14,9 @@ env = Environment( loader=FileSystemLoader(template_dir) )
 
 # Packer executable
 packer_exe='/usr/bin/packer'
+
+# Log facility
+logging.basicConfig(filename='report.log', level=logging.DEBUG)
 
 #________________________________
 def load_list():
@@ -66,7 +70,9 @@ def parse_list(info_list, outpath):
 def build_images_with_packer(path_list):
 
     for template_path in path_list:
-        build_image(template_path)
+        stdout = build_image(template_path)
+        print(stdout)
+        # print output to report
 
 #________________________________
 def build_image(path):
@@ -76,29 +82,17 @@ def build_image(path):
     cmd = packer_exe + ' build ' + path
     print(cmd)
     proc = subprocess.Popen( args=cmd, shell=True,  stdout=subprocess.PIPE, stderr=subprocess.STDOUT )
-    #communicateRes = proc.communicate()
-    #stdout, stderr = communicateRes
-    #status = proc.wait()
 
     while proc.poll() is None:
-        output = proc.stdout.readline()
-        print(output.strip())
+        line = proc.stdout.readline()
+        sl = line.strip()
+        dsl = sl.decode('utf-8')
+        print(dsl)
+        logging.info(dsl)
 
+    status = proc.wait()
 
-    #stdout = []
-    #while True:
-    #    output = proc.stdout.readline()
-    #    stdout.append(output)
-    #    print(output),
-    #    if output == '' and proc.poll() != None:
-    #        break
-
-    #print('stdout: ' + str(stdout))
-    #print(stderr)
-    #print(status)
-
-    #return stdout, stderr, status
-
+    return status
 
 #________________________________
 def build_images():
