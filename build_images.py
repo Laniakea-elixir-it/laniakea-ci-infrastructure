@@ -20,6 +20,41 @@ report_file="./report/build_report_"+ str(time.strftime("%Y%m%d-%H%M%S"))+'.log'
 logging.basicConfig(filename=report_file, format='%(levelname)s %(asctime)s %(message)s', level=logging.DEBUG)
 
 #________________________________
+def run_command(cmd):
+    """
+    Run subprocess call redirecting stdout, stderr and the command exit code.
+    """
+    proc = subprocess.Popen( args=cmd, shell=True,  stdout=subprocess.PIPE, stderr=subprocess.PIPE )
+    communicateRes = proc.communicate()
+    stdout, stderr = communicateRes
+    status = proc.wait()
+    return stdout, stderr, status
+
+#________________________________
+def upload_report_to_github(report):
+
+    print(report)
+
+    add_cmd = 'git add '+report
+    print(add_cmd)
+    add_stdout, add_stderr, add_status = run_command(add_cmd)
+
+    if add_status == 0:
+        commit_cmd = 'eval $(ssh-agent) && git commit -m "add report"'
+        print(commit_cmd)
+        commit_stdout, commit_stderr, commit_status = run_command(commit_cmd)
+        print(commit_stdout)
+        print(commit_stderr)
+        print(commit_status)
+
+        if commit_status == 0:
+            push_cmd = 'eval $(ssh-agent) && git push'
+            push_stdout, push_stderr, push_status = run_command(push_cmd)
+            print(push_stdout)
+            print(push_stderr)
+            print(push_status)
+
+#________________________________
 def load_list():
     with open('images_list.yaml', 'r') as ilf:
         il = yaml.safe_load(ilf)
@@ -111,6 +146,8 @@ def build_images():
     # Build Packer images
     build_images_with_packer(images_to_build)
 
+    # Upload report to github
+    upload_report_to_github(report_file)
 
 #______________________________________
 if __name__ == "__main__":
