@@ -17,7 +17,23 @@ packer_exe='/usr/bin/packer'
 
 # Create Log facility
 report_file="./report/build_report_"+ str(time.strftime("%Y%m%d-%H%M%S"))+'.log'
-logging.basicConfig(filename=report_file, format='%(levelname)s %(asctime)s %(message)s', level=logging.DEBUG)
+#report_file='example.log'
+
+logging.basicConfig(filename=report_file, format='%(levelname)s %(asctime)s: %(message)s', level=logging.DEBUG)
+
+
+#________________________________
+def create_report(report):
+    """
+    Start build report for github upload.
+    Write header file
+    """
+    with open(report, 'w') as logfile:
+        logfile.write('*** Laniakea Image build Report ***\n')
+        logfile.write(str(time.strftime("Date: %Y-%m-%d - Time: %H:%M:%S \n")))
+        logfile.write('Report file: ' + str(report) + '\n')
+        logfile.write('\n')
+
 
 #________________________________
 def run_command(cmd):
@@ -33,26 +49,20 @@ def run_command(cmd):
 #________________________________
 def upload_report_to_github(report):
 
-    print(report)
-
     add_cmd = 'git add '+report
-    print(add_cmd)
     add_stdout, add_stderr, add_status = run_command(add_cmd)
 
     if add_status == 0:
-        commit_cmd = 'eval $(ssh-agent) && git commit -m "add report"'
-        print(commit_cmd)
+        commit_cmd = 'git commit -m "add report"'
         commit_stdout, commit_stderr, commit_status = run_command(commit_cmd)
         print(commit_stdout)
         print(commit_stderr)
-        print(commit_status)
 
         if commit_status == 0:
-            push_cmd = 'eval $(ssh-agent) && git push'
+            push_cmd = 'git push'
             push_stdout, push_stderr, push_status = run_command(push_cmd)
             print(push_stdout)
             print(push_stderr)
-            print(push_status)
 
 #________________________________
 def load_list():
@@ -100,15 +110,17 @@ def parse_list(info_list, outpath):
 
             images_to_build.append(fout_name)
 
+            logging.info('[Image to Build]: '+name)
+            logging.debug('[Packer template]: '+rendered_template)
+
     return images_to_build
 
 #________________________________
 def build_images_with_packer(path_list):
 
     for template_path in path_list:
-        stdout = build_image(template_path)
-        print(stdout)
-        # print output to report
+        logging.info('Start Build')
+        build_image(template_path)
 
 #________________________________
 def build_image(path):
@@ -124,7 +136,7 @@ def build_image(path):
         sl = line.strip()
         dsl = sl.decode('utf-8')
         print(dsl)
-        logging.info(dsl)
+        logging.info('[Packer] '+dsl)
 
     status = proc.wait()
 
@@ -132,6 +144,8 @@ def build_image(path):
 
 #________________________________
 def build_images():
+
+    create_report(report_file)
 
     images_info = load_list()
 
@@ -147,7 +161,7 @@ def build_images():
     build_images_with_packer(images_to_build)
 
     # Upload report to github
-    upload_report_to_github(report_file)
+    #upload_report_to_github(report_file)
 
 #______________________________________
 if __name__ == "__main__":
