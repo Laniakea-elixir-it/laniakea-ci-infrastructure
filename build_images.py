@@ -17,6 +17,7 @@ packer_exe='/usr/bin/packer'
 
 # Create Log facility
 report_file="./report/build_report_"+ str(time.strftime("%Y%m%d-%H%M%S"))+'.log'
+build_init_datetime=str(time.strftime("Date: %Y-%m-%d - Time: %H:%M:%S"))
 #report_file='example.log'
 
 logging.basicConfig(filename=report_file, format='%(levelname)s %(asctime)s: %(message)s', level=logging.DEBUG)
@@ -30,7 +31,7 @@ def create_report(report):
     """
     with open(report, 'w') as logfile:
         logfile.write('*** Laniakea Image build Report ***\n')
-        logfile.write(str(time.strftime("Date: %Y-%m-%d - Time: %H:%M:%S \n")))
+        logfile.write(build_init_datetime+"\n")
         logfile.write('Report file: ' + str(report) + '\n')
         logfile.write('\n')
 
@@ -48,23 +49,24 @@ def run_command(cmd):
 
 #________________________________
 def upload_report_to_github(report):
-
+    print(report)
     add_cmd = 'git add '+report
     add_stdout, add_stderr, add_status = run_command(add_cmd)
-    print(add_stdout)
-    print(add_stderr)
+    print('[Git add] '+str(add_stdout))
+    print('[Git add] '+str(add_stderr))
 
     if add_status == 0:
-        commit_cmd = 'git commit -m "Add automated report - "' + str(time.strftime("Date: %Y-%m-%d - Time: %H:%M:%S"))
+        commit_cmd = 'git commit -m "Add automated report - ' + build_init_datetime +'"'
+        print(commit_cmd)
         commit_stdout, commit_stderr, commit_status = run_command(commit_cmd)
-        print(commit_stdout)
-        print(commit_stderr)
+        print('[Git commit] '+str(commit_stdout))
+        print('[Git commit] '+str(commit_stderr))
 
         if commit_status == 0:
             push_cmd = 'git push'
             push_stdout, push_stderr, push_status = run_command(push_cmd)
-            print(push_stdout)
-            print(push_stderr)
+            print('[Git push] '+str(push_stdout))
+            print('[Git push] '+str(push_stderr))
 
 #________________________________
 def load_list():
@@ -131,6 +133,7 @@ def build_image(path):
     """
     cmd = packer_exe + ' build ' + path
     print(cmd)
+
     proc = subprocess.Popen( args=cmd, shell=True,  stdout=subprocess.PIPE, stderr=subprocess.STDOUT )
 
     while proc.poll() is None:
