@@ -63,7 +63,7 @@ def upload_report_to_github(report):
         print('[Git commit] '+str(commit_stderr))
 
         if commit_status == 0:
-            push_cmd = 'git push origin master'
+            push_cmd = 'git push origin HEAD:master'
             push_stdout, push_stderr, push_status = run_command(push_cmd)
             print('[Git push] '+str(push_stdout))
             print('[Git push] '+str(push_stderr))
