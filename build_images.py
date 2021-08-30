@@ -51,9 +51,11 @@ def upload_report_to_github(report):
 
     add_cmd = 'git add '+report
     add_stdout, add_stderr, add_status = run_command(add_cmd)
+    print(add_stdout)
+    print(add_stderr)
 
     if add_status == 0:
-        commit_cmd = 'git commit -m "add report"'
+        commit_cmd = 'git commit -m "Add automated report - "' + str(time.strftime("Date: %Y-%m-%d - Time: %H:%M:%S"))
         commit_stdout, commit_stderr, commit_status = run_command(commit_cmd)
         print(commit_stdout)
         print(commit_stderr)
@@ -110,8 +112,8 @@ def parse_list(info_list, outpath):
 
             images_to_build.append(fout_name)
 
-            logging.info('[Image to Build]: '+name)
-            logging.debug('[Packer template]: '+rendered_template)
+            logging.info('[Image to Build] '+name)
+            logging.debug('[Packer template] '+rendered_template)
 
     return images_to_build
 
@@ -161,7 +163,7 @@ def build_images():
     build_images_with_packer(images_to_build)
 
     # Upload report to github
-    #upload_report_to_github(report_file)
+    upload_report_to_github(report_file)
 
 #______________________________________
 if __name__ == "__main__":

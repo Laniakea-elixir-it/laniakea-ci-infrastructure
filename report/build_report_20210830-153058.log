@@ -1,0 +1,44 @@
+*** Laniakea Image build Report ***
+Date: 2021-08-30 - Time: 15:30:58 
+Report file: ./report/build_report_20210830-153058.log
+
+INFO 2021-08-30 15:30:58,369: [Image to Build] rstudio-minimal
+DEBUG 2021-08-30 15:30:58,369: [Packer template] {
+	"builders": [
+		{
+			"type": "openstack",
+			"ssh_username": "centos",
+			"image_name": "rstudio-minimal_v1.0.0",
+			"source_image": "671ce862-bd9e-448e-bf88-592bff65cfb8",
+			"flavor": "medium",
+			"ssh_ip_version": "4",
+			"use_blockstorage_volume": "true",
+			"volume_size": "10",
+			"volume_availability_zone": "nova",
+			"image_disk_format": "qcow2",
+			"networks": [
+				"9863761f-626c-4c72-878b-eb7b241be0fe"
+			]
+		}
+	],
+	"provisioners": [
+		{
+			"type": "ansible",
+			"inventory_directory": "./",
+			"playbook_file": "./playbooks/rstudio_minimal.yml"
+		}
+	]
+}
+INFO 2021-08-30 15:30:58,370: Start Build
+INFO 2021-08-30 15:30:58,736: [Packer] Error: Failed to prepare build: "openstack"
+INFO 2021-08-30 15:30:58,737: [Packer] 
+INFO 2021-08-30 15:30:58,737: [Packer] 1 error(s) occurred:
+INFO 2021-08-30 15:30:58,737: [Packer] 
+INFO 2021-08-30 15:30:58,738: [Packer] * Missing input for argument [auth_url]
+INFO 2021-08-30 15:30:58,738: [Packer] 
+INFO 2021-08-30 15:30:58,738: [Packer] 
+INFO 2021-08-30 15:30:58,738: [Packer] 
+INFO 2021-08-30 15:30:58,738: [Packer] ==> Wait completed after 6 microseconds
+INFO 2021-08-30 15:30:58,738: [Packer] 
+INFO 2021-08-30 15:30:58,738: [Packer] ==> Builds finished but no artifacts were created.
+INFO 2021-08-30 15:31:00,752: [Packer] 
