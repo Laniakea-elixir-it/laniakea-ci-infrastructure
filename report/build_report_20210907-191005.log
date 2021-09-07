@@ -1,0 +1,76 @@
+*** Laniakea Image build Report ***
+Date: 2021-09-07 - Time: 19:10:05
+Report file: ./report/build_report_20210907-191005.log
+
+INFO 2021-09-07 19:10:05,987: [Image to Build] rstudio-minimal
+DEBUG 2021-09-07 19:10:05,987: [Packer template] {
+	"builders": [
+		{
+			"type": "openstack",
+			"ssh_username": "centos",
+			"image_name": "rstudio-minimal_v1.0.0",
+			"source_image": "671ce862-bd9e-448e-bf88-592bff65cfb8",
+			"flavor": "medium",
+			"ssh_ip_version": "4",
+			"use_blockstorage_volume": "true",
+			"volume_size": "10",
+			"volume_availability_zone": "nova",
+			"image_disk_format": "qcow2",
+			"networks": [
+				"fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
+			]
+		}
+	],
+	"provisioners": [
+		{
+			"type": "ansible",
+			"inventory_directory": "./",
+			"playbook_file": "./playbooks/rstudio_minimal.yml"
+		}
+	]
+}
+INFO 2021-09-07 19:10:05,987: Start Build
+INFO 2021-09-07 19:10:12,682: [Packer] [1;32mopenstack: output will be in this color.[0m
+INFO 2021-09-07 19:10:12,682: [Packer] 
+INFO 2021-09-07 19:10:12,684: [Packer] [1;32m==> openstack: Loading flavor: medium[0m
+INFO 2021-09-07 19:10:22,985: [Packer] [0;32m    openstack: Verified flavor. ID: 8[0m
+INFO 2021-09-07 19:10:22,986: [Packer] [1;32m==> openstack: Creating temporary keypair: packer_61379cf3-8d05-15a1-8006-dc985a738b56 ...[0m
+INFO 2021-09-07 19:10:28,412: [Packer] [1;32m==> openstack: Created temporary keypair: packer_61379cf3-8d05-15a1-8006-dc985a738b56[0m
+INFO 2021-09-07 19:10:28,427: [Packer] [1;32m==> openstack: Successfully converted BER encoded SSH key to DER encoding.[0m
+INFO 2021-09-07 19:10:28,427: [Packer] [1;32m==> openstack: Creating volume...[0m
+INFO 2021-09-07 19:10:36,060: [Packer] [1;32m==> openstack: Waiting for volume packer_61379cf3-b571-db0d-292d-3c591768059a (volume id: 1cecb276-c4cc-47a6-8be2-0e6adcf4a695) to become available...[0m
+INFO 2021-09-07 19:16:00,689: [Packer] [0;32m    openstack: Volume ID: 1cecb276-c4cc-47a6-8be2-0e6adcf4a695[0m
+INFO 2021-09-07 19:16:00,691: [Packer] [1;32m==> openstack: Launching server...[0m
+INFO 2021-09-07 19:16:00,692: [Packer] [1;32m==> openstack: Launching server...[0m
+INFO 2021-09-07 19:16:07,288: [Packer] [0;32m    openstack: Server ID: 4fcdfa4e-2e99-4ba8-83d9-5256f454fa04[0m
+INFO 2021-09-07 19:16:07,290: [Packer] [1;32m==> openstack: Waiting for server to become ready...[0m
+INFO 2021-09-07 19:16:27,718: [Packer] [0;32m    openstack: Floating IP not required[0m
+INFO 2021-09-07 19:16:27,721: [Packer] [1;32m==> openstack: Using SSH communicator to connect: 90.147.102.16[0m
+INFO 2021-09-07 19:16:27,721: [Packer] [1;32m==> openstack: Waiting for SSH to become available...[0m
+INFO 2021-09-07 19:18:02,272: [Packer] [1;32m==> openstack: Connected to SSH![0m
+INFO 2021-09-07 19:18:02,277: [Packer] [1;32m==> openstack: Provisioning with Ansible...[0m
+INFO 2021-09-07 19:18:02,278: [Packer] [0;32m    openstack: Setting up proxy adapter for Ansible....[0m
+INFO 2021-09-07 19:18:04,032: [Packer] [1;32m==> openstack: Executing Ansible: ansible-playbook -e packer_build_name="openstack" -e packer_builder_type=openstack --ssh-extra-args '-o IdentitiesOnly=yes' -e ansible_ssh_private_key_file=/tmp/ansible-key945453943 -i packer-provisioner-ansible095081578 /home/centos/workspace/Laniakea_image_build/playbooks/rstudio_minimal.yml[0m
+INFO 2021-09-07 19:18:05,315: [Packer] [0;32m    openstack: ERROR! the role 'laniakea.rstudio' was not found in /home/centos/workspace/Laniakea_image_build/playbooks/roles:/home/centos/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles:/home/centos/workspace/Laniakea_image_build/playbooks[0m
+INFO 2021-09-07 19:18:05,317: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-07 19:18:05,319: [Packer] [0;32m    openstack: The error appears to be in '/home/centos/workspace/Laniakea_image_build/playbooks/rstudio_minimal.yml': line 4, column 7, but may[0m
+INFO 2021-09-07 19:18:05,320: [Packer] [0;32m    openstack: be elsewhere in the file depending on the exact syntax problem.[0m
+INFO 2021-09-07 19:18:05,321: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-07 19:18:05,323: [Packer] [0;32m    openstack: The offending line appears to be:[0m
+INFO 2021-09-07 19:18:05,324: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-07 19:18:05,325: [Packer] [0;32m    openstack:   roles:[0m
+INFO 2021-09-07 19:18:05,327: [Packer] [0;32m    openstack:     - role: laniakea.rstudio[0m
+INFO 2021-09-07 19:18:05,328: [Packer] [0;32m    openstack:       ^ here[0m
+INFO 2021-09-07 19:18:05,423: [Packer] [1;32m==> openstack: Provisioning step had errors: Running the cleanup provisioner, if present...[0m
+INFO 2021-09-07 19:18:05,426: [Packer] [1;32m==> openstack: Terminating the source server: 4fcdfa4e-2e99-4ba8-83d9-5256f454fa04 ...[0m
+INFO 2021-09-07 19:18:29,872: [Packer] [1;32m==> openstack: Deleting volume: 1cecb276-c4cc-47a6-8be2-0e6adcf4a695 ...[0m
+INFO 2021-09-07 19:18:35,380: [Packer] [1;32m==> openstack: Deleting temporary keypair: packer_61379cf3-8d05-15a1-8006-dc985a738b56 ...[0m
+INFO 2021-09-07 19:18:40,434: [Packer] [1;31mBuild 'openstack' errored after 8 minutes 27 seconds: Error executing Ansible: Non-zero exit status: exit status 1[0m
+INFO 2021-09-07 19:18:40,435: [Packer] 
+INFO 2021-09-07 19:18:40,435: [Packer] ==> Wait completed after 8 minutes 27 seconds
+INFO 2021-09-07 19:18:40,436: [Packer] 
+INFO 2021-09-07 19:18:40,436: [Packer] ==> Some builds didn't complete successfully and had errors:
+INFO 2021-09-07 19:18:40,436: [Packer] --> openstack: Error executing Ansible: Non-zero exit status: exit status 1
+INFO 2021-09-07 19:18:40,436: [Packer] 
+INFO 2021-09-07 19:18:40,436: [Packer] ==> Builds finished but no artifacts were created.
+INFO 2021-09-07 19:18:42,460: [Packer] 
