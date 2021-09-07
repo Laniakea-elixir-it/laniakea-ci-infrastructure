@@ -1,0 +1,44 @@
+*** Laniakea Image build Report ***
+Date: 2021-09-07 - Time: 19:08:50
+Report file: ./report/build_report_20210907-190850.log
+
+INFO 2021-09-07 19:08:50,265: [Image to Build] rstudio-minimal
+DEBUG 2021-09-07 19:08:50,265: [Packer template] {
+	"builders": [
+		{
+			"type": "openstack",
+			"ssh_username": "centos",
+			"image_name": "rstudio-minimal_v1.0.0",
+			"source_image": "671ce862-bd9e-448e-bf88-592bff65cfb8",
+			"flavor": "medium",
+			"ssh_ip_version": "4",
+			"use_blockstorage_volume": "true",
+			"volume_size": "10",
+			"volume_availability_zone": "nova",
+			"image_disk_format": "qcow2",
+			"networks": [
+				"fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
+			]
+		}
+	],
+	"provisioners": [
+		{
+			"type": "ansible",
+			"inventory_directory": "./",
+			"playbook_file": "./playbooks/rstudio_minimal.yml"
+		}
+	]
+}
+INFO 2021-09-07 19:08:50,265: Start Build
+INFO 2021-09-07 19:08:50,684: [Packer] Error: Failed to prepare build: "openstack"
+INFO 2021-09-07 19:08:50,685: [Packer] 
+INFO 2021-09-07 19:08:50,685: [Packer] 1 error(s) occurred:
+INFO 2021-09-07 19:08:50,685: [Packer] 
+INFO 2021-09-07 19:08:50,685: [Packer] * Exactly one of PasswordCredentials and TokenCredentials must be provided
+INFO 2021-09-07 19:08:50,685: [Packer] 
+INFO 2021-09-07 19:08:50,685: [Packer] 
+INFO 2021-09-07 19:08:50,686: [Packer] 
+INFO 2021-09-07 19:08:50,686: [Packer] ==> Wait completed after 60 microseconds
+INFO 2021-09-07 19:08:50,686: [Packer] 
+INFO 2021-09-07 19:08:50,686: [Packer] ==> Builds finished but no artifacts were created.
+INFO 2021-09-07 19:08:52,703: [Packer] 
