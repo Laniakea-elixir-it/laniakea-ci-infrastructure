@@ -1,0 +1,157 @@
+*** Laniakea Image build Report ***
+Date: 2021-09-08 - Time: 18:18:02
+Report file: ./report/build_report_20210908-181802.log
+
+INFO 2021-09-08 18:18:02,034: [Image to Build] rstudio-minimal
+DEBUG 2021-09-08 18:18:02,034: [Packer template] {
+	"builders": [
+		{
+			"type": "openstack",
+			"ssh_username": "centos",
+			"image_name": "rstudio-minimal_v1.0.0",
+			"source_image": "671ce862-bd9e-448e-bf88-592bff65cfb8",
+			"flavor": "medium",
+			"ssh_ip_version": "4",
+			"use_blockstorage_volume": "true",
+			"volume_size": "10",
+			"volume_availability_zone": "nova",
+			"image_disk_format": "qcow2",
+			"networks": [
+				"fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
+			]
+		}
+	],
+	"provisioners": [
+		{
+			"type": "ansible",
+			"inventory_directory": "./",
+			"playbook_file": "./playbooks/rstudio_minimal.yml"
+		}
+	]
+}
+INFO 2021-09-08 18:18:02,035: Start Build
+INFO 2021-09-08 18:18:08,847: [Packer] [1;32mopenstack: output will be in this color.[0m
+INFO 2021-09-08 18:18:08,847: [Packer] 
+INFO 2021-09-08 18:18:08,850: [Packer] [1;32m==> openstack: Loading flavor: medium[0m
+INFO 2021-09-08 18:18:19,345: [Packer] [0;32m    openstack: Verified flavor. ID: 8[0m
+INFO 2021-09-08 18:18:19,346: [Packer] [1;32m==> openstack: Creating temporary keypair: packer_6138e23f-5828-a43c-f265-153cf5d1c556 ...[0m
+INFO 2021-09-08 18:18:24,794: [Packer] [1;32m==> openstack: Created temporary keypair: packer_6138e23f-5828-a43c-f265-153cf5d1c556[0m
+INFO 2021-09-08 18:18:24,808: [Packer] [1;32m==> openstack: Successfully converted BER encoded SSH key to DER encoding.[0m
+INFO 2021-09-08 18:18:24,808: [Packer] [1;32m==> openstack: Creating volume...[0m
+INFO 2021-09-08 18:18:31,716: [Packer] [1;32m==> openstack: Waiting for volume packer_6138e23f-8d3e-27de-e834-32a8901a07a8 (volume id: 85c377f2-57f2-49cf-820e-1a227c593bff) to become available...[0m
+INFO 2021-09-08 18:25:33,425: [Packer] [0;32m    openstack: Volume ID: 85c377f2-57f2-49cf-820e-1a227c593bff[0m
+INFO 2021-09-08 18:25:33,427: [Packer] [1;32m==> openstack: Launching server...[0m
+INFO 2021-09-08 18:25:33,427: [Packer] [1;32m==> openstack: Launching server...[0m
+INFO 2021-09-08 18:25:40,497: [Packer] [0;32m    openstack: Server ID: f7a22ccc-3260-4b73-8a4e-a107796e6c98[0m
+INFO 2021-09-08 18:25:40,499: [Packer] [1;32m==> openstack: Waiting for server to become ready...[0m
+INFO 2021-09-08 18:26:00,484: [Packer] [0;32m    openstack: Floating IP not required[0m
+INFO 2021-09-08 18:26:00,485: [Packer] [1;32m==> openstack: Using SSH communicator to connect: 212.189.205.29[0m
+INFO 2021-09-08 18:26:00,486: [Packer] [1;32m==> openstack: Waiting for SSH to become available...[0m
+INFO 2021-09-08 18:27:35,009: [Packer] [1;32m==> openstack: Connected to SSH![0m
+INFO 2021-09-08 18:27:35,019: [Packer] [1;32m==> openstack: Provisioning with Ansible...[0m
+INFO 2021-09-08 18:27:35,022: [Packer] [0;32m    openstack: Setting up proxy adapter for Ansible....[0m
+INFO 2021-09-08 18:27:35,932: [Packer] [1;32m==> openstack: Executing Ansible: ansible-playbook -e packer_build_name="openstack" -e packer_builder_type=openstack --ssh-extra-args '-o IdentitiesOnly=yes' -e ansible_ssh_private_key_file=/tmp/ansible-key042383253 -i packer-provisioner-ansible699800560 /home/centos/workspace/Laniakea_image_build/playbooks/rstudio_minimal.yml[0m
+INFO 2021-09-08 18:27:37,625: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 18:27:37,628: [Packer] [0;32m    openstack: PLAY [default] *****************************************************************[0m
+INFO 2021-09-08 18:27:37,664: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 18:27:37,666: [Packer] [0;32m    openstack: TASK [Gathering Facts] *********************************************************[0m
+INFO 2021-09-08 18:30:41,618: [Packer] [0;32m    openstack: ok: [default][0m
+INFO 2021-09-08 18:30:41,648: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 18:30:41,650: [Packer] [0;32m    openstack: TASK [laniakea.rstudio : install general requirements] *************************[0m
+INFO 2021-09-08 18:33:53,486: [Packer] [0;32m    openstack: changed: [default][0m
+INFO 2021-09-08 18:33:53,509: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 18:33:53,510: [Packer] [0;32m    openstack: TASK [laniakea.rstudio : Download specific R rpm and] **************************[0m
+INFO 2021-09-08 18:36:01,350: [Packer] [0;32m    openstack: changed: [default][0m
+INFO 2021-09-08 18:36:01,374: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 18:36:01,376: [Packer] [0;32m    openstack: TASK [laniakea.rstudio : install R package] ************************************[0m
+INFO 2021-09-08 18:41:00,814: [Packer] [0;32m    openstack: changed: [default][0m
+INFO 2021-09-08 18:41:00,840: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 18:41:00,842: [Packer] [0;32m    openstack: TASK [laniakea.rstudio : symlink to bin] ***************************************[0m
+INFO 2021-09-08 18:43:01,901: [Packer] [0;32m    openstack: changed: [default] => (item=R)[0m
+INFO 2021-09-08 18:45:02,723: [Packer] [0;32m    openstack: changed: [default] => (item=Rscript)[0m
+INFO 2021-09-08 18:45:02,744: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 18:45:02,767: [Packer] [0;32m    openstack: TASK [laniakea.rstudio : download rstudio-server rpm package] ******************[0m
+INFO 2021-09-08 18:47:10,528: [Packer] [0;32m    openstack: changed: [default][0m
+INFO 2021-09-08 18:47:10,556: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 18:47:10,564: [Packer] [0;32m    openstack: TASK [laniakea.rstudio : install rstudio-server package] ***********************[0m
+INFO 2021-09-08 18:50:16,971: [Packer] [0;32m    openstack: changed: [default][0m
+INFO 2021-09-08 18:50:16,987: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 18:50:16,989: [Packer] [0;32m    openstack: TASK [laniakea.rstudio : configure rstudio port] *******************************[0m
+INFO 2021-09-08 18:52:17,752: [Packer] [0;32m    openstack: changed: [default][0m
+INFO 2021-09-08 18:52:17,783: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 18:52:17,784: [Packer] [0;32m    openstack: TASK [laniakea.rstudio : use template] *****************************************[0m
+INFO 2021-09-08 18:55:59,374: [Packer] [0;32m    openstack: changed: [default][0m
+INFO 2021-09-08 18:55:59,396: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 18:55:59,397: [Packer] [0;32m    openstack: TASK [laniakea.rstudio : Create galaxy db random passwd] ***********************[0m
+INFO 2021-09-08 18:58:00,762: [Packer] [0;32m    openstack: changed: [default][0m
+INFO 2021-09-08 18:58:00,787: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 18:58:00,789: [Packer] [0;32m    openstack: TASK [laniakea.rstudio : print password] ***************************************[0m
+INFO 2021-09-08 18:58:00,885: [Packer] [0;32m    openstack: skipping: [default][0m
+INFO 2021-09-08 18:58:00,913: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 18:58:00,914: [Packer] [0;32m    openstack: TASK [laniakea.rstudio : create rstudio user and set rstudio pssword] **********[0m
+INFO 2021-09-08 19:00:01,847: [Packer] [0;32m    openstack: changed: [default][0m
+INFO 2021-09-08 19:00:01,876: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 19:00:01,892: [Packer] [0;32m    openstack: TASK [laniakea.rstudio : save password on file] ********************************[0m
+INFO 2021-09-08 19:03:43,361: [Packer] [0;32m    openstack: changed: [default][0m
+INFO 2021-09-08 19:03:43,395: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 19:03:43,396: [Packer] [0;32m    openstack: TASK [laniakea.rstudio : create user directory for rstudio-packages] ***********[0m
+INFO 2021-09-08 19:05:44,568: [Packer] [0;32m    openstack: changed: [default][0m
+INFO 2021-09-08 19:05:44,600: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 19:05:44,601: [Packer] [0;32m    openstack: TASK [laniakea.rstudio : install requirements for Seurat] **********************[0m
+INFO 2021-09-08 19:05:44,713: [Packer] [0;32m    openstack: skipping: [default][0m
+INFO 2021-09-08 19:05:44,735: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 19:05:44,737: [Packer] [0;32m    openstack: TASK [laniakea.rstudio : install seurat package] *******************************[0m
+INFO 2021-09-08 19:05:44,813: [Packer] [0;32m    openstack: skipping: [default][0m
+INFO 2021-09-08 19:05:44,815: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 19:05:44,817: [Packer] [0;32m    openstack: RUNNING HANDLER [laniakea.rstudio : restart rstudio-server] ********************[0m
+INFO 2021-09-08 19:07:45,732: [Packer] [0;32m    openstack: changed: [default][0m
+INFO 2021-09-08 19:07:45,742: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 19:07:45,743: [Packer] [0;32m    openstack: PLAY RECAP *********************************************************************[0m
+INFO 2021-09-08 19:07:45,743: [Packer] [0;32m    openstack: default                    : ok=14   changed=13   unreachable=0    failed=0    skipped=3    rescued=0    ignored=0[0m
+INFO 2021-09-08 19:07:45,750: [Packer] [0;32m    openstack:[0m
+INFO 2021-09-08 19:07:45,909: [Packer] [1;32m==> openstack: Stopping server: f7a22ccc-3260-4b73-8a4e-a107796e6c98 ...[0m
+INFO 2021-09-08 19:07:51,325: [Packer] [0;32m    openstack: Waiting for server to stop: f7a22ccc-3260-4b73-8a4e-a107796e6c98 ...[0m
+INFO 2021-09-08 19:08:12,626: [Packer] [1;32m==> openstack: Detaching volume packer_6138e23f-8d3e-27de-e834-32a8901a07a8 (volume id: 85c377f2-57f2-49cf-820e-1a227c593bff)[0m
+INFO 2021-09-08 19:08:18,450: [Packer] [1;32m==> openstack: Waiting for volume packer_6138e23f-8d3e-27de-e834-32a8901a07a8 (volume id: 85c377f2-57f2-49cf-820e-1a227c593bff) to become available...[0m
+INFO 2021-09-08 19:08:23,800: [Packer] [1;32m==> openstack: Creating the image: rstudio-minimal_v1.0.0[0m
+INFO 2021-09-08 19:08:37,576: [Packer] [0;32m    openstack: Image: 3f676578-f209-4a34-95c0-c7278ddd5b61[0m
+INFO 2021-09-08 19:08:37,577: [Packer] [1;32m==> openstack: Waiting for image rstudio-minimal_v1.0.0 (image id: 3f676578-f209-4a34-95c0-c7278ddd5b61) to become ready...[0m
+INFO 2021-09-08 19:12:19,070: [Packer] [1;32m==> openstack: Terminating the source server: f7a22ccc-3260-4b73-8a4e-a107796e6c98 ...[0m
+INFO 2021-09-08 19:12:34,708: [Packer] [1;32m==> openstack: Deleting volume: 85c377f2-57f2-49cf-820e-1a227c593bff ...[0m
+INFO 2021-09-08 19:12:40,615: [Packer] [1;32m==> openstack: Deleting temporary keypair: packer_6138e23f-5828-a43c-f265-153cf5d1c556 ...[0m
+INFO 2021-09-08 19:12:45,669: [Packer] [1;32mBuild 'openstack' finished after 54 minutes 36 seconds.[0m
+INFO 2021-09-08 19:12:45,670: [Packer] 
+INFO 2021-09-08 19:12:45,670: [Packer] ==> Wait completed after 54 minutes 36 seconds
+INFO 2021-09-08 19:12:45,670: [Packer] 
+INFO 2021-09-08 19:12:45,670: [Packer] ==> Builds finished. The artifacts of successful builds are:
+INFO 2021-09-08 19:12:45,672: [Packer] --> openstack: An image was created: 3f676578-f209-4a34-95c0-c7278ddd5b61
+INFO 2021-09-08 19:12:47,709: [Packer] 
+INFO 2021-09-08 19:12:47,710: [Packer] 
+INFO 2021-09-08 19:12:47,710: [Packer] 
+INFO 2021-09-08 19:12:47,710: [Packer] 
+INFO 2021-09-08 19:12:47,710: [Packer] 
+INFO 2021-09-08 19:12:47,710: [Packer] 
+INFO 2021-09-08 19:12:47,710: [Packer] 
+INFO 2021-09-08 19:12:47,711: [Packer] 
+INFO 2021-09-08 19:12:47,711: [Packer] 
+INFO 2021-09-08 19:12:47,711: [Packer] 
+INFO 2021-09-08 19:12:47,711: [Packer] 
+INFO 2021-09-08 19:12:47,711: [Packer] 
+INFO 2021-09-08 19:12:47,711: [Packer] 
+INFO 2021-09-08 19:12:47,711: [Packer] 
+INFO 2021-09-08 19:12:47,711: [Packer] 
+INFO 2021-09-08 19:12:47,712: [Packer] 
+INFO 2021-09-08 19:12:47,712: [Packer] 
+INFO 2021-09-08 19:12:47,712: [Packer] 
+INFO 2021-09-08 19:12:47,712: [Packer] 
+INFO 2021-09-08 19:12:47,712: [Packer] 
+INFO 2021-09-08 19:12:47,712: [Packer] 
+INFO 2021-09-08 19:12:47,712: [Packer] 
+INFO 2021-09-08 19:12:47,712: [Packer] 
+INFO 2021-09-08 19:12:47,713: [Packer] 
+INFO 2021-09-08 19:12:47,713: [Packer] 
+INFO 2021-09-08 19:12:47,713: [Packer] 
+INFO 2021-09-08 19:12:47,713: [Packer] 
+INFO 2021-09-08 19:12:47,713: [Packer] 
+INFO 2021-09-08 19:12:47,713: [Packer] 
+INFO 2021-09-08 19:12:47,713: [Packer] 
