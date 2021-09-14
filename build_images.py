@@ -166,7 +166,7 @@ def build_images():
     build_images_with_packer(images_to_build)
 
     # Upload report to github
-    upload_report_to_github(report_file)
+    #upload_report_to_github(report_file)
 
 #______________________________________
 if __name__ == "__main__":
