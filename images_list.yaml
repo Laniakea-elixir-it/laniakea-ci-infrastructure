@@ -1,5 +1,9 @@
 ---
+# CMDB currently available image list
+images_db_url: 'https://cloud-90-147-75-119.cloud.ba.infn.it/cmdb/image/list?include_docs=true'
 
+# A different repository is needed for report upload. Otherwise "infinit" image build will be triggered.
+reports_repository: 'git@github.com:Laniakea-elixir-it/laniakea-images.git'
 
 images:
     rstudio-minimal:
@@ -17,7 +21,7 @@ images:
     rstudio-seraut:
         name: rstudio-seraut
         version: v1.0.0
-        build: no
+        build: yes
         packer:
             ssh_username: centos
             source_image: "671ce862-bd9e-448e-bf88-592bff65cfb8" # centos 7 2009
