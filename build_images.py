@@ -7,6 +7,7 @@ from jinja2 import Environment, FileSystemLoader
 import tempfile
 import subprocess
 import logging
+import requests
 
 # Load Jinja2 templates
 template_dir = './templates'
@@ -81,19 +82,38 @@ def parse_list(info_list, outpath):
     This returns images list to be built
     """
 
+    images_db_url = info_list['images_db_url']
+
+    r = requests.get(images_db_url)
+    current_images_list = r.json()
+    for k in range(len(current_images_list['rows'])):
+        current_image_name = current_images_list['rows'][k]['doc']['data']['image_name']
+        current_image_version = current_images_list['rows'][k]['doc']['data']['version']
+
     images_to_build = []
     for i in info_list['images']:
 
         image = info_list['images'][i]
-
         name = image['name']
         version = image['version']
         build = image['build']
 
-        # Load template
-        template = env.get_template('packer.json.j2')
+        print("Building image: "+str(name)+" Version: "+str(version))
+        logging.info("Building image: "+str(name)+" Version: "+str(version))
+        # Grant an image with the same name and version does not exist
+        for k in range(len(current_images_list['rows'])):
+            if name == current_images_list['rows'][k]['doc']['data']['image_name'] and version == current_images_list['rows'][k]['doc']['data']['version']:
+                print("The image: " +str(name)+" Version: "+str(version)+ " is already available on CMDB. Aborting")
+                logging.info("The image: " +str(name)+" Version: "+str(version)+ " is already available on CMDB. Aborting.")
+                build = False
 
-        if build:
+        if not build:
+            continue
+
+        else:
+
+            # Load template
+            template = env.get_template('packer.json.j2')
 
             # Render template
             rendered_template = template.render(
@@ -148,6 +168,10 @@ def build_image(path):
     return status
 
 #________________________________
+
+
+
+#________________________________
 def build_images():
 
     create_report(report_file)
@@ -163,7 +187,7 @@ def build_images():
     print(images_to_build)
 
     # Build Packer images
-    build_images_with_packer(images_to_build)
+    #build_images_with_packer(images_to_build)
 
     # Upload report to github
     #upload_report_to_github(report_file)
