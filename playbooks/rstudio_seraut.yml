@@ -1,0 +1,6 @@
+---
+- hosts: default
+  roles:
+    - role: laniakea.rstudio
+      install_Seu: true
+      become: yes
