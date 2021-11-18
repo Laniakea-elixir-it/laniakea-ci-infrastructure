@@ -168,10 +168,6 @@ def build_image(path):
     return status
 
 #________________________________
-
-
-
-#________________________________
 def build_images():
 
     create_report(report_file)
@@ -187,7 +183,7 @@ def build_images():
     print(images_to_build)
 
     # Build Packer images
-    #build_images_with_packer(images_to_build)
+    build_images_with_packer(images_to_build)
 
     # Upload report to github
     #upload_report_to_github(report_file)
