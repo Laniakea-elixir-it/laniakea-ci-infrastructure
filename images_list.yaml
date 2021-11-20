@@ -19,7 +19,7 @@ images:
             playbook_file: "rstudio_minimal.yml"
 
     rstudio-seraut:
-        name: rstudio-seraut
+        name: rstudio-seurat
         version: v1.0.0
         build: yes
         packer:
@@ -28,4 +28,4 @@ images:
             flavor: medium
             volume_size: "10"
             network_id: "fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
-            playbook_file: "rstudio_seraut.yml"
+            playbook_file: "rstudio_seurat.yml"
