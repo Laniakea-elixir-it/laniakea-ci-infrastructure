@@ -86,7 +86,7 @@ def depshow(uuid):
 
   stdout, stderr, status = run_command(command)
 
-  return stdout.decode("utf-8"), stderr.decode("utf-8"), status.decode("utf-8")
+  return stdout.decode("utf-8"), stderr.decode("utf-8"), status
 
 #______________________________________
 def depdel(uuid):
@@ -94,8 +94,8 @@ def depdel(uuid):
   command="/usr/bin/orchent depdel " + uuid
   
   stdout, stderr, status = run_command(command)
-  
-  return stdout.decode("utf-8"), stderr.decode("utf-8"), status.decode("utf-8")
+ 
+  return stdout.decode("utf-8"), stderr.decode("utf-8"), status
 
 #______________________________________
 def get_status(dep_uuid):
@@ -171,12 +171,11 @@ def indigo_paas_checker():
   # wait some secs.
   #time.sleep(10)
 
-  ## Send report if create failed
-  #if(dep_status == 'CREATE_FAILED'):
-  #  final_out, final_err, final_status = depshow(dep_uuid)
-  #  sendmail = 'echo "Deployment uuid: %s \n \n  %s" | /usr/bin/mail -s "[INDIGO PaaS] check at: $(date)" %s' % (dep_uuid, final_out, options.mail_address)
-  #  run_command(sendmail)
-  #  logger.debug('Report sent to: %s' % options.mail_address) 
+  # Print output if failed
+  if(dep_status == 'CREATE_FAILED'):
+    final_out, final_err, final_status = depshow(dep_uuid)
+    logger.debug('Deployments details - stdout: ' + final_out)
+    logger.debug('Deployments details - stderr: ' + final_err)
 
   ## Always delete deployment
   final_out, final_err, final_status = depdel(dep_uuid)  
