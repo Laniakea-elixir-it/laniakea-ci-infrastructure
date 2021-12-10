@@ -6,4 +6,5 @@ export ORCHENT_URL="https://paas-orchestrator.cloud.ba.infn.it"
 /usr/bin/python --version
 
 # Run check script.
-python $PWD/testing/control-script.py -m laniakea.testuser@gmail.com -c "$PWD/testing/health-check.sh" -u "https://paas-orchestrator.cloud.ba.infn.it" -r ./node_with_image.yaml
+echo "$PWD"
+python $PWD/testing/control-script.py -m laniakea.testuser@gmail.com -c "$PWD/testing/health-check.sh" -u "https://paas-orchestrator.cloud.ba.infn.it" -r $PWD/testing/node_with_image.yaml
