@@ -2,9 +2,10 @@
 # Laniakea@ReCaS production Orchestrator URL
 orchestrator_url: 'https://paas-orchestrator.cloud.ba.infn.it'
 
+## All fields are mandatory.
 test:
     simple_node:
-        run_test: no
+        run_test: yes
         check_endopint: no
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-ci-infrastructure/master/testing/node_with_image.yaml"
         tosca_template_path: "/tmp/simple_node.yml"
