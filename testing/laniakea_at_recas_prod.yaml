@@ -4,17 +4,18 @@ orchestrator_url: 'https://paas-orchestrator.cloud.ba.infn.it'
 
 test:
     simple_node:
-        run_test: yes
+        run_test: no
         check_endopint: no
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-ci-infrastructure/master/testing/node_with_image.yaml"
         tosca_template_path: "/tmp/simple_node.yml"
         inputs:
 
     galaxy:
-        run_test: no
+        run_test: yes
         check_endopint: yes
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/Laniakea%40ReCaS/tosca-templates/galaxy.yaml"
         tosca_template_path: "/tmp/galaxy.yml"
         inputs:
             instance_flavor: "large"
             storage_size: "50 GB"
+            version: "release_19.05"
