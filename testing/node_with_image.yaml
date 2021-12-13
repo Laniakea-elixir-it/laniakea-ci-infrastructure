@@ -44,7 +44,7 @@ topology_template:
             image: centos-7-galaxy-base
 
   outputs:
-    node_ip:
+    endpoint:
       value: { get_attribute: [ simple_node, public_address, 0 ] }
     node_creds:
       value: { get_attribute: [ simple_node, endpoint, credential, 0 ] }
