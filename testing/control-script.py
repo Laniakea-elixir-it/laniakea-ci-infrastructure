@@ -6,6 +6,9 @@ import subprocess
 import time
 import logging
 import re
+import yaml 
+import requests
+import json
 
 #logging.basicConfig(filename='/tmp/indigo_paas_checker.log', format='%(levelname)s %(asctime)s %(message)s', level=logging.DEBUG)
 # Create logging facility print to stdout and to log file.
@@ -28,13 +31,18 @@ def cli_options():
 
   parser = argparse.ArgumentParser(description='INDIGO PaaS checker status')
 
-  parser.add_argument('-m', '--mail-address', dest='mail_address', help='Mail to send output')
+  parser.add_argument('-l', '--test-list', dest='test_list', help='Deployment test list')
   parser.add_argument('-t', '--polling-timeout', dest='polling_time', default=30, help='Polling timeout') #default to 300
-  parser.add_argument('-r', '--tosca-template', dest='tosca_template', help='TOSCA tempalte to be used')
   parser.add_argument('-c', '--healh_check_path', dest='health_check_path', help='Orchestrator health check script path')
-  parser.add_argument('-u', '--orchestrator-url', dest='orchestrator_url', help='Orchestrator URL')
+  # TODO add here the possibility to dispaly log with new paas
 
   return parser.parse_args()
+
+#________________________________
+def load_list(test_list):
+    with open(test_list, 'r') as ilf:
+        il = yaml.safe_load(ilf)
+        return il
 
 #______________________________________
 def run_command(cmd):
@@ -98,7 +106,7 @@ def depdel(uuid):
   return stdout.decode("utf-8"), stderr.decode("utf-8"), status
 
 #______________________________________
-def get_status(dep_uuid):
+def get_deployment_details(dep_uuid):
  
 # qui c'è un problema. anche se il deploy non viene cancellato viene mostrato come "already" deleted.
 
@@ -116,9 +124,54 @@ def get_status(dep_uuid):
 
   temp = stdout.split(b"Deployment",1)[1]
 
-  dep_status = temp.splitlines()[1].strip(b" status: ")
+  return temp
+
+#______________________________________
+def get_status(uuid):
+
+  deployment = get_deployment_details(uuid)
+
+  dep_status = deployment.splitlines()[1].strip(b" status: ")
 
   return dep_status.decode("utf-8")
+
+#______________________________________
+def get_outputs_json(uuid):
+
+    # Get depployment despshow output
+    deployment = get_deployment_details(uuid)
+
+    # Decodefrom bytes to string obcject
+    decoded_deployment = deployment.decode('utf-8')
+
+    # Remove everything till outputs
+    spl_word = 'outputs: '
+    res = decoded_deployment.partition(spl_word)[2]
+
+    # Convert string to json
+    out_obj = json.loads(res)
+
+    return out_obj
+
+#______________________________________
+def get_endpoint(uuid):
+
+    outputs = get_outputs_json(uuid)
+
+    return outputs['endpoint']
+
+#______________________________________
+def check_endpoint(uuid):
+
+  endpoint = get_endpoint(uuid) + '/'
+
+  try:
+    response = requests.get(endpoint, verify=False)
+  except:
+    return 'unavailable'
+
+  print(response.status_code)
+
 
 #______________________________________
 def start():
@@ -134,58 +187,65 @@ def end():
   logger.debug('Check ended!')
   logger.debug('**************************************')
 
+#______________________________________
+def run_test_list(test_list, orchestrator_url, polling_time):
+
+  for i in test_list['test']:
+
+    enable_test = test_list['test'][i]['run_test']
+
+    if enable_test:
+
+      tosca_template_path = test_list['test'][i]['tosca_template_path']
+      logger.debug("Downloading tosca template: " + tosca_template_path)
+
+      # Download template and inputs
+      r = requests.get(test_list['test'][i]['tosca_template'], allow_redirects=True)
+      with open(tosca_template_path, 'wb') as tosca_template:
+        tosca_template.write(r.content)
+
+      run_test(tosca_template_path, orchestrator_url, polling_time, test_list['test'][i]['check_endopint'])
 
 #______________________________________
-def indigo_paas_checker():
-
-  start()
-
-  options = cli_options()
-
-  #depls='/usr/bin/orchent depls -c me'
-  #depls_out, depls_err, depls_status = run_command(depls)
-  #print depls_out
-
-  # Check orchestrator status.
-  orchestrator_status = check_orchestrator_status(options.health_check_path, options.orchestrator_url)
-  if(orchestrator_status is not 0):
-    logger.debug('Unable to contact the orchestrator at %s.' % options.orchestrator_url)
-    end()
-    sys.exit(1)
-
+def run_test(tosca_template, orchestrator_url, polling_time, enable_endpoint_check=False):
   # Start PaaS test deployment
-  dep_uuid, dep_status = depcreate(options.tosca_template, options.orchestrator_url)
- 
+  dep_uuid, dep_status = depcreate(tosca_template, orchestrator_url)
+
   # Update deployment status
-  time.sleep(float(options.polling_time))
+  time.sleep(polling_time)
   dep_status = get_status(dep_uuid)
 
   count = 0
   while(dep_status == 'CREATE_IN_PROGRESS'):
-    time.sleep(float(options.polling_time))
+    time.sleep(polling_time)
     dep_status = get_status(dep_uuid)
     count = count + 1
     logger.debug('[Deployment] Update n. %s, uuid: %s, status: %s.' % (count, dep_uuid, dep_status))
   logger.debug('Deployment uuid %s finished with status: %s' % (dep_uuid, dep_status))
 
+  # Record Create status. If CREATE_FAILED the job will file at the end.
+  create_status_record = dep_status
+
+  if enable_endpoint_check:
+    check_endpoint(dep_uuid)
+
   # wait some secs.
   #time.sleep(10)
 
-  # Print output if failed
-  if(dep_status == 'CREATE_FAILED'):
-    final_out, final_err, final_status = depshow(dep_uuid)
-    logger.debug('Deployments details - stdout: ' + final_out)
-    logger.debug('Deployments details - stderr: ' + final_err)
+  # Print output
+  final_out, final_err, final_status = depshow(dep_uuid)
+  logger.debug('Deployments details - stdout: ' + final_out)
+  logger.debug('Deployments details - stderr: ' + final_err)
 
   ## Always delete deployment
-  final_out, final_err, final_status = depdel(dep_uuid)  
+  final_out, final_err, final_status = depdel(dep_uuid)
 
   ## Ensure deletion
   ## This should get rid also of concurrency.
   del_count = 1 # delete already triggered 1 time
   pattern='successfully triggered'
   match = re.search(pattern, str(final_out))
-  while(match is None): 
+  while(match is None):
     logger.debug('Deployment uuid %s delete failed. Wait for 2 minutes and retry.' % dep_uuid)
     time.sleep(120)
     del_count = del_count + 1
@@ -193,11 +253,6 @@ def indigo_paas_checker():
     final_out, final_err, final_status = depdel(dep_uuid)
     match = re.search(pattern, final_out)
   logger.debug('Deployment uuid %s delete: %s' % (dep_uuid, final_out))
-
-  ## Notify delete failed.
-  ## Check deployment status during delete in progress
-  #dep_status = get_status(dep_uuid)
-  #logger.debug('[Deletion] Deployment uuid %s status: %s' % (dep_uuid, dep_status))
 
   # reset counter
   count = 0
@@ -208,14 +263,43 @@ def indigo_paas_checker():
     logger.debug('[Deletion] Update n. %s, uuid %s, status: %s.' % (count, dep_uuid, dep_status))
   logger.debug('Delete finished.')
 
-  ## Send report if create failed
-  ## Update deployment status
-  #dep_status = get_status(dep_uuid)
-  #if(dep_status == 'DELETE_FAILED'):
-  #  final_out, final_err, final_status = depshow(dep_uuid)
-  #  sendmail = 'echo "Deployment delete failed uuid: %s \n  %s" | /usr/bin/mail -s "[INDIGO PaaS] check at: $(date)" %s' % (dep_uuid, final_out, options.mail_address)
-  #  run_command(sendmail)
-  #  logger.debug('Report sent to: %s' % options.mail_address)
+  # Record Delete status. If DELETE_FAILED the job will file at the end.
+  delete_status_record = dep_status
+
+  # Notify delete failed.
+  if(create_status_record == 'CREATE_FAILED'):
+    logger.debug('Deployment ' + dep_uuid + 'creation failed')
+    current_status = get_status(dep_uuid)
+    logger.debug('Current status ' + current_status)
+    sys.exit(1)
+  if(delete_status_record == 'DELETE_FAILED'):
+    logger.debug('Deployment ' + dep_uuid + 'delete failed')
+    current_status = get_status(dep_uuid)
+    logger.debug('Current status ' + current_status)
+    sys.exit(1)
+  else:
+    return
+
+#______________________________________
+def indigo_paas_checker():
+
+  start()
+
+  options = cli_options()
+
+  # Load test list
+  test_list = load_list(options.test_list)
+
+  # Check orchestrator status.
+  orchestrator_url = test_list['orchestrator_url']
+  orchestrator_status = check_orchestrator_status(options.health_check_path, orchestrator_url)
+  if(orchestrator_status is not 0):
+    logger.debug('Unable to contact the orchestrator at %s.' % options.orchestrator_url)
+    end()
+    sys.exit(1)
+
+  # Run PaaS orchestrator tests
+  run_test_list(test_list, orchestrator_url, float(options.polling_time))
 
   end()
 
