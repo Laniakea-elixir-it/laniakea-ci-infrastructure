@@ -163,9 +163,7 @@ def get_endpoint(uuid):
 #______________________________________
 def check_endpoint(uuid):
 
-  endpoint = uuid + '/'
-
-  #endpoint = get_endpoint(uuid) + '/'
+  endpoint = get_endpoint(uuid) + '/'
   logger.debug('Endpoint check: ' + endpoint)
 
   try:
@@ -294,14 +292,16 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, enable_endp
 
   # Notify delete failed.
   if(create_status_record == 'CREATE_FAILED'):
-    logger.debug('Deployment ' + dep_uuid + 'creation failed')
+    logger.debug('Deployment ' + dep_uuid + ' creation failed.')
     current_status = get_status(dep_uuid)
     logger.debug('Current status ' + current_status)
+    end()
     sys.exit(1)
   if(delete_status_record == 'DELETE_FAILED'):
-    logger.debug('Deployment ' + dep_uuid + 'delete failed')
+    logger.debug('Deployment ' + dep_uuid + ' delete failed.')
     current_status = get_status(dep_uuid)
     logger.debug('Current status ' + current_status)
+    end()
     sys.exit(1)
   else:
     return
