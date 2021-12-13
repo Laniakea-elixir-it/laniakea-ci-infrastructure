@@ -32,7 +32,7 @@ def cli_options():
   parser = argparse.ArgumentParser(description='INDIGO PaaS checker status')
 
   parser.add_argument('-l', '--test-list', dest='test_list', help='Deployment test list')
-  parser.add_argument('-t', '--polling-timeout', dest='polling_time', default=30, help='Polling timeout') #default to 300
+  parser.add_argument('-t', '--polling-timeout', dest='polling_time', default=300, help='Polling timeout') #default to 300
   parser.add_argument('-c', '--healh_check_path', dest='health_check_path', help='Orchestrator health check script path')
   # TODO add here the possibility to dispaly log with new paas
 
@@ -70,9 +70,9 @@ def check_orchestrator_status(path, url):
   return status
 
 #______________________________________
-def depcreate(tosca, url):
+def depcreate(tosca, inputs, url):
 
-  command="/usr/bin/orchent depcreate " + tosca + " '{}' -u " + url
+  command="/usr/bin/orchent depcreate " + tosca + " '" + inputs + "'" + " -u " + url
   logger.debug(command)
   
   stdout, stderr, status = run_command(command)
@@ -163,15 +163,24 @@ def get_endpoint(uuid):
 #______________________________________
 def check_endpoint(uuid):
 
-  endpoint = get_endpoint(uuid) + '/'
+  endpoint = uuid + '/'
+
+  #endpoint = get_endpoint(uuid) + '/'
+  logger.debug('Endpoint check: ' + endpoint)
 
   try:
     response = requests.get(endpoint, verify=False)
-  except:
-    return 'unavailable'
-
-  print(response.status_code)
-
+    if response.status_code == 200:
+      logger.debug(f"{endpoint}: is reachable")
+      return True
+    else:
+      logger.debug(f"{endpoint}: is Not reachable, status_code: {response.status_code}")
+      return False
+  #Exception
+  except requests.exceptions.RequestException as e:
+    # print URL with Errs
+    logger.debug(f"{endpoint}: is Not reachable \nErr: {e}")
+    return False
 
 #______________________________________
 def start():
@@ -199,17 +208,29 @@ def run_test_list(test_list, orchestrator_url, polling_time):
       tosca_template_path = test_list['test'][i]['tosca_template_path']
       logger.debug("Downloading tosca template: " + tosca_template_path)
 
-      # Download template and inputs
+      # Download template
       r = requests.get(test_list['test'][i]['tosca_template'], allow_redirects=True)
       with open(tosca_template_path, 'wb') as tosca_template:
         tosca_template.write(r.content)
 
-      run_test(tosca_template_path, orchestrator_url, polling_time, test_list['test'][i]['check_endopint'])
+      # Get inputs json
+      inputs = test_list['test'][i]['inputs']
+      if inputs == None:
+        inputs = '{}'
+      else:
+        inputs = json.dumps(inputs)
+
+      # Enable endpoint check
+      # This could be further improved with new check.
+      enable_endpoint_check = test_list['test'][i]['check_endopint']
+
+      # Run test
+      run_test(tosca_template_path, orchestrator_url, inputs, polling_time, enable_endpoint_check)
 
 #______________________________________
-def run_test(tosca_template, orchestrator_url, polling_time, enable_endpoint_check=False):
+def run_test(tosca_template, orchestrator_url, inputs, polling_time, enable_endpoint_check=False):
   # Start PaaS test deployment
-  dep_uuid, dep_status = depcreate(tosca_template, orchestrator_url)
+  dep_uuid, dep_status = depcreate(tosca_template, inputs, orchestrator_url)
 
   # Update deployment status
   time.sleep(polling_time)
@@ -226,9 +247,6 @@ def run_test(tosca_template, orchestrator_url, polling_time, enable_endpoint_che
   # Record Create status. If CREATE_FAILED the job will file at the end.
   create_status_record = dep_status
 
-  if enable_endpoint_check:
-    check_endpoint(dep_uuid)
-
   # wait some secs.
   #time.sleep(10)
 
@@ -236,6 +254,14 @@ def run_test(tosca_template, orchestrator_url, polling_time, enable_endpoint_che
   final_out, final_err, final_status = depshow(dep_uuid)
   logger.debug('Deployments details - stdout: ' + final_out)
   logger.debug('Deployments details - stderr: ' + final_err)
+
+  ## Check if endpoint is available.
+  if create_status_record == "CREATE_COMPLETE" and enable_endpoint_check:
+    endpoint_status = check_endpoint(dep_uuid)
+    if not endpoint_status:
+      logger.debug('The deployment is in CREATE_COMPLETE, but it is not reachable. Please check Orchestrator logs.')
+      create_status_record = 'CREATE_FAILED'
+      logger.debug('The create_status_record is set to ' + create_status_record)
 
   ## Always delete deployment
   final_out, final_err, final_status = depdel(dep_uuid)
