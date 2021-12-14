@@ -244,10 +244,14 @@ def run_test_list(test_list, orchestrator_url, polling_time):
       # Run test
       logger.debug('Testing ' + name)
       test_exit_status = run_test(tosca_template_path, orchestrator_url, inputs, polling_time, enable_endpoint_check)
-      summary_output[name] = test_exit_status
+      if test_exit_status:
+        summary_output[name] = "SUCCESS"
+      elif not test_exit_status:
+        summary_output[name] = "ERROR"
 
   logger.debug("Output summary")
   logger.debug(summary_output)
+  return summary_output
 
 #______________________________________
 def run_test(tosca_template, orchestrator_url, inputs, polling_time, enable_endpoint_check=False):
@@ -354,7 +358,11 @@ def indigo_paas_checker():
     sys.exit(1)
 
   # Run PaaS orchestrator tests
-  run_test_list(test_list, orchestrator_url, float(options.polling_time))
+  summary_json = run_test_list(test_list, orchestrator_url, float(options.polling_time))
+
+  errors = "ERROR" in summary_json.values()
+  if errors:
+    sys.exit(1)
 
   end()
 
