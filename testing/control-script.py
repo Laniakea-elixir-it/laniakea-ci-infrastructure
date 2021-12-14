@@ -213,11 +213,14 @@ def end():
 #______________________________________
 def run_test_list(test_list, orchestrator_url, polling_time):
 
+  summary_output = {}
   for i in test_list['test']:
 
     enable_test = test_list['test'][i]['run_test']
 
     if enable_test:
+
+      name = test_list['test'][i]['name']
 
       tosca_template_path = test_list['test'][i]['tosca_template_path']
       logger.debug("Downloading tosca template: " + tosca_template_path)
@@ -239,7 +242,12 @@ def run_test_list(test_list, orchestrator_url, polling_time):
       enable_endpoint_check = test_list['test'][i]['check_endopint']
 
       # Run test
-      run_test(tosca_template_path, orchestrator_url, inputs, polling_time, enable_endpoint_check)
+      logger.debug('Testing ' + name)
+      test_exit_status = run_test(tosca_template_path, orchestrator_url, inputs, polling_time, enable_endpoint_check)
+      summary_output[name] = test_exit_status
+
+  logger.debug("Output summary")
+  logger.debug(summary_output)
 
 #______________________________________
 def run_test(tosca_template, orchestrator_url, inputs, polling_time, enable_endpoint_check=False):
@@ -289,7 +297,6 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, enable_endp
   del_count = 1 # delete already triggered 1 time
   pattern='successfully triggered'
   match = re.search(pattern, str(delete_out))
-  logger.debug("re match: " + str( match))
   while(match is None):
     logger.debug('Deployment uuid %s delete failed. Wait for 2 minutes and retry.' % dep_uuid)
     time.sleep(120)
@@ -304,17 +311,13 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, enable_endp
   while(dep_status == 'DELETE_IN_PROGRESS'):
     time.sleep(60)
     dep_status = get_status(dep_uuid)
-    logger.debug("****")
     logger.debug(dep_status)
-    logger.debug("****")
     count = count + 1
     logger.debug('[Deletion] Update n. %s, uuid %s, status: %s.' % (count, dep_uuid, dep_status))
   logger.debug('Delete finished.')
 
   # Record Delete status. If DELETE_FAILED the job will file at the end.
-  logger.debug('====')
   logger.debug(dep_status)
-  logger.debug('====')
   delete_status_record = dep_status
 
   # Notify delete failed.
@@ -322,17 +325,15 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, enable_endp
     logger.debug('Deployment ' + dep_uuid + ' creation failed.')
     current_status = get_status(dep_uuid)
     logger.debug('Current status ' + current_status)
-    end()
-    sys.exit(1)
+    return False
   if(delete_status_record == 'DELETE_FAILED'):
     logger.debug('Deployment ' + dep_uuid + ' delete failed.')
     current_status = get_status(dep_uuid)
     logger.debug('Current status ' + current_status)
-    end()
-    sys.exit(1)
+    return False
   else:
     logger.debug('Deployment correctly performed. Check logs for further details.')
-    return
+    return True
 
 #______________________________________
 def indigo_paas_checker():
