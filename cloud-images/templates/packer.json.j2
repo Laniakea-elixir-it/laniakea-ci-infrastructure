@@ -20,6 +20,7 @@
 		{
 			"type": "ansible",
 			"inventory_directory": "./",
+                        "galaxy_file": "./requirements/{{ ansible_galaxy_file }}",
 			"playbook_file": "./playbooks/{{ playbook_file }}"
 		}
 	]

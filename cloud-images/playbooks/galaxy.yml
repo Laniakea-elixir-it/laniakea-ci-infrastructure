@@ -1,0 +1,50 @@
+---
+- hosts: default
+  become: true
+  become_user: root
+  pre_tasks:
+    - name: '[EL] Install Galaxy Dependencies'
+      package:
+        name: ['git', 'make', 'python-psycopg2', 'libselinux-python', 'bzip2', 'python3','epel-release']
+    - name: '[EL] update ca-certificates'
+      command: 'yum update -y ca-certificates'
+    - name: '[EL] Add NGINX repository'
+      command: 'yum-config-manager --add-repo https://depot.galaxyproject.org/yum/galaxy.repo'
+    - name: '[EL] Install virtualenv for python3'
+      command: /usr/bin/pip3 install virtualenv
+    - name: '[EL] Disable SELinux'
+      selinux:
+        state: disabled
+  roles:
+    - galaxyproject.postgresql
+    - geerlingguy.pip
+    - galaxyproject.galaxy
+    - role: uchida.miniconda
+      become: true
+      become_user: "{{ galaxy_user.name }}"
+    - role: natefoo.postgresql_objects
+      become: true
+      become_user: postgres
+    - galaxyproject.nginx
+  post_tasks:
+    - name: '[VM] Wait Galaxy'
+      wait_for:
+        host: 127.0.0.1
+        port: '4010'
+        timeout: 300
+    - name: lock-file absent 
+      file:
+        path: /export/tool_deps/conda.lock 
+        state: absent
+    - name: stop galaxy
+      systemd:
+        state: stopped
+        name: galaxy
+    - name: stop nginx
+      systemd:
+        state: stopped
+        name: nginx
+    - name: stop postgresql-10
+      systemd:
+        state: stopped
+        name: postgresql-10
