@@ -1,0 +1,89 @@
+galaxy_virtualenv_command: /usr/bin/python3 -m virtualenv
+#postgresql
+
+postgresql_objects_users:
+  - name: galaxy
+
+postgresql_objects_databases:
+  - name: galaxy
+  - name: galaxy_tools
+
+galaxy_create_user: true
+galaxy_force_checkout: true
+galaxy_separate_privileges: yes
+galaxy_manage_paths: true
+galaxy_layout: root-dir
+galaxy_privsep_user: galaxy
+galaxy_user: { name: galaxy, shell: /bin/bash, uid: 5001}
+galaxy_group: { name: galaxy, gid: 5001 }
+galaxy_root: /home/galaxy/galaxy
+galaxy_server_dir: '{{ galaxy_root }}/server' 
+galaxy_mutable_config_dir: '{{ galaxy_root }}/config' 
+galaxy_config_file: '{{ galaxy_mutable_config_dir }}/galaxy.yml' 
+galaxy_commit_id: release_20.05
+galaxy_config_style: yaml
+galaxy_config:
+  galaxy:
+    brand: "EXPRESS-TEST"
+    admin_users: "admin@server.com"
+    database_connection: "postgresql:///galaxy?host=/var/run/postgresql"
+    install_database_connection: "postgresql:///galaxy_tools?host=/var/run/postgresql"
+    check_migrate_tools: false
+    allow_user_creation: "True"
+    allow_user_impersonation: "True"
+    new_user_dataset_access_role_default_private: "True"
+    #conda_auto_install: true
+    ##
+    file_path: /export
+    tool_dependency_dir: /export/tool_deps
+    conda_prefix: /export/tool_deps/_conda 
+    job_working_directory: /export/database/job_working_dir
+
+
+
+  uwsgi:
+    socket: 127.0.0.1:4001
+    buffer-size: 16384
+    processes: 1
+    threads: 4
+    offload-threads: 2
+    static-map:
+      - /static={{ galaxy_server_dir }}/static
+      - /favicon.ico={{ galaxy_server_dir }}/static/favicon.ico
+    static-safe: client/galaxy/images
+    master: true
+    virtualenv: "{{ galaxy_venv_dir }}"
+    pythonpath: "{{ galaxy_server_dir }}/lib"
+    module: galaxy.webapps.galaxy.buildapp:uwsgi_app()
+    manage-script-name: true
+    thunder-lock: true
+    die-on-term: true
+    hook-master-start:
+      - unix_signal:2 gracefully_kill_them_all
+      - unix_signal:15 gracefully_kill_them_all
+    py-call-osafterfork: true
+    enable-threads: true
+    stats: 127.0.0.1:4010
+    #logto: "/home/galaxy/galaxy/var/tmp/uwsgi.log"
+    no-orphans: true
+    mule:
+      - lib/galaxy/main.py
+      - lib/galaxy/main.py
+    farm: job-handlers:1,2
+#systemd
+galaxy_manage_systemd: yes
+## nginx
+nginx_selinux_allow_local_connections: true
+nginx_flavor: galaxy
+nginx_servers:
+  - galaxy
+nginx_enable_default_server: false
+nginx_conf_http:
+        # server_tokens: off
+  client_max_body_size: 1g
+nginx_conf_user: galaxy
+nginx_conf_group: galaxy
+enable_galaxy_ie: true
+database_path: '/export/tool_deps/database'
+#miniconda test
+miniconda_prefix: '/export/tool_deps/_conda'

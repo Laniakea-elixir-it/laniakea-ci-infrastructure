@@ -19,7 +19,10 @@
 	"provisioners": [
 		{
 			"type": "ansible",
-			"inventory_directory": "./",
+                        {% if 'galaxy' in playbook_file %}
+                        extra_arguments": ["--extra-vars","@./group_vars/galaxyservers.yml"],
+                        {% endif%}
+			"inventory_directory": "./inventory/",
                         "galaxy_file": "./requirements/{{ ansible_galaxy_file }}",
 			"playbook_file": "./playbooks/{{ playbook_file }}"
 		}
