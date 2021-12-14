@@ -7,7 +7,7 @@ test:
     simple_node:
         name: "simple-node"
         run_test: yes
-        check_endopint: yes # this tosca template doesn't produce a valid endpoint.
+        check_endopint: no # this tosca template doesn't produce a valid endpoint.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-ci-infrastructure/master/testing/node_with_image.yaml"
         tosca_template_path: "/tmp/simple_node.yml"
         inputs:
@@ -21,4 +21,4 @@ test:
         inputs:
             instance_flavor: "large"
             storage_size: "50 GB"
-            ##version: "release_19.05" # currently the ansible role fails with galaxy master. Comment out this will make the role fail.
+            version: "release_19.05" # currently the ansible role fails with galaxy master. Comment out this will make the role fail.
