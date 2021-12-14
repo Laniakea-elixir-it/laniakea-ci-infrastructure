@@ -100,6 +100,7 @@ def depshow(uuid):
 def depdel(uuid):
 
   command="/usr/bin/orchent depdel " + uuid
+  logger.debug(command)
   
   stdout, stderr, status = run_command(command)
  
@@ -108,8 +109,6 @@ def depdel(uuid):
 #______________________________________
 def get_deployment_details(dep_uuid):
  
-# qui c'è un problema. anche se il deploy non viene cancellato viene mostrato come "already" deleted.
-
   command="/usr/bin/orchent depshow " + dep_uuid
 
   stdout, stderr, status = run_command(command)
@@ -131,6 +130,9 @@ def get_status(uuid):
 
   deployment = get_deployment_details(uuid)
 
+  if deployment == 'DELETE_COMPLETE':
+    return deployment
+
   dep_status = deployment.splitlines()[1].strip(b" status: ")
 
   return dep_status.decode("utf-8")
@@ -140,6 +142,11 @@ def get_outputs_json(uuid):
 
     # Get depployment despshow output
     deployment = get_deployment_details(uuid)
+
+    # Check if deployment is already deleted.
+    if deployment == 'DELETE_COMPLETE':
+      logger.debug('Deployment already deleted. Returning empty json')
+      return {}
 
     # Decodefrom bytes to string obcject
     decoded_deployment = deployment.decode('utf-8')
@@ -158,12 +165,21 @@ def get_endpoint(uuid):
 
     outputs = get_outputs_json(uuid)
 
+    # Check if deployment is already deleted.
+    if deployment == {}:
+      return 0
+
     return outputs['endpoint']
 
 #______________________________________
 def check_endpoint(uuid):
 
-  endpoint = get_endpoint(uuid) + '/'
+  endpoint = get_endpoint(uuid)
+  if endpoint = "0":
+      logger.debug("Deployment already deleted. This should be not happen here! Please check what iss going on")
+      return False
+
+  endpoint = endpoint + '/'
   logger.debug('Endpoint check: ' + endpoint)
 
   try:
@@ -249,9 +265,9 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, enable_endp
   #time.sleep(10)
 
   # Print output
-  final_out, final_err, final_status = depshow(dep_uuid)
-  logger.debug('Deployments details - stdout: ' + final_out)
-  logger.debug('Deployments details - stderr: ' + final_err)
+  create_out, create_err, create_status = depshow(dep_uuid)
+  logger.debug('Deployment details - stdout: ' + create_out)
+  logger.debug('Deployment details - stderr: ' + create_err)
 
   ## Check if endpoint is available.
   if create_status_record == "CREATE_COMPLETE" and enable_endpoint_check:
@@ -262,32 +278,43 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, enable_endp
       logger.debug('The create_status_record is set to ' + create_status_record)
 
   ## Always delete deployment
-  final_out, final_err, final_status = depdel(dep_uuid)
+  delete_out, delete_err, delete_status = depdel(dep_uuid)
+  dep_status = get_status(dep_uuid)
+  logger.debug('Deployment delete - stdout: ' + delete_out)
+  logger.debug('Deployment delete - stderr: ' + delete_err)
+  logger.debug('Deployment delete - status: ' + dep_status)
 
   ## Ensure deletion
   ## This should get rid also of concurrency.
   del_count = 1 # delete already triggered 1 time
   pattern='successfully triggered'
-  match = re.search(pattern, str(final_out))
+  match = re.search(pattern, str(delete_out))
+  logger.debug("re match: " + str( match))
   while(match is None):
     logger.debug('Deployment uuid %s delete failed. Wait for 2 minutes and retry.' % dep_uuid)
     time.sleep(120)
     del_count = del_count + 1
     logger.debug('Delete uuid %s retry n. %s.' % (dep_uuid, del_count))
-    final_out, final_err, final_status = depdel(dep_uuid)
-    match = re.search(pattern, final_out)
-  logger.debug('Deployment uuid %s delete: %s' % (dep_uuid, final_out))
+    delete_out, delete_err, delete_status = depdel(dep_uuid)
+    match = re.search(pattern, str(delete_out))
+  logger.debug('Deployment uuid %s delete: %s' % (dep_uuid, delete_out))
 
   # reset counter
   count = 0
   while(dep_status == 'DELETE_IN_PROGRESS'):
     time.sleep(60)
     dep_status = get_status(dep_uuid)
+    logger.debug("****")
+    logger.debug(dep_status)
+    logger.debug("****")
     count = count + 1
     logger.debug('[Deletion] Update n. %s, uuid %s, status: %s.' % (count, dep_uuid, dep_status))
   logger.debug('Delete finished.')
 
   # Record Delete status. If DELETE_FAILED the job will file at the end.
+  logger.debug('====')
+  logger.debug(dep_status)
+  logger.debug('====')
   delete_status_record = dep_status
 
   # Notify delete failed.
@@ -304,6 +331,7 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, enable_endp
     end()
     sys.exit(1)
   else:
+    logger.debug('Deployment correctly performed. Check logs for further details.')
     return
 
 #______________________________________

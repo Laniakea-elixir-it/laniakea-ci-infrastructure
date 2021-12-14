@@ -5,8 +5,8 @@ orchestrator_url: 'https://paas-orchestrator.cloud.ba.infn.it'
 ## All fields are mandatory.
 test:
     simple_node:
-        run_test: yes
-        check_endopint: no
+        run_test: no
+        check_endopint: no # this tosca template doesn't produce a valid endpoint.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-ci-infrastructure/master/testing/node_with_image.yaml"
         tosca_template_path: "/tmp/simple_node.yml"
         inputs:
@@ -19,4 +19,4 @@ test:
         inputs:
             instance_flavor: "large"
             storage_size: "50 GB"
-            version: "release_19.05"
+            ##version: "release_19.05"
