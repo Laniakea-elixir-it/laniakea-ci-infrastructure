@@ -175,7 +175,7 @@ def get_endpoint(uuid):
 def check_endpoint(uuid):
 
   endpoint = get_endpoint(uuid)
-  if endpoint = "0":
+  if endpoint == "0":
       logger.debug("Deployment already deleted. This should be not happen here! Please check what iss going on")
       return False
 
