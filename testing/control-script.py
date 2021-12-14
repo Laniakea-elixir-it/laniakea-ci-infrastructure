@@ -166,7 +166,7 @@ def get_endpoint(uuid):
     outputs = get_outputs_json(uuid)
 
     # Check if deployment is already deleted.
-    if deployment == {}:
+    if outputs == {}:
       return 0
 
     return outputs['endpoint']
