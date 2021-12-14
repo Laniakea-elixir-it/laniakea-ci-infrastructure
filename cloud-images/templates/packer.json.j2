@@ -20,7 +20,7 @@
 		{
 			"type": "ansible",
                         {% if 'galaxy' in playbook_file %}
-                        extra_arguments": ["--extra-vars","@./group_vars/galaxyservers.yml"],
+                        "extra_arguments": ["--extra-vars","@./group_vars/galaxyservers.yml"],
                         {% endif%}
 			"inventory_directory": "./inventory/",
                         "galaxy_file": "./requirements/{{ ansible_galaxy_file }}",
