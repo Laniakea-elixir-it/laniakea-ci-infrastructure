@@ -6,8 +6,8 @@ images_db_url: 'https://cloud-90-147-75-119.cloud.ba.infn.it/cmdb/image/list?inc
 reports_repository: 'git@github.com:Laniakea-elixir-it/laniakea-images.git'
 
 images:
-    galaxy-minimal:
-        name: galaxy-minimal
+    galaxy-express:
+        name: galaxy-express
         version: v3.0.0
         build: yes
         packer:
