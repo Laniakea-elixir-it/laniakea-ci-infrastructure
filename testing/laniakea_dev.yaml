@@ -1,6 +1,6 @@
 ---
-# Laniakea@ReCaS production Orchestrator URL
-orchestrator_url: 'https://paas-orchestrator.cloud.ba.infn.it'
+# Laniakea develplment branch Orchestrator URL
+orchestrator_url: 'https://cloud-90-147-75-119.cloud.ba.infn.it/orchestrator'
 
 ## All fields are mandatory.
 test:
@@ -9,7 +9,7 @@ test:
         run_test: yes
         check_endopint: no # this tosca template doesn't produce a valid endpoint.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/simple-node.yml"
-        tosca_template_path: "/tmp/simple-node.yml"
+        tosca_template_path: "/tmp/laniakea_dev/simple-node.yml"
         inputs:
 
     galaxy:
@@ -17,7 +17,7 @@ test:
         run_test: no
         check_endopint: yes
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/galaxy.yaml"
-        tosca_template_path: "/tmp/galaxy.yml"
+        tosca_template_path: "/tmp/laniakea_dev/galaxy.yml"
         inputs:
             instance_flavor: "large"
             storage_size: "50 GB"
