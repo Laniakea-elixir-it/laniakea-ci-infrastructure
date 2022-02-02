@@ -20,7 +20,7 @@ images:
             ansible_galaxy_file: "galaxy.yml"
 
     image-test-express:
-        name: image_test_express
+        name: image_test_express_raw
         version: v1.0.0
         build: yes
         packer:
