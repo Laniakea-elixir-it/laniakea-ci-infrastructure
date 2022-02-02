@@ -122,6 +122,11 @@ def parse_list(info_list, outpath):
             # Load template
             template = env.get_template('packer.json.j2')
 
+            # Check if ansible galaxy file is there
+            ansible_galaxy_file = None
+            if image['packer']['ansible_galaxy_file']:
+              ansible_galaxy_file = image['packer']['ansible_galaxy_file']
+
             # Render template
             rendered_template = template.render(
                                                 name = name,
