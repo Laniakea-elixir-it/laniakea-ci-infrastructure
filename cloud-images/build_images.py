@@ -123,7 +123,7 @@ def parse_list(info_list, outpath):
             template = env.get_template('packer.json.j2')
 
             # Check if ansible galaxy file is there
-            if not image['packer']['ansible_galaxy_file']:
+            if not 'ansible_galaxy_file' in image['packer']:
               ansible_galaxy_file = None
 
             # Render template
