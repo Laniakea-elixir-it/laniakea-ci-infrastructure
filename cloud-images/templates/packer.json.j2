@@ -23,8 +23,11 @@
                         "extra_arguments": ["--extra-vars","@./inventory/group_vars/galaxyservers.yml","--extra-vars","@./inventory/group_vars/nginx.yml"],
                         {% endif%}
 			"inventory_directory": "./inventory/",
+                        {% if ansible_galaxy_file %}
                         "galaxy_file": "./requirements/{{ ansible_galaxy_file }}",
+                        {% endif %}
 			"playbook_file": "./playbooks/{{ playbook_file }}"
+                        
 		}
 	]
 }

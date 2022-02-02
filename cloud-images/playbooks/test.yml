@@ -1,0 +1,5 @@
+---
+- hosts: default
+  tasks:
+    debug:
+      msg: 'nothing to do'

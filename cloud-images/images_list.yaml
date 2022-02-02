@@ -9,7 +9,7 @@ images:
     galaxy-express:
         name: galaxy-express
         version: v3.0.1
-        build: yes
+        build: no
         packer:
             ssh_username: centos
             source_image: "671ce862-bd9e-448e-bf88-592bff65cfb8" # centos 7 2009
@@ -18,6 +18,19 @@ images:
             network_id: "fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
             playbook_file: "galaxy.yml"
             ansible_galaxy_file: "galaxy.yml"
+
+    image-test-express:
+        name: image_test_express
+        version: v1.0.0
+        build: yes
+        packer:
+            ssh_username: centos
+            source_image: "671ce862-bd9e-448e-bf88-592bff65cfb8" # centos 7 2009
+            flavor: large
+            volume_size: "10"
+            network_id: "fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
+            playbook_file: "test.yml"
+            #ansible_galaxy_file: "galaxy.yml"
 
     rstudio-minimal:
         name: rstudio-minimal
