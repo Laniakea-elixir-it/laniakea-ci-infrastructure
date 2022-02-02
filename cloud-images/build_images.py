@@ -123,8 +123,9 @@ def parse_list(info_list, outpath):
             template = env.get_template('packer.json.j2')
 
             # Check if ansible galaxy file is there
-            if not 'ansible_galaxy_file' in image['packer']:
-              ansible_galaxy_file = None
+            ansible_galaxy_file = None
+            if 'ansible_galaxy_file' in image['packer']:
+              ansible_galaxy_file = image['packer']['ansible_galaxy_file']
 
             # Render template
             rendered_template = template.render(
@@ -135,7 +136,7 @@ def parse_list(info_list, outpath):
                                                 flavor = image['packer']['flavor'],
                                                 volume_size = image['packer']['volume_size'],
                                                 network_id = image['packer']['network_id'],
-                                                ansible_galaxy_file = image['packer']['ansible_galaxy_file'],
+                                                ansible_galaxy_file = ansible_galaxy_file,
                                                 playbook_file = image['packer']['playbook_file']
                                                )
 
