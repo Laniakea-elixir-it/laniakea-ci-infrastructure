@@ -39,12 +39,15 @@
     - name: stop galaxy
       systemd:
         state: stopped
+        enabled: false
         name: galaxy
     - name: stop nginx
       systemd:
         state: stopped
+        enabled: false
         name: nginx
     - name: stop postgresql-10
       systemd:
         state: stopped
+        enabled: false
         name: postgresql-10
