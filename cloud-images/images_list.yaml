@@ -8,11 +8,11 @@ reports_repository: 'git@github.com:Laniakea-elixir-it/laniakea-images.git'
 images:
     galaxy-express:
         name: galaxy-express
-        version: v3.0.2
+        version: v3.0.3
         build: yes
         packer:
             ssh_username: centos
-            source_image: "a7294ef8-2e29-4062-9a2b-5b3bab00288a" # centos 7 2009
+            source_image: "a7294ef8-2e29-4062-9a2b-5b3bab00288a" # centos 7 2003
             flavor: large
             volume_size: "10"
             network_id: "fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
@@ -25,20 +25,20 @@ images:
         build: no
         packer:
             ssh_username: centos
-            source_image: "671ce862-bd9e-448e-bf88-592bff65cfb8" # centos 7 2009
+            source_image: "a7294ef8-2e29-4062-9a2b-5b3bab00288a" # centos 7 2003
             flavor: large
             volume_size: "10"
             network_id: "fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
-            playbook_file: "test.yml"
-            #ansible_galaxy_file: "galaxy.yml"
+            playbook_file: "centos_custom.yml"
+            ansible_galaxy_file: "centos_custom.yml"
 
     rstudio-minimal:
         name: rstudio-minimal
-        version: v1.0.0
+        version: v1.0.1
         build: yes
         packer:
             ssh_username: centos
-            source_image: "671ce862-bd9e-448e-bf88-592bff65cfb8" # centos 7 2009
+            source_image: "a7294ef8-2e29-4062-9a2b-5b3bab00288a" # centos 7 2003
             flavor: medium
             volume_size: "10"
             network_id: "fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
@@ -51,7 +51,7 @@ images:
         build: yes
         packer:
             ssh_username: centos
-            source_image: "671ce862-bd9e-448e-bf88-592bff65cfb8" # centos 7 2009
+            source_image: "a7294ef8-2e29-4062-9a2b-5b3bab00288a" # centos 7 2003
             flavor: medium
             volume_size: "10"
             network_id: "fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
