@@ -26,7 +26,10 @@
       become: true
       become_user: postgres
     - galaxyproject.nginx
+
   post_tasks:
+
+    # Wait Galaxy and Conda
     - name: '[VM] Wait Galaxy'
       wait_for:
         host: 127.0.0.1
@@ -36,6 +39,8 @@
       file:
         path: /export/tool_deps/conda.lock 
         state: absent
+
+    # Stop services
     - name: stop galaxy
       systemd:
         state: stopped
@@ -51,3 +56,10 @@
         state: stopped
         enabled: false
         name: postgresql-10
+
+    # Clean the environment
+    # Otherwise conda will start to install in temp directory
+    - name: 'Clean /export content'
+      file:
+        state: absent
+        path: '{{ export_dir }}'

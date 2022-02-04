@@ -1,13 +1,17 @@
+## python configuration
 galaxy_virtualenv_command: /usr/bin/python3 -m virtualenv
-#postgresql
 
+##postgresql configuration
 postgresql_objects_users:
   - name: galaxy
-
 postgresql_objects_databases:
   - name: galaxy
   - name: galaxy_tools
 
+## Path configuration
+export_dir: /export
+
+## Galaxy configuration
 galaxy_create_user: true
 galaxy_force_checkout: true
 galaxy_separate_privileges: yes
@@ -24,7 +28,7 @@ galaxy_commit_id: release_20.05
 galaxy_config_style: yaml
 galaxy_config:
   galaxy:
-    brand: "EXPRESS-TEST"
+    brand: "laniakea-express"
     admin_users: "admin@server.com"
     database_connection: "postgresql:///galaxy?host=/var/run/postgresql"
     install_database_connection: "postgresql:///galaxy_tools?host=/var/run/postgresql"
@@ -34,12 +38,10 @@ galaxy_config:
     new_user_dataset_access_role_default_private: "True"
     #conda_auto_install: true
     ##
-    file_path: /export
-    tool_dependency_dir: /export/tool_deps
-    conda_prefix: /export/tool_deps/_conda 
-    job_working_directory: /export/database/job_working_dir
-
-
+    file_path: '{{ export_dir }}'
+    tool_dependency_dir: '{{ export_dir }}/tool_deps'
+    conda_prefix: '{{ tool_dependency_dir }}/_conda'
+    job_working_directory: '{{ export_dir }}/database/job_working_dir'
 
   uwsgi:
     socket: 127.0.0.1:4001
@@ -70,8 +72,10 @@ galaxy_config:
       - lib/galaxy/main.py
       - lib/galaxy/main.py
     farm: job-handlers:1,2
-#systemd
+
+## systemd
 galaxy_manage_systemd: yes
+
 ## nginx
 nginx_selinux_allow_local_connections: true
 nginx_flavor: galaxy
@@ -84,6 +88,6 @@ nginx_conf_http:
 nginx_conf_user: galaxy
 nginx_conf_group: galaxy
 enable_galaxy_ie: true
-database_path: '/export/tool_deps/database'
-#miniconda test
-miniconda_prefix: '/export/tool_deps/_conda'
+database_path: '{{ export_dir }}/tool_deps/database'
+##miniconda test
+miniconda_prefix: '{{ export_dir }}/tool_deps/_conda'
