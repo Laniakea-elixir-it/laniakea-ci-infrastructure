@@ -40,7 +40,7 @@ galaxy_config:
     ##
     file_path: '{{ export_dir }}'
     tool_dependency_dir: '{{ export_dir }}/tool_deps'
-    conda_prefix: '{{ tool_dependency_dir }}/_conda'
+    conda_prefix: '{{ export_dir }}/tool_deps/_conda'
     job_working_directory: '{{ export_dir }}/database/job_working_dir'
 
   uwsgi:
