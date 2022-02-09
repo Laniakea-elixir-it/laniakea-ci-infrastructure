@@ -34,7 +34,7 @@ images:
 
     rstudio-minimal:
         name: rstudio-minimal
-        version: v1.0.1
+        version: v1.0.2
         build: yes
         packer:
             ssh_username: centos
