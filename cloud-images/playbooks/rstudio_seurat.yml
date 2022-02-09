@@ -4,3 +4,12 @@
     - role: laniakea.rstudio
       install_Seu: true
       become: yes
+
+  post_tasks:
+    - name: Stop rstudio-server
+      systemd:
+        state: stopped
+        enabled: no
+        name: rstudio-server.service
+      become_user: root
+      become_method: sudo
