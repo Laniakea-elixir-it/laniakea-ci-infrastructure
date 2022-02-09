@@ -11,5 +11,4 @@
         state: stopped
         enabled: no
         name: rstudio-server.service
-      become_user: root
-      become_method: sudo
+      become: yes
