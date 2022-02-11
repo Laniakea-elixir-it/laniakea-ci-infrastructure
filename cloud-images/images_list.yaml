@@ -47,8 +47,8 @@ images:
 
     rstudio-seraut:
         name: rstudio-seurat
-        version: v1.0.1
-        build: no
+        version: v1.0.2
+        build: yes
         packer:
             ssh_username: centos
             source_image: "a7294ef8-2e29-4062-9a2b-5b3bab00288a" # centos 7 2003
