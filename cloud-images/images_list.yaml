@@ -34,7 +34,7 @@ images:
 
     rstudio-minimal:
         name: rstudio-minimal
-        version: v1.0.2
+        version: v1.0.3
         build: yes
         packer:
             ssh_username: centos
@@ -47,7 +47,7 @@ images:
 
     rstudio-seraut:
         name: rstudio-seurat
-        version: v1.0.2
+        version: v1.0.3
         build: yes
         packer:
             ssh_username: centos

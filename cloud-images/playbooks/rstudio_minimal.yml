@@ -3,3 +3,11 @@
   roles:
     - role: laniakea.rstudio
       become: yes
+
+  post_tasks:
+    - name: Stop rstudio-server
+      systemd:
+        state: stopped
+        enabled: no
+        name: rstudio-server.service
+      become: yes
