@@ -9,7 +9,7 @@ images:
     galaxy-express:
         name: galaxy-express
         version: v3.0.4
-        build: yes
+        build: no
         packer:
             ssh_username: centos
             source_image: "a7294ef8-2e29-4062-9a2b-5b3bab00288a" # centos 7 2003
@@ -35,7 +35,7 @@ images:
     rstudio-minimal:
         name: rstudio-minimal
         version: v1.0.3
-        build: yes
+        build: no
         packer:
             ssh_username: centos
             source_image: "a7294ef8-2e29-4062-9a2b-5b3bab00288a" # centos 7 2003
