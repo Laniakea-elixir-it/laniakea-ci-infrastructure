@@ -34,6 +34,7 @@ def cli_options():
   parser.add_argument('-l', '--test-list', dest='test_list', help='Deployment test list')
   parser.add_argument('-t', '--polling-timeout', dest='polling_time', default=300, help='Polling timeout') #default to 300
   parser.add_argument('-c', '--healh_check_path', dest='health_check_path', help='Orchestrator health check script path')
+  #parser.add_argument('-g', '--user-group', dest='user_group', help='Specify user group on IAM.')
   # TODO add here the possibility to dispaly log with new paas
 
   return parser.parse_args()
@@ -72,7 +73,7 @@ def check_orchestrator_status(path, url):
 #______________________________________
 def depcreate(tosca, inputs, url):
 
-  command="/usr/bin/orchent depcreate " + tosca + " '" + inputs + "'" + " -u " + url
+  command="/usr/bin/orchent depcreate -g elixir-italy " + tosca + " '" + inputs + "'" + " -u " + url
   logger.debug(command)
   
   stdout, stderr, status = run_command(command)
