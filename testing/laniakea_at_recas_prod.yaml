@@ -22,3 +22,16 @@ test:
             instance_flavor: "large"
             storage_size: "50 GB"
             version: "release_19.05" # currently the ansible role fails with galaxy master. Comment out this will make the role fail.
+            refdata_cvmfs_repository_name: 'data.elixir-italy-cvmfs'
+
+    galaxy_express:
+        name: "galaxy-express"
+        run_test: yes
+        check_endopint: yes
+        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/master/tosca-templates/galaxy-cluster.yaml"
+        tosca_template_path: "/tmp/galaxy-express.yml"
+        inputs:
+            instance_flavor: "large"
+            storage_size: "50 GB"
+            version: "release_19.05" # currently the ansible role fails with galaxy master. Comment out this will make the role fail.
+            refdata_cvmfs_repository_name: 'data.elixir-italy-cvmfs'
