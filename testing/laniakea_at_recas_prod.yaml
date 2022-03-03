@@ -14,7 +14,7 @@ test:
 
     galaxy:
         name: "galaxy-minimal"
-        run_test: yes
+        run_test: no
         check_endopint: yes
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/Laniakea%40ReCaS/tosca-templates/galaxy.yaml"
         tosca_template_path: "/tmp/galaxy.yml"
@@ -26,7 +26,7 @@ test:
 
     galaxy_express:
         name: "galaxy-express"
-        run_test: yes
+        run_test: no
         check_endopint: yes
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/master/tosca-templates/galaxy-cluster.yaml"
         tosca_template_path: "/tmp/galaxy-express.yml"
