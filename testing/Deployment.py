@@ -43,7 +43,7 @@ class Deployment:
         pattern = "doesn't exist"
         match = re.search(pattern, stdout.decode("utf-8"))
         if (match is not None):
-            logger.debug('Deployment with uuid %s already deleted!' % dep_uuid)
+            logger.debug('Deployment with uuid %s already deleted!' % self.dep_uuid)
             self.dep_status = 'DELETE_COMPLETE'
 
         temp = stdout.split(b"Deployment",1)[1]
