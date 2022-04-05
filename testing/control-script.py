@@ -131,7 +131,7 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, additional_
   if create_status_record == "CREATE_COMPLETE" and type(additional_tests) is list:
 
     if 'endpoint' in additional_tests:
-      endpoint_status = Tests.check_endpoint(dep.dep_uuid())
+      endpoint_status = Tests.check_endpoint(dep.get_uuid())
       if not endpoint_status:
         logger.debug('The deployment is in CREATE_COMPLETE, but it is not reachable. Please check Orchestrator logs.')
         create_status_record = 'CREATE_FAILED'
