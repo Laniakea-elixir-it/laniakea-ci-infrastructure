@@ -47,7 +47,7 @@ def check_endpoint(uuid):
 
 
 #______________________________________
-def run_galaxy_tooks(endpoint, api_key):
+def run_galaxy_tools(endpoint, api_key):
 
     logger.debug('Run Galaxy Tools Placeholder')
     logger.debug(endpoint)

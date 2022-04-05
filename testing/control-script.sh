@@ -23,7 +23,7 @@ elif [[ $1 == "dev" ]]; then
 
 else
 
-  echo "No conviguration available" && exit 1
+  echo "No configuration available" && exit 1
 
 fi
 
