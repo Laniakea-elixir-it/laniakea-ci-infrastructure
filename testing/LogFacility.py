@@ -22,3 +22,6 @@ class LogFacility:
         self.logger.addHandler(logger_stdout_handler)
 
     def get_logger(self): return self.logger
+
+log_facility = LogFacility()
+logger = log_facility.get_logger()

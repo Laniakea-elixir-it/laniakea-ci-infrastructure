@@ -1,8 +1,6 @@
 import subprocess
 
-from LogFacility import LogFacility
-log_facility = LogFacility()
-logger = log_facility.get_logger()
+from LogFacility import logger
 logger.info('Deployment class')
 
 
