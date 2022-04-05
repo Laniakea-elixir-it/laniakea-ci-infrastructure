@@ -50,7 +50,7 @@ class Deployment:
             temp = stdout.split(b"Deployment",1)[1]
         except IndexError:
             logger.info('Unable to retrieve deployment ' + self.dep_uuid + ' details')
-            logger.info(
+            return 'UNDEFINED'
         else:
             return temp
 
