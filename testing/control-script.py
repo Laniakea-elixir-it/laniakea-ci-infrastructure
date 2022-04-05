@@ -53,6 +53,8 @@ def end():
 #______________________________________
 def run_test_list(test_list, orchestrator_url, polling_time):
 
+  summary_output = {}
+  for i in test_list['test']:
 
     enable_test = test_list['test'][i]['run_test']
 
