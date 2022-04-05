@@ -128,7 +128,7 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, additional_
   ## Implement all tests here.
   #####################################################################################
 
-  if create_status_record == "CREATE_COMPLETE":
+  if create_status_record == "CREATE_COMPLETE" and type(additional_tests) is list:
 
     if 'endpoint' in additional_tests:
       endpoint_status = Tests.check_endpoint(dep.dep_uuid())
