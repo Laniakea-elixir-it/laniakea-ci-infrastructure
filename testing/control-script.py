@@ -42,7 +42,7 @@ def check_orchestrator_status(path, url):
 
   logger.debug('Check Orchestrator status at: %s' % url)
 
-  stdout, stderr, status = run_command(command)
+  stdout, stderr, status = Utils.run_command(command)
 
   logger.debug(stdout)
   logger.debug(stderr)
