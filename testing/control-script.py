@@ -56,7 +56,9 @@ def run_test_list(test_list, orchestrator_url, polling_time):
   summary_output = {}
   for i in test_list['test']:
 
-    enable_test = test_list['test'][i]['run_test']
+    enable_test = test_list['test'][i]['enabled']
+    run_more = test_list['test'][i]['run_more']
+    logger.debug(run_more)
 
     if enable_test:
 
@@ -123,7 +125,7 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, enable_endp
   logger.debug('Deployment details - stdout: ' + create_out)
   logger.debug('Deployment details - stderr: ' + create_err)
 
-  ## Check if endpoint is available.
+  ## Run tests.
   if create_status_record == "CREATE_COMPLETE" and enable_endpoint_check:
     endpoint_status = Test.check_endpoint(dep.dep_uuid)
     if not endpoint_status:
