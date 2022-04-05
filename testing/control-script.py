@@ -13,8 +13,9 @@ import json
 from LogFacility import logger
 logger.info('Start Test')
 
-from Deployment import Deployment
+from Deployments import Deployment
 import Utils
+import Tests
 
 #______________________________________
 def cli_options():
@@ -36,45 +37,6 @@ def load_list(test_list):
         return il
 
 #______________________________________
-def check_orchestrator_status(path, url):
-
-  command = '%s -u %s -t 10 -v' % (path, url)
-
-  logger.debug('Check Orchestrator status at: %s' % url)
-
-  stdout, stderr, status = Utils.run_command(command)
-
-  logger.debug(stdout)
-  logger.debug(stderr)
-
-  return status
-
-#______________________________________
-def check_endpoint(uuid):
-
-  endpoint = get_endpoint(uuid)
-  if endpoint == "0":
-      logger.debug("Deployment already deleted. This should be not happen here! Please check what iss going on")
-      return False
-
-  endpoint = endpoint + '/'
-  logger.debug('Endpoint check: ' + endpoint)
-
-  try:
-    response = requests.get(endpoint, verify=False)
-    if response.status_code == 200:
-      logger.debug(f"{endpoint}: is reachable")
-      return True
-    else:
-      logger.debug(f"{endpoint}: is Not reachable, status_code: {response.status_code}")
-      return False
-  #Exception
-  except requests.exceptions.RequestException as e:
-    # print URL with Errs
-    logger.debug(f"{endpoint}: is Not reachable \nErr: {e}")
-    return False
-
-#______________________________________
 def start():
 
   logger.debug('======================================')
@@ -91,8 +53,6 @@ def end():
 #______________________________________
 def run_test_list(test_list, orchestrator_url, polling_time):
 
-  summary_output = {}
-  for i in test_list['test']:
 
     enable_test = test_list['test'][i]['run_test']
 
@@ -163,7 +123,7 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, enable_endp
 
   ## Check if endpoint is available.
   if create_status_record == "CREATE_COMPLETE" and enable_endpoint_check:
-    endpoint_status = check_endpoint(dep.dep_uuid)
+    endpoint_status = Test.check_endpoint(dep.dep_uuid)
     if not endpoint_status:
       logger.debug('The deployment is in CREATE_COMPLETE, but it is not reachable. Please check Orchestrator logs.')
       create_status_record = 'CREATE_FAILED'
@@ -231,7 +191,7 @@ def indigo_paas_checker():
 
   # Check orchestrator status.
   orchestrator_url = test_list['orchestrator_url']
-  orchestrator_status = check_orchestrator_status(options.health_check_path, orchestrator_url)
+  orchestrator_status = Tests.check_orchestrator_status(options.health_check_path, orchestrator_url)
   if(orchestrator_status is not 0):
     logger.debug('Unable to contact the orchestrator at %s.' % options.orchestrator_url)
     end()
