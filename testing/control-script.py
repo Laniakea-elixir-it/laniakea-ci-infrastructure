@@ -15,7 +15,7 @@ log_facility = LogFacility()
 logger = log_facility.get_logger()
 logger.info('Start Test')
 
-import Deployment from Deployment
+from Deployment import Deployment
 
 #______________________________________
 def cli_options():
