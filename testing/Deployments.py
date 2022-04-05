@@ -44,12 +44,13 @@ class Deployment:
         match = re.search(pattern, stdout.decode("utf-8"))
         if (match is not None):
             logger.debug('Deployment with uuid %s already deleted!' % self.dep_uuid)
-            self.dep_status = 'DELETE_COMPLETE'
+            return 'DELETE_COMPLETE'
 
         try:
             temp = stdout.split(b"Deployment",1)[1]
         except IndexError:
             logger.info('Unable to retrieve deployment ' + self.dep_uuid + ' details')
+            logger.info(
         else:
             return temp
 
