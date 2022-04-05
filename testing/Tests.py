@@ -44,3 +44,11 @@ def check_endpoint(uuid):
       # print URL with Errs
       logger.debug(f"{endpoint}: is Not reachable \nErr: {e}")
       return False
+
+
+#______________________________________
+def run_galaxy_tooks(endpoint, api_key):
+
+    logger.debug('Run Galaxy Tools Placeholder')
+    logger.debug(endpoint)
+    logger.debug(api_key)

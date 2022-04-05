@@ -57,8 +57,6 @@ def run_test_list(test_list, orchestrator_url, polling_time):
   for i in test_list['test']:
 
     enable_test = test_list['test'][i]['enabled']
-    run_more = test_list['test'][i]['run_more']
-    logger.debug(run_more)
 
     if enable_test:
 
@@ -79,13 +77,13 @@ def run_test_list(test_list, orchestrator_url, polling_time):
       else:
         inputs = json.dumps(inputs)
 
-      # Enable endpoint check
-      # This could be further improved with new check.
-      enable_endpoint_check = test_list['test'][i]['check_endopint']
+      # Enable endpoint tests.
+      run_more = test_list['test'][i]['run_more']
+      logger.debug(run_more)
 
       # Run test
       logger.debug('Testing ' + name)
-      test_exit_status = run_test(tosca_template_path, orchestrator_url, inputs, polling_time, enable_endpoint_check)
+      test_exit_status = run_test(tosca_template_path, orchestrator_url, inputs, polling_time, run_more)
       if test_exit_status:
         summary_output[name] = "SUCCESS"
       elif not test_exit_status:
@@ -96,7 +94,7 @@ def run_test_list(test_list, orchestrator_url, polling_time):
   return summary_output
 
 #______________________________________
-def run_test(tosca_template, orchestrator_url, inputs, polling_time, enable_endpoint_check=False):
+def run_test(tosca_template, orchestrator_url, inputs, polling_time, additional_tests=False):
   # Start PaaS test deployment
   dep = Deployment(tosca_template, inputs, orchestrator_url)
   dep_uuid = dep.get_uuid()
@@ -125,13 +123,26 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, enable_endp
   logger.debug('Deployment details - stdout: ' + create_out)
   logger.debug('Deployment details - stderr: ' + create_err)
 
+  #####################################################################################
   ## Run tests.
-  if create_status_record == "CREATE_COMPLETE" and enable_endpoint_check:
-    endpoint_status = Test.check_endpoint(dep.dep_uuid)
-    if not endpoint_status:
-      logger.debug('The deployment is in CREATE_COMPLETE, but it is not reachable. Please check Orchestrator logs.')
-      create_status_record = 'CREATE_FAILED'
-      logger.debug('The create_status_record is set to ' + create_status_record)
+  ## Implement all tests here.
+  #####################################################################################
+
+  if create_status_record == "CREATE_COMPLETE":
+
+    if 'endpoint' in additional_tests:
+      endpoint_status = Tests.check_endpoint(dep.dep_uuid())
+      if not endpoint_status:
+        logger.debug('The deployment is in CREATE_COMPLETE, but it is not reachable. Please check Orchestrator logs.')
+        create_status_record = 'CREATE_FAILED'
+        logger.debug('The create_status_record is set to ' + create_status_record)
+
+    if 'galaxy_tools' in additional_tests:
+      Tests.run_galaxy_tools(dep.endpoint(),api_key='not_very_secret_api_key')
+
+  #####################################################################################
+  ## End tests.
+  #####################################################################################
 
   ## Always delete deployment
   delete_out, delete_err, delete_status = dep.depdel()
