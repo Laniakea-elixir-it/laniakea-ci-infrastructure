@@ -138,7 +138,7 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, additional_
         logger.debug('The create_status_record is set to ' + create_status_record)
 
     if 'galaxy_tools' in additional_tests:
-      Tests.run_galaxy_tools(dep.endpoint(),api_key='not_very_secret_api_key')
+      Tests.run_galaxy_tools(dep.get_endpoint(),api_key='not_very_secret_api_key')
 
   #####################################################################################
   ## End tests.
