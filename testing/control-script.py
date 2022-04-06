@@ -79,7 +79,7 @@ def run_test_list(test_list, orchestrator_url, polling_time):
 
       # Enable endpoint tests.
       run_more = test_list['test'][i]['run_more']
-      logger.debug('Additional tests: ' + run_more)
+      logger.debug('Additional tests: ' + str(run_more))
 
       # Run test
       logger.debug('Testing ' + name)
