@@ -11,7 +11,7 @@ logger.info('Deployment class')
 #______________________________________
 class Deployment:
 
-    def __init__(self, tosca, inputs, orchestrator_url, dep_uuid=None):
+    def __init__(self, tosca=None, inputs=None, orchestrator_url=None, dep_uuid=None):
 
         if dep_uuid is None:
             command="/usr/bin/orchent depcreate -g elixir-italy " + tosca + " '" + inputs + "'" + " -u " + orchestrator_url
