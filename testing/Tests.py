@@ -23,7 +23,8 @@ def check_orchestrator_status(path, url):
 #______________________________________
 def check_endpoint(uuid):
 
-    endpoint = Deployment.get_endpoint(uuid)
+    dep = Deployment(dep_uuid=uuid)
+    endpoint = dep.get_endpoint()
     if endpoint == "0":
         logger.debug("Deployment already deleted. This should be not happen here! Please check what iss going on")
         return False

@@ -96,7 +96,7 @@ def run_test_list(test_list, orchestrator_url, polling_time):
 #______________________________________
 def run_test(tosca_template, orchestrator_url, inputs, polling_time, additional_tests=False):
   # Start PaaS test deployment
-  dep = Deployment(tosca_template, inputs, orchestrator_url)
+  dep = Deployment(tosca_template, inputs, orchestrator_url, None)
   dep_uuid = dep.get_uuid()
   dep_status = dep.get_status()
 
