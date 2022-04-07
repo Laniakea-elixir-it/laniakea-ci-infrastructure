@@ -6,6 +6,9 @@ pipeline {
 			steps {
 				withCredentials([string(credentialsId: 'iam-recas-laniakea-test-jenkins', variable: 'IAM_CLIENT_PASSWORD')]) {
 					sh '''
+					python3 -m venv tests/
+          . tests/bin/activate
+          pip install bioblend
 					eval `oidc-keychain`
           ./testing/expect_laniakea_dev.sh $IAM_CLIENT_PASSWORD
 					git clone https://github.com/Laniakea-elixir-it/bioblend_test.git testing/bioblend_test
