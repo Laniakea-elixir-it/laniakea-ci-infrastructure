@@ -1,0 +1,34 @@
+pipeline {
+	agent { label "jenkins_wn_2"}
+		options { disableConcurrentBuilds() }
+	stages {
+		stage('deploy') {
+			steps {
+				withCredentials([string(credentialsId: 'iam-recas-laniakea-test-jenkins', variable: 'IAM_CLIENT_PASSWORD')]) {
+					sh '''
+					eval `oidc-keychain`
+          ./testing/expect_laniakea_dev.sh $IAM_CLIENT_PASSWORD
+					git clone https://github.com/Laniakea-elixir-it/bioblend-test.git
+          ./testing/control-script.sh "dev"
+					'''
+				}
+			}
+		}
+	}
+	post { 
+		always { 
+			cleanWs()
+		}
+		success {
+			withCredentials([string(credentialsId: 'telegram_bot_API_token', variable: 'API_TOKEN')]) {
+				sh 'curl -s -X POST https://api.telegram.org/bot$API_TOKEN/sendMessage -d chat_id=-667232678 -d text="${JOB_NAME}: SUCCESS!! executed on ${NODE_NAME} more info at ${BUILD_URL}"'
+			}
+		}
+		failure {
+			withCredentials([string(credentialsId: 'telegram_bot_API_token', variable: 'API_TOKEN')]) {
+				sh 'curl -s -X POST https://api.telegram.org/bot$API_TOKEN/sendMessage -d chat_id=-667232678 -d text="${JOB_NAME}: FAIL!! executed on ${NODE_NAME} more info at ${BUILD_URL}"'
+			}
+		}
+	}
+}
+
