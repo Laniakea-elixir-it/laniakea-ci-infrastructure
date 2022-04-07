@@ -49,11 +49,15 @@ def check_endpoint(uuid):
 
 #______________________________________
 def run_galaxy_tools(endpoint, api_key):
-    import bioblend_test.run_workflow 
-    logger.debug('Run Galaxy Tools Placeholder')
+    import bioblend_test.install_tools_from_wf
+    import bioblend_test.run_workflow
+    logger.debug('BASIC TEST RUN FASTQC')
     logger.debug(endpoint)
     logger.debug(api_key)
-    bioblend_test.run_workflow.run_galaxy_tools(endpoint,api_key,"bowtie_test","bioblend-test/workflows/bowtie2_mapping.ga","bioblend-test/inputs/input_files.json")
+    logger.debug('INSTALL WF TOOLS')
+    bioblend_test.install_tools_from_wf.install_tools(endpoint,api_key,"bioblend_test/workflows/test_workflow.ga") 
+    logger.debug('RUN TOOLS')
+    bioblend_test.run_workflow.run_galaxy_tools(endpoint,api_key,"bowtie_test","bioblend_test/workflows/test_workflow.ga","bioblend_test/inputs/input_files.json")
 
 
 
