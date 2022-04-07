@@ -8,7 +8,7 @@ pipeline {
 					sh '''
 					eval `oidc-keychain`
           ./testing/expect_laniakea_dev.sh $IAM_CLIENT_PASSWORD
-					git clone https://github.com/Laniakea-elixir-it/bioblend-test.git
+					git clone https://github.com/Laniakea-elixir-it/bioblend_test.git
           ./testing/control-script.sh "dev"
 					'''
 				}

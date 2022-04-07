@@ -49,11 +49,11 @@ def check_endpoint(uuid):
 
 #______________________________________
 def run_galaxy_tools(endpoint, api_key):
-    import bioblend-test.run_workflow 
+    import bioblend_test.run_workflow 
     logger.debug('Run Galaxy Tools Placeholder')
     logger.debug(endpoint)
     logger.debug(api_key)
-    bioblend-test.run_workflow.run_galaxy_tools(endpoint,api_key,"bowtie_test","bioblend-test/workflows/bowtie2_mapping.ga","bioblend-test/inputs/input_files.json")
+    bioblend_test.run_workflow.run_galaxy_tools(endpoint,api_key,"bowtie_test","bioblend-test/workflows/bowtie2_mapping.ga","bioblend-test/inputs/input_files.json")
 
 
 
