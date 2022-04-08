@@ -55,9 +55,9 @@ def run_galaxy_tools(endpoint, api_key):
     logger.debug(endpoint)
     logger.debug(api_key)
     logger.debug('INSTALL WF TOOLS')
-    bioblend_test.install_tools_from_wf.install_tools(endpoint,api_key,"bioblend_test/workflows/test_workflow.ga") 
+    bioblend_test.install_tools_from_wf.install_tools(endpoint,api_key,"testing/bioblend_test/workflows/test_workflow.ga") 
     logger.debug('RUN TOOLS')
-    bioblend_test.run_workflow.run_galaxy_tools(endpoint,api_key,"bowtie_test","bioblend_test/workflows/test_workflow.ga","bioblend_test/inputs/input_files.json")
+    bioblend_test.run_workflow.run_galaxy_tools(endpoint,api_key,"bowtie_test","testing/bioblend_test/workflows/test_workflow.ga","testing/bioblend_test/inputs/input_files.json")
 
 
 
