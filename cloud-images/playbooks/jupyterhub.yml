@@ -1,0 +1,13 @@
+---
+- hosts: default
+  roles:
+    - role: laniakea.jupyterhub
+      become: yes
+
+  post_tasks:
+    - name: Stop jupyterhub
+      systemd:
+        state: stopped
+        enabled: no
+        name: jupyterhub.service
+      become: yes
