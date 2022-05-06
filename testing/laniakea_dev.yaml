@@ -6,7 +6,7 @@ orchestrator_url: 'https://cloud-90-147-75-119.cloud.ba.infn.it/orchestrator'
 test:
     simple_node:
         name: "simple-node"
-        enabled: yes
+        enabled: no
         run_more: no # this tosca template doesn't produce a valid endpoint to check with requests.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/simple-node.yml"
         tosca_template_path: "/tmp/laniakea_dev/simple-node.yml"
