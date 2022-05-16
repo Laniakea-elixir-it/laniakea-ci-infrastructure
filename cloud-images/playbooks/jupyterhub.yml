@@ -2,6 +2,8 @@
 - hosts: default
   roles:
     - role: laniakea.jupyterhub
+      vars:
+        prepare_express: true
       become: yes
 
   post_tasks:
