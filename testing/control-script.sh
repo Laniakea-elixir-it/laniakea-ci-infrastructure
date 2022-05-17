@@ -16,7 +16,8 @@ elif [[ $1 == "dev" ]]; then
 
   # Lanaieka dev
   export ORCHENT_AGENT_ACCOUNT=iam-recas-test_laniakea-dev_matangaro_jenkins-test
-  export ORCHENT_URL="https://cloud-90-147-75-119.cloud.ba.infn.it/orchestrator"
+  #export ORCHENT_URL="https://cloud-90-147-75-119.cloud.ba.infn.it/orchestrator"
+  export ORCHENT_URL="https://cloud-90-147-102-77.cloud.ba.infn.it"
   export TEST_LIST=./testing/laniakea_dev.yaml
 
   echo "Loading development config"
