@@ -1,6 +1,6 @@
 ---
 # Laniakea develplment branch Orchestrator URL
-orchestrator_url: 'https://cloud-90-147-75-119.cloud.ba.infn.it/orchestrator'
+orchestrator_url: 'https://cloud-90-147-102-77.cloud.ba.infn.it'
 
 ## All fields are mandatory.
 test:
