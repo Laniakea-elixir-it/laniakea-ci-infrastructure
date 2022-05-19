@@ -27,7 +27,7 @@ test:
             version: "release_21.09"
             enable_galaxy_ie: false
 
-    galaxy:
+    galaxy_express:
         name: "galaxy-express"
         enabled: no
         run_more: ['endpoint', 'galaxy_tools']
