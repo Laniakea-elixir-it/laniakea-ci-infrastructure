@@ -7,7 +7,7 @@ orchestrator_url: 'https://cloud-90-147-102-77.cloud.ba.infn.it'
 test:
     simple_node:
         name: "simple-node"
-        enabled: yes
+        enabled: no
         run_more: no # this tosca template doesn't produce a valid endpoint to check with requests.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/simple-node.yml"
         tosca_template_path: "/tmp/laniakea_dev/simple-node.yml"
@@ -15,9 +15,23 @@ test:
 
     galaxy:
         name: "galaxy-minimal"
-        enabled: no
+        enabled: yes
         run_more: ['endpoint', 'galaxy_tools']
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/galaxy.yaml"
+        tosca_template_path: "/tmp/laniakea_dev/galaxy.yml"
+        inputs:
+            instance_flavor: "large"
+            storage_size: "50 GB"
+            os_distribution: "centos"
+            os_version: "7"
+            version: "release_21.09"
+            enable_galaxy_ie: false
+
+    galaxy:
+        name: "galaxy-express"
+        enabled: no
+        run_more: ['endpoint', 'galaxy_tools']
+        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/galaxy-express.yaml"
         tosca_template_path: "/tmp/laniakea_dev/galaxy.yml"
         inputs:
             instance_flavor: "large"
