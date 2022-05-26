@@ -137,8 +137,11 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, additional_
         create_status_record = 'CREATE_FAILED'
         logger.debug('The create_status_record is set to ' + create_status_record)
 
-    if 'galaxy_tools' in additional_tests:
-      Tests.run_galaxy_tools(dep.get_endpoint(),api_key='not_very_secret_api_key')
+    if 'galaxy_tools_FQC' in additional_tests:
+      Tests.run_galaxy_tools(dep.get_endpoint(),api_key='not_very_secret_api_key',"testing/bioblend_test/workflows/test_workflow.ga","testing/bioblend_test/inputs/input_files.json")
+    
+    if 'galaxy_tools_mapping' in additional_tests:
+      Tests.run_galaxy_tools(dep.get_endpoint(),api_key='not_very_secret_api_key',"testing/bioblend_test/workflows/bowtie2_mapping.ga","testing/bioblend_test/inputs/input_files.json")
 
   #####################################################################################
   ## End tests.
