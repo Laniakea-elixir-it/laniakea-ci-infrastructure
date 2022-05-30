@@ -52,15 +52,9 @@ def run_galaxy_tools(endpoint, api_key, wf_file, input_file):
     import bioblend_test.install_tools_from_wf
     import bioblend_test.run_workflow
     test_name = wf_file[wf_file.rfind('/')+1:] 
-    logger.debug(f"BASIC TEST RUNNING  {test_name}")
-    logger.debug(endpoint)
-    logger.debug(api_key)
-    logger.debug('INSTALL WF TOOLS')
     endpoint = endpoint + '/'
+    logger.debug(f"Testing {test_name} on {endpoint} with api key {api_key}")
+    logger.debug(f"Installing tools for workflow {test_name}")
     bioblend_test.install_tools_from_wf.install_tools(endpoint,api_key,wf_file) 
-    logger.debug('RUN TOOLS')
+    logger.debug(f"Running workflow {test_name}")
     bioblend_test.run_workflow.run_galaxy_tools(endpoint,api_key,test_name,wf_file,input_file)
-
-
-
-

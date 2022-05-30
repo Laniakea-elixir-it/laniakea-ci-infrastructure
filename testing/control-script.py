@@ -37,6 +37,12 @@ def load_list(test_list):
         return il
 
 #______________________________________
+def load_test_mapper(test_mapper):
+  with open(test_mapper, 'r') as tmf:
+    tm = yaml.safe_load(tmf)
+    return tm
+
+#______________________________________
 def start():
 
   logger.debug('======================================')
@@ -123,25 +129,32 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, additional_
   logger.debug('Deployment details - stdout: ' + create_out)
   logger.debug('Deployment details - stderr: ' + create_err)
 
+  # Get tests mapper, mapping tests to input files
+  test_mapper = load_test_mapper('./laniakea_dev_test_mapper.yaml')
+
+
   #####################################################################################
   ## Run tests.
   ## Implement all tests here.
   #####################################################################################
 
   if create_status_record == "CREATE_COMPLETE" and type(additional_tests) is list:
+  
+    for test in additional_tests:
+      if test=='endpoint':
+        endpoint_status = Tests.check_endpoint(dep.get_uuid())
+        if not endpoint_status:
+          logger.debug('The deployment is in CREATE_COMPLETE, but it is not reachable. Please check Orchestrator logs.')
+          create_status_record = 'CREATE_FAILED'
+          logger.debug('The create_status_record is set to ' + create_status_record)
+      
+      elif test in test_mapper['test'].keys():
+        logger.debug(f'Running {test} test...')
+        Tests.run_galaxy_tools(dep.get_endpoint(),api_key='not_very_secret_api_key',wf_file=test_mapper['test'][test]['wf_file'],input_file=test_mapper['test'][test]['input_file'])
 
-    if 'endpoint' in additional_tests:
-      endpoint_status = Tests.check_endpoint(dep.get_uuid())
-      if not endpoint_status:
-        logger.debug('The deployment is in CREATE_COMPLETE, but it is not reachable. Please check Orchestrator logs.')
-        create_status_record = 'CREATE_FAILED'
-        logger.debug('The create_status_record is set to ' + create_status_record)
+      else:
+        logger.debug(f'Test {test} is missing in laniakea_dev_test_mapper.yaml')
 
-    if 'galaxy_tools_FQC' in additional_tests:
-      Tests.run_galaxy_tools(dep.get_endpoint(),api_key='not_very_secret_api_key',wf_file="testing/bioblend_test/workflows/test_workflow.ga",input_file="testing/bioblend_test/inputs/input_files.json")
-    
-    if 'galaxy_tools_mapping' in additional_tests:
-      Tests.run_galaxy_tools(dep.get_endpoint(),api_key='not_very_secret_api_key',wf_file="testing/bioblend_test/workflows/bowtie2_mapping.ga",input_file="testing/bioblend_test/inputs/input_files.json")
 
   #####################################################################################
   ## End tests.

@@ -1,0 +1,7 @@
+test:
+    galaxy_tools_FQC:
+        wf_file: testing/bioblend_test/workflows/test_workflow.ga
+        input_file: testing/bioblend_test/inputs/input_files.json
+    galaxy_tools_mapping:
+        wf_file: testing/bioblend_test/workflows/bowtie2_mapping.ga
+        input_file: testing/bioblend_test/inputs/input_files.json
