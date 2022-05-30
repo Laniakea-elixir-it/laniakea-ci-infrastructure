@@ -130,7 +130,7 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, additional_
   logger.debug('Deployment details - stderr: ' + create_err)
 
   # Get tests mapper, mapping tests to input files
-  test_mapper = load_test_mapper('./laniakea_dev_test_mapper.yaml')
+  test_mapper = load_test_mapper('./testing/laniakea_dev_test_mapper.yaml')
 
 
   #####################################################################################
