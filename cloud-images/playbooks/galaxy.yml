@@ -26,6 +26,8 @@
       become: true
       become_user: postgres
     - galaxyproject.nginx
+    - laniakea.galaxy_interactive_tools
+      when: enable_interactive_tools
 
   post_tasks:
 
@@ -56,6 +58,18 @@
         state: stopped
         enabled: false
         name: postgresql-10
+    - name: stop docker.service
+      systemd:
+        state: stopped
+        enabled: false
+        name: docker.service
+      when: enable_interactive_tools
+    - name: stop docker.socket
+      systemd:
+        state: stopped
+        enabled: false
+        name: docker.socket
+      when: enable_interactive_tools
 
     # Clean the environment
     # Otherwise conda will start to install in temp directory
