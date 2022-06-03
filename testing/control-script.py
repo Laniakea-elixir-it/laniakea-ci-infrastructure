@@ -72,22 +72,17 @@ def run_test_list(test_list, orchestrator_url, polling_time):
 
       # Get test user
       user = test_list['test_user']
-      print(user)
 
       # Get inputs json
       inputs = test_list['test'][i]['inputs']
       if inputs == None:
         inputs = '{}'
       else:
-        print(inputs)
-        print(inputs['users'])
+        # add the ssh user to inputs
         if 'users' in inputs:
-          print('the if is run')
           inputs['users'].append(user)
-        print(inputs)
 
         inputs = json.dumps(inputs)
-        print(inputs)
 
       # Enable endpoint tests.
       run_more = test_list['test'][i]['run_more']
