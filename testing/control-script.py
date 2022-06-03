@@ -90,8 +90,8 @@ def run_test_list(test_list, orchestrator_url, polling_time):
 
       # Run test
       logger.debug('Testing ' + name)
-      #test_exit_status = run_test(tosca_template_path, orchestrator_url, inputs, polling_time, run_more)
-      test_exit_status=True
+      test_exit_status = run_test(tosca_template_path, orchestrator_url, inputs, polling_time, run_more)
+
       if test_exit_status:
         summary_output[name] = "SUCCESS"
       elif not test_exit_status:
