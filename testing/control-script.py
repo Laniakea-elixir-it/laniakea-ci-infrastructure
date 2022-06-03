@@ -79,11 +79,13 @@ def run_test_list(test_list, orchestrator_url, polling_time):
       if inputs == None:
         inputs = '{}'
       else:
-        inputs = json.dumps(inputs)
         print(inputs)
         print(inputs['users'])
         if inputs['users']:
           inputs['users'].append(user)
+        print(inputs)
+
+        inputs = json.dumps(inputs)
         print(inputs)
 
       # Enable endpoint tests.
