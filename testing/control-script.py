@@ -71,7 +71,7 @@ def run_test_list(test_list, orchestrator_url, polling_time):
         tosca_template.write(r.content)
 
       # Get test user
-      user = test_list['user']
+      user = test_list['users']
       print(user)
 
       # Get inputs json
