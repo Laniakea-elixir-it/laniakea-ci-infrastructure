@@ -64,6 +64,7 @@ test:
             os_version: "20.04"
             version: "release_20.05"
             admin_api_key: not_very_secret_api_key
+            galaxy_flavor: "bgruening/galaxy-stable:20.05"
             users: []
 
     irida:
