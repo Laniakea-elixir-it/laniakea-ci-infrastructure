@@ -81,7 +81,7 @@ def run_test_list(test_list, orchestrator_url, polling_time):
       else:
         print(inputs)
         print(inputs['users'])
-        if ['users'] in inputs:
+        if 'users' in inputs:
           print('the if is run')
           inputs['users'].append(user)
         print(inputs)
