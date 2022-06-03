@@ -3,8 +3,8 @@
 #orchestrator_url: 'https://cloud-90-147-75-119.cloud.ba.infn.it/orchestrator'
 orchestrator_url: 'https://cloud-90-147-102-77.cloud.ba.infn.it'
 
-# Add user to access the deployment if needed
-users:
+# Add user to access the deployment if needed. # Do not change, this should match the tosca template.
+test_user:
   os_user_name": "testuser"
   os_user_guid": "8001"
   os_user_add_to_sudoers: true
@@ -34,6 +34,7 @@ test:
             os_version: "7"
             version: "release_21.09"
             admin_api_key: not_very_secret_api_key
+            users: []
 
     galaxy_express:
         name: "galaxy-express"
