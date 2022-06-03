@@ -3,6 +3,13 @@
 #orchestrator_url: 'https://cloud-90-147-75-119.cloud.ba.infn.it/orchestrator'
 orchestrator_url: 'https://cloud-90-147-102-77.cloud.ba.infn.it'
 
+# Add user to access the deployment if needed
+users:
+  os_user_name": "testuser"
+  os_user_guid": "8001"
+  os_user_add_to_sudoers: true
+  os_user_ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDH1TyGvTGFzEBK2lSrcCvKVTQiA7jLQJYIPlsWZcyQzfgDhcJEBt93wJpj9cn8rnJHFFwnoRWfMSZqUn0VD+tByIWdi32fgjD/+6zUbyZojFAiiIQN80/8toktw7duynpDJPNgRt6a7PnsFX24s1jhkN8WZShRf6SpubRAUyxgj6Zuz7KQtieY2x2YRdAAXsKpnOGbMi2mE5G+PLVx/t3FzcHheDqNPz6R5j0Ikq/uiobd+E1hwCCW+P8+qa+OPnrhvuNf24mOApwGvEkKDELHJotTLAdCmfbhpuBqTx3BICPikdzOwpJ4tCierU+SxD1wy7ffCEonrEwNN7gBiT9d"
+
 ## All fields are mandatory.
 test:
     simple_node:
@@ -17,6 +24,7 @@ test:
         name: "galaxy-minimal"
         enabled: yes
         run_more: ['endpoint', 'galaxy_tools']
+        delete: always # always, no, on_success, on_error # TODO add the possibility to not delete the deployment.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/galaxy.yaml"
         tosca_template_path: "/tmp/laniakea_dev/galaxy.yml"
         inputs:
@@ -26,7 +34,6 @@ test:
             os_version: "7"
             version: "release_21.09"
             admin_api_key: not_very_secret_api_key
-            users: [ {"os_user_name": "testuser", "os_user_guid": "8001", "os_user_add_to_sudoers": true, "os_user_ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDH1TyGvTGFzEBK2lSrcCvKVTQiA7jLQJYIPlsWZcyQzfgDhcJEBt93wJpj9cn8rnJHFFwnoRWfMSZqUn0VD+tByIWdi32fgjD/+6zUbyZojFAiiIQN80/8toktw7duynpDJPNgRt6a7PnsFX24s1jhkN8WZShRf6SpubRAUyxgj6Zuz7KQtieY2x2YRdAAXsKpnOGbMi2mE5G+PLVx/t3FzcHheDqNPz6R5j0Ikq/uiobd+E1hwCCW+P8+qa+OPnrhvuNf24mOApwGvEkKDELHJotTLAdCmfbhpuBqTx3BICPikdzOwpJ4tCierU+SxD1wy7ffCEonrEwNN7gBiT9d"} ]
 
     galaxy_express:
         name: "galaxy-express"
