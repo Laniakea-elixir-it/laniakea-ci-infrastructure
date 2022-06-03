@@ -71,7 +71,7 @@ def run_test_list(test_list, orchestrator_url, polling_time):
         tosca_template.write(r.content)
 
       # Get test user
-      user = test_list['users']
+      user = test_list['test_user']
       print(user)
 
       # Get inputs json
@@ -80,6 +80,10 @@ def run_test_list(test_list, orchestrator_url, polling_time):
         inputs = '{}'
       else:
         inputs = json.dumps(inputs)
+        print(inputs)
+        print(inputs['users'])
+        if inputs['users']:
+          inputs['users'].append(user)
         print(inputs)
 
       # Enable endpoint tests.
