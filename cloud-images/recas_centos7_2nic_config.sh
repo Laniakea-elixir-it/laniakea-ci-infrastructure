@@ -5,4 +5,4 @@ LOGFILE='/var/log/recas-netconfig.log'
 
 touch $LOGFILE
 
-echo 'Test cloud init'
+echo 'Test cloud init' > $LOGFILE
