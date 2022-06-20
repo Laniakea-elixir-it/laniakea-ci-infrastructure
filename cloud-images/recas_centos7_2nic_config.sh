@@ -54,6 +54,9 @@ function find_public_nic(){
 if [[ $(ls -A /sys/class/net | wc -l)  == 3 ]]
 then
 
+  # Wait a little for DHCP lease
+  sleep 15
+
   if find_private_nic; then
     systemctl restart network
     exit 0
