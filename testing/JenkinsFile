@@ -23,9 +23,9 @@ pipeline {
 		}
 	}
 	post { 
-		//always { 
-			//cleanWs()
-		//}
+		always { 
+			cleanWs()
+		}
 		success {
 			withCredentials([string(credentialsId: 'telegram_bot_API_token', variable: 'API_TOKEN')]) {
 				sh 'curl https://api.telegram.org/bot$API_TOKEN/sendphoto" -F "chat_id=-667232678" -F "photo=@./galaxy_screenshot.png" -F "caption=${JOB_NAME}: SUCCESS!! executed on ${NODE_NAME} more info at ${BUILD_URL}"'
