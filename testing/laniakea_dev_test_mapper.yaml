@@ -1,4 +1,8 @@
 test:
+    ftp:
+        file_path: testing/ftp_files/input_mate1.fastq
+        user: admin@server.com
+        password: galaxy_admin_password
     galaxy_tools_FQC:
         wf_file: testing/bioblend_test/workflows/test_workflow.ga
         input_file: testing/bioblend_test/inputs/input_files.json

@@ -148,6 +148,14 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, additional_
           create_status_record = 'CREATE_FAILED'
           logger.debug('The create_status_record is set to ' + create_status_record)
       
+      elif test=='ftp':
+        logger.debug(f'Running {test} test...')
+        ftp_file_path = test_mapper['test'][test]['file_path']
+        ftp_user = test_mapper['test'][test]['user']
+        ftp_password = test_mapper['test'][test]['password']
+        host = dep.get_endpoint.rstrip('/').rstrip('/galaxy').lstrip('http://')
+        Tests.test_ftp(host=host, file_path=ftp_file_path, user=ftp_user, password=ftp_password)
+
       elif test in test_mapper['test'].keys():
         logger.debug(f'Running {test} test...')
         Tests.run_galaxy_tools(dep.get_endpoint(),api_key='not_very_secret_api_key',wf_file=test_mapper['test'][test]['wf_file'],input_file=test_mapper['test'][test]['input_file'])
@@ -159,6 +167,9 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, additional_
   #####################################################################################
   ## End tests.
   #####################################################################################
+
+  ## Take screenshot of galaxy instance
+  Tests.screenshot_galaxy(geckodriver_path='./geckodriver', endpoint=dep.get_endpoint(), username='admin@server.com', password='galaxy_admin_password', output_path='./galaxy_screenshot.png')
 
   ## Always delete deployment
   delete_out, delete_err, delete_status = dep.depdel()

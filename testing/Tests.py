@@ -3,6 +3,11 @@ import requests
 from LogFacility import logger
 from Deployments import Deployment
 import Utils
+from ftplib import FTP
+import os
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 
 #______________________________________
@@ -58,3 +63,57 @@ def run_galaxy_tools(endpoint, api_key, wf_file, input_file):
     bioblend_test.install_tools_from_wf.install_tools(endpoint,api_key,wf_file) 
     logger.debug(f"Running workflow {test_name}")
     bioblend_test.run_workflow.run_galaxy_tools(endpoint,api_key,test_name,wf_file,input_file)
+
+
+#______________________________________
+def ftp_login(host, user, passwd):
+    test = FTP(host=host, user=user, passwd=passwd )
+    return test
+
+def ftp_upload(test, file_path):
+    with open(file_path,'rb') as f:
+      fname = os.path.basename(file_path)
+      test.storbinary(f'STOR {fname}', f)
+
+def test_ftp(host, file_path, user, password):
+    logger.debug(f"Testing FTP on {host} with upload of {file_path}")
+    test = ftp_login(host=host, user=user, passwd=password)
+    logger.debug(f"FTP connection with {host} established")
+    ftp_upload(test=test, file_path=file_path)
+    logger.debug(f"File successfully uploaded with FTP")
+
+
+#______________________________________
+def start_firefox_driver(geckodriver_path):
+    firefox_options = webdriver.firefox.options.Options()
+    firefox_options.headless = True
+    driver = webdriver.Firefox(options=firefox_options, executable_path=geckodriver_path)
+    return driver
+
+def find_website_element(driver, class_name, name):
+    return list(set(driver.find_elements(By.CLASS_NAME, class_name)) & set(driver.find_elements(By.NAME, name)))[0]
+
+def galaxy_login(driver, endpoint, username, password):
+    # Connect to endpoint
+    driver.get(endpoint)
+    print(f'Connection established with {endpoint}')
+
+    # Get login and password textbox
+    time.sleep(5)
+    login = find_website_element(driver=driver, class_name='form-control', name='login')
+    password = find_website_element(driver=driver, class_name='form-control', name='password')
+    # Get login button
+    login_button = find_website_element(driver=driver, class_name='btn', name='login')
+
+    # Insert credentials
+    login.send_keys(username)
+    password.send_keys(password)
+    login_button.click()
+    print('Logged into galaxy')
+
+def screenshot_galaxy(geckodriver_path, endpoint, username, password, output_path):
+    driver = start_firefox_driver(geckodriver_path)
+    galaxy_login(driver, endpoint, username, password)
+    time.sleep(5)
+    driver.get_screenshot_as_file(output_path)
+    driver.close()
