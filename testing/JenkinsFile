@@ -24,7 +24,7 @@ pipeline {
 	}
 	post { 
 		always { 
-			cleanWs()
+			//cleanWs()
 		}
 		success {
 			withCredentials([string(credentialsId: 'telegram_bot_API_token', variable: 'API_TOKEN')]) {
