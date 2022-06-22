@@ -21,7 +21,7 @@ test:
 
     galaxy:
         name: "galaxy-minimal"
-        enabled: 
+        enabled: yes
         run_more: ['endpoint', 'ftp','galaxy_tools_FQC','galaxy_tools_mapping']
         delete: always # always, no, on_success, on_error # TODO add the possibility to not delete the deployment.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/galaxy.yaml"
