@@ -7,6 +7,7 @@ pipeline {
 				withCredentials([string(credentialsId: 'iam-recas-laniakea-test-jenkins', variable: 'IAM_CLIENT_PASSWORD')]) {
 					sh '''
 					eval `oidc-keychain`
+					oidc-add -r iam-recas-test_laniakea-dev_matangaro_jenkins-test
           			./testing/expect_laniakea_dev.sh $IAM_CLIENT_PASSWORD
 					'''
 				}
