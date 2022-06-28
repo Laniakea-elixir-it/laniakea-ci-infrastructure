@@ -4,7 +4,7 @@ pipeline {
 	stages {
 		stage('deploy') {
 			steps {
-				withCredentials([string(credentialsId: 'iam-recas-laniakea-test-jenkins', variable: 'IAM_CLIENT_PASSWORD')]) {
+				withCredentials([string(credentialsId: 'iam-recas-test_laniakea-dev_jenkins-test', variable: 'IAM_CLIENT_PASSWORD')]) {
 					sh '''
 					python3 -m venv tests/
 					. tests/bin/activate
