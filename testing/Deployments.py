@@ -18,7 +18,8 @@ class Deployment:
             logger.debug(command)
 
             stdout, stderr, status = Utils.run_command(command)
-
+            logger.debug(f'stdout: {stdout}')
+            logger.debug(f'stderr: {stderr}')
             temp = stdout.split(b"Deployment",1)[1]
 
             dep_uuid = temp.splitlines()[0].strip(b" []:")
