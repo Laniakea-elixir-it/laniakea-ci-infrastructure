@@ -1,4 +1,5 @@
-#!/usr/bin/expect -f -d
+#!/usr/bin/expect -f
+exp_internal 1
 set timeout -1
 set secret [lindex $argv 0]
 spawn oidc-add iam-recas-test_laniakea-dev_matangaro_jenkins-test
