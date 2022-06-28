@@ -160,7 +160,7 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, additional_
         ftp_file_path = test_mapper['test'][test]['file_path']
         ftp_user = test_mapper['test'][test]['user']
         ftp_password = test_mapper['test'][test]['password']
-        host = dep.get_endpoint.rstrip('/').rstrip('/galaxy').lstrip('http://')
+        host = dep.get_endpoint().rstrip('/').rstrip('/galaxy').lstrip('http://')
         Tests.test_ftp(host=host, file_path=ftp_file_path, user=ftp_user, password=ftp_password)
 
       elif test in test_mapper['test'].keys():
