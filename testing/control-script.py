@@ -76,11 +76,18 @@ def run_test_list(test_list, orchestrator_url, polling_time):
       with open(tosca_template_path, 'wb') as tosca_template:
         tosca_template.write(r.content)
 
+      # Get test user
+      user = test_list['test_user']
+
       # Get inputs json
       inputs = test_list['test'][i]['inputs']
       if inputs == None:
         inputs = '{}'
       else:
+        # add the ssh user to inputs
+        if 'users' in inputs:
+          inputs['users'].append(user)
+
         inputs = json.dumps(inputs)
 
       # Enable endpoint tests.
