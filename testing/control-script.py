@@ -178,7 +178,7 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, additional_
     #####################################################################################
 
     ## Take screenshot of galaxy instance
-    Tests.screenshot_galaxy(geckodriver_path='./geckodriver', endpoint=dep.get_endpoint(), username='admin@server.com', password='galaxy_admin_password', output_path='/tmp/galaxy_screenshot.png')
+    Tests.screenshot_galaxy(geckodriver_path='./geckodriver', endpoint=dep.get_endpoint(), username='admin@admin.com', password='galaxy_admin_password', output_path='/tmp/galaxy_screenshot.png')
 
   finally:
     ## Always delete deployment
