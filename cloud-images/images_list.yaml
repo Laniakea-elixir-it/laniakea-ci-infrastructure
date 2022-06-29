@@ -61,7 +61,7 @@ images:
     jupyterhub:
         name: jupyterhub
         version: v1.0.3
-        build: yes
+        build: no
         packer:
             ssh_username: ubuntu
             source_image: "de026237-0716-4f64-9913-2a1b71cbe669" # ubuntu 20.04
