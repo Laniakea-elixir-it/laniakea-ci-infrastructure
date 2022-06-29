@@ -96,7 +96,7 @@ def find_website_element(driver, class_name, name):
 def galaxy_login(driver, endpoint, username, password):
     # Connect to endpoint
     driver.get(endpoint)
-    print(f'Connection established with {endpoint}')
+    logger.debug(f'Connection established with {endpoint}')
 
     # Get login and password textbox
     time.sleep(5)
@@ -109,7 +109,7 @@ def galaxy_login(driver, endpoint, username, password):
     login.send_keys(username)
     password.send_keys(password)
     login_button.click()
-    print('Logged into galaxy')
+    logger.debug('Logged into galaxy')
 
 def screenshot_galaxy(geckodriver_path, endpoint, username, password, output_path):
     driver = start_firefox_driver(geckodriver_path)
