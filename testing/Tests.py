@@ -100,14 +100,14 @@ def galaxy_login(driver, endpoint, username, password):
 
     # Get login and password textbox
     time.sleep(5)
-    login = find_website_element(driver=driver, class_name='form-control', name='login')
-    password = find_website_element(driver=driver, class_name='form-control', name='password')
+    login_textbox = find_website_element(driver=driver, class_name='form-control', name='login')
+    password_textbox = find_website_element(driver=driver, class_name='form-control', name='password')
     # Get login button
     login_button = find_website_element(driver=driver, class_name='btn', name='login')
 
     # Insert credentials
-    login.send_keys(username)
-    password.send_keys(password)
+    login_textbox.send_keys(username)
+    password_textbox.send_keys(password)
     login_button.click()
     logger.debug('Logged into galaxy')
 
