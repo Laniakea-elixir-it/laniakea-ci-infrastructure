@@ -9,3 +9,8 @@ test:
     galaxy_tools_mapping:
         wf_file: testing/bioblend_test/workflows/bowtie2_mapping.ga
         input_file: testing/bioblend_test/inputs/input_files.json
+    screenshot:
+        geckodriver_path: ./geckodriver
+        username: admin@admin.com
+        password: galaxy_admin_password
+        output_path: /tmp/galaxy_screenshot.png

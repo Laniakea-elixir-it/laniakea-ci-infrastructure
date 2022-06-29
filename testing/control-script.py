@@ -169,16 +169,21 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, additional_
           logger.debug(f'Running {test} test...')
           Tests.run_galaxy_tools(dep.get_endpoint(),api_key='not_very_secret_api_key',wf_file=test_mapper['test'][test]['wf_file'],input_file=test_mapper['test'][test]['input_file'])
 
+        elif test=='screenshot':
+          logger.debug(f'Running {test} test...')
+          geckodriver_path = test_mapper['test'][test]['geckodriver_path']
+          username = test_mapper['test'][test]['username']
+          password = test_mapper['test'][test]['password']
+          screenshot_output_path = test_mapper['test'][test]['output_path']
+          Tests.screenshot_galaxy(geckodriver_path, dep.get_endpoint(), username, password, screenshot_output_path)
+
         else:
           logger.debug(f'Test {test} is missing in laniakea_dev_test_mapper.yaml')
 
 
-    #####################################################################################
-    ## End tests.
-    #####################################################################################
-
-    ## Take screenshot of galaxy instance
-    Tests.screenshot_galaxy(geckodriver_path='./geckodriver', endpoint=dep.get_endpoint(), username='admin@admin.com', password='galaxy_admin_password', output_path='/tmp/galaxy_screenshot.png')
+  #####################################################################################
+  ## End tests.
+  #####################################################################################
 
   finally:
     ## Always delete deployment
