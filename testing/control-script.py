@@ -110,123 +110,126 @@ def run_test_list(test_list, orchestrator_url, polling_time):
 def run_test(tosca_template, orchestrator_url, inputs, polling_time, additional_tests=False):
   # Start PaaS test deployment
   dep = Deployment(tosca_template, inputs, orchestrator_url, None)
-  dep_uuid = dep.get_uuid()
-  dep_status = dep.get_status()
+  
+  try:
+    dep_uuid = dep.get_uuid()
+    dep_status = dep.get_status()
 
-  # Update deployment status
-  time.sleep(polling_time)
-  dep_status = dep.get_status()
-
-  count = 0
-  while(dep_status == 'CREATE_IN_PROGRESS'):
+    # Update deployment status
     time.sleep(polling_time)
     dep_status = dep.get_status()
-    count = count + 1
-    logger.debug('[Deployment] Update n. %s, uuid: %s, status: %s.' % (count, dep_uuid, dep_status))
-  logger.debug('Deployment uuid %s finished with status: %s' % (dep_uuid, dep_status))
 
-  # Record Create status. If CREATE_FAILED the job will file at the end.
-  create_status_record = dep_status
+    count = 0
+    while(dep_status == 'CREATE_IN_PROGRESS'):
+      time.sleep(polling_time)
+      dep_status = dep.get_status()
+      count = count + 1
+      logger.debug('[Deployment] Update n. %s, uuid: %s, status: %s.' % (count, dep_uuid, dep_status))
+    logger.debug('Deployment uuid %s finished with status: %s' % (dep_uuid, dep_status))
 
-  # wait some secs.
-  #time.sleep(10)
+    # Record Create status. If CREATE_FAILED the job will file at the end.
+    create_status_record = dep_status
 
-  # Print output
-  create_out, create_err, create_status = dep.depshow()
-  logger.debug('Deployment details - stdout: ' + create_out)
-  logger.debug('Deployment details - stderr: ' + create_err)
+    # wait some secs.
+    #time.sleep(10)
 
-  # Get tests mapper, mapping tests to input files
-  test_mapper = load_test_mapper('./testing/laniakea_dev_test_mapper.yaml')
+    # Print output
+    create_out, create_err, create_status = dep.depshow()
+    logger.debug('Deployment details - stdout: ' + create_out)
+    logger.debug('Deployment details - stderr: ' + create_err)
 
-
-  #####################################################################################
-  ## Run tests.
-  ## Implement all tests here.
-  #####################################################################################
-
-  if create_status_record == "CREATE_COMPLETE" and type(additional_tests) is list:
-  
-    for test in additional_tests:
-      if test=='endpoint':
-        endpoint_status = Tests.check_endpoint(dep.get_uuid())
-        if not endpoint_status:
-          logger.debug('The deployment is in CREATE_COMPLETE, but it is not reachable. Please check Orchestrator logs.')
-          create_status_record = 'CREATE_FAILED'
-          logger.debug('The create_status_record is set to ' + create_status_record)
-      
-      elif test=='ftp':
-        logger.debug(f'Running {test} test...')
-        ftp_file_path = test_mapper['test'][test]['file_path']
-        ftp_user = test_mapper['test'][test]['user']
-        ftp_password = test_mapper['test'][test]['password']
-        host = dep.get_endpoint().rstrip('/').rstrip('/galaxy').lstrip('http://')
-        Tests.test_ftp(host=host, file_path=ftp_file_path, user=ftp_user, password=ftp_password)
-
-      elif test in test_mapper['test'].keys():
-        logger.debug(f'Running {test} test...')
-        Tests.run_galaxy_tools(dep.get_endpoint(),api_key='not_very_secret_api_key',wf_file=test_mapper['test'][test]['wf_file'],input_file=test_mapper['test'][test]['input_file'])
-
-      else:
-        logger.debug(f'Test {test} is missing in laniakea_dev_test_mapper.yaml')
+    # Get tests mapper, mapping tests to input files
+    test_mapper = load_test_mapper('./testing/laniakea_dev_test_mapper.yaml')
 
 
-  #####################################################################################
-  ## End tests.
-  #####################################################################################
+    #####################################################################################
+    ## Run tests.
+    ## Implement all tests here.
+    #####################################################################################
 
-  ## Take screenshot of galaxy instance
-  Tests.screenshot_galaxy(geckodriver_path='./geckodriver', endpoint=dep.get_endpoint(), username='admin@server.com', password='galaxy_admin_password', output_path='./galaxy_screenshot.png')
+    if create_status_record == "CREATE_COMPLETE" and type(additional_tests) is list:
+    
+      for test in additional_tests:
+        if test=='endpoint':
+          endpoint_status = Tests.check_endpoint(dep.get_uuid())
+          if not endpoint_status:
+            logger.debug('The deployment is in CREATE_COMPLETE, but it is not reachable. Please check Orchestrator logs.')
+            create_status_record = 'CREATE_FAILED'
+            logger.debug('The create_status_record is set to ' + create_status_record)
+        
+        elif test=='ftp':
+          logger.debug(f'Running {test} test...')
+          ftp_file_path = test_mapper['test'][test]['file_path']
+          ftp_user = test_mapper['test'][test]['user']
+          ftp_password = test_mapper['test'][test]['password']
+          host = dep.get_endpoint().rstrip('/').rstrip('/galaxy').lstrip('http://')
+          Tests.test_ftp(host=host, file_path=ftp_file_path, user=ftp_user, password=ftp_password)
 
-  ## Always delete deployment
-  delete_out, delete_err, delete_status = dep.depdel()
-  dep_status = dep.get_status()
-  logger.debug('Deployment delete - stdout: ' + delete_out)
-  logger.debug('Deployment delete - stderr: ' + delete_err)
-  logger.debug('Deployment delete - status: ' + dep_status)
+        elif test in test_mapper['test'].keys():
+          logger.debug(f'Running {test} test...')
+          Tests.run_galaxy_tools(dep.get_endpoint(),api_key='not_very_secret_api_key',wf_file=test_mapper['test'][test]['wf_file'],input_file=test_mapper['test'][test]['input_file'])
 
-  ## Ensure deletion
-  ## This should get rid also of concurrency.
-  del_count = 1 # delete already triggered 1 time
-  pattern='successfully triggered'
-  match = re.search(pattern, str(delete_out))
-  while(match is None):
-    logger.debug('Deployment uuid %s delete failed. Wait for 2 minutes and retry.' % dep_uuid)
-    time.sleep(120)
-    del_count = del_count + 1
-    logger.debug('Delete uuid %s retry n. %s.' % (dep_uuid, del_count))
+        else:
+          logger.debug(f'Test {test} is missing in laniakea_dev_test_mapper.yaml')
+
+
+    #####################################################################################
+    ## End tests.
+    #####################################################################################
+
+    ## Take screenshot of galaxy instance
+    Tests.screenshot_galaxy(geckodriver_path='./geckodriver', endpoint=dep.get_endpoint(), username='admin@server.com', password='galaxy_admin_password', output_path='./galaxy_screenshot.png')
+
+  finally:
+    ## Always delete deployment
     delete_out, delete_err, delete_status = dep.depdel()
-    match = re.search(pattern, str(delete_out))
-  logger.debug('Deployment uuid %s delete: %s' % (dep_uuid, delete_out))
-
-  # reset counter
-  count = 0
-  while(dep_status == 'DELETE_IN_PROGRESS'):
-    time.sleep(60)
     dep_status = dep.get_status()
+    logger.debug('Deployment delete - stdout: ' + delete_out)
+    logger.debug('Deployment delete - stderr: ' + delete_err)
+    logger.debug('Deployment delete - status: ' + dep_status)
+
+    ## Ensure deletion
+    ## This should get rid also of concurrency.
+    del_count = 1 # delete already triggered 1 time
+    pattern='successfully triggered'
+    match = re.search(pattern, str(delete_out))
+    while(match is None):
+      logger.debug('Deployment uuid %s delete failed. Wait for 2 minutes and retry.' % dep_uuid)
+      time.sleep(120)
+      del_count = del_count + 1
+      logger.debug('Delete uuid %s retry n. %s.' % (dep_uuid, del_count))
+      delete_out, delete_err, delete_status = dep.depdel()
+      match = re.search(pattern, str(delete_out))
+    logger.debug('Deployment uuid %s delete: %s' % (dep_uuid, delete_out))
+
+    # reset counter
+    count = 0
+    while(dep_status == 'DELETE_IN_PROGRESS'):
+      time.sleep(60)
+      dep_status = dep.get_status()
+      logger.debug(dep_status)
+      count = count + 1
+      logger.debug('[Deletion] Update n. %s, uuid %s, status: %s.' % (count, dep_uuid, dep_status))
+    logger.debug('Delete finished.')
+
+    # Record Delete status. If DELETE_FAILED the job will file at the end.
     logger.debug(dep_status)
-    count = count + 1
-    logger.debug('[Deletion] Update n. %s, uuid %s, status: %s.' % (count, dep_uuid, dep_status))
-  logger.debug('Delete finished.')
+    delete_status_record = dep_status
 
-  # Record Delete status. If DELETE_FAILED the job will file at the end.
-  logger.debug(dep_status)
-  delete_status_record = dep_status
-
-  # Notify delete failed.
-  if(create_status_record == 'CREATE_FAILED'):
-    logger.debug('Deployment ' + dep_uuid + ' creation failed.')
-    current_status = dep.get_status()
-    logger.debug('Current status ' + current_status)
-    return False
-  if(delete_status_record == 'DELETE_FAILED'):
-    logger.debug('Deployment ' + dep_uuid + ' delete failed.')
-    current_status = dep.get_status()
-    logger.debug('Current status ' + current_status)
-    return False
-  else:
-    logger.debug('Deployment correctly performed. Check logs for further details.')
-    return True
+    # Notify delete failed.
+    if(create_status_record == 'CREATE_FAILED'):
+      logger.debug('Deployment ' + dep_uuid + ' creation failed.')
+      current_status = dep.get_status()
+      logger.debug('Current status ' + current_status)
+      return False
+    if(delete_status_record == 'DELETE_FAILED'):
+      logger.debug('Deployment ' + dep_uuid + ' delete failed.')
+      current_status = dep.get_status()
+      logger.debug('Current status ' + current_status)
+      return False
+    else:
+      logger.debug('Deployment correctly performed. Check logs for further details.')
+      return True
 
 #______________________________________
 def indigo_paas_checker():
