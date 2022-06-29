@@ -30,7 +30,7 @@ pipeline {
 			withCredentials([string(credentialsId: 'telegram_bot_API_token', variable: 'API_TOKEN')]) {
 				sh '''
 				if [-f /tmp/galaxy_screenshot.png]; then
-				    curl https://api.telegram.org/bot$API_TOKEN/sendphoto -F "chat_id=-667232678" -F "photo=@/tmp/galaxy_screenshot.png" -F "caption=${JOB_NAME}: SUCCESS!! executed on ${NODE_NAME} more info at ${BUILD_URL}"'
+				    curl https://api.telegram.org/bot$API_TOKEN/sendphoto -F "chat_id=-667232678" -F "photo=@/tmp/galaxy_screenshot.png" -F "caption=${JOB_NAME}: SUCCESS!! executed on ${NODE_NAME} more info at ${BUILD_URL}"
 				else
 				    curl -s -X POST https://api.telegram.org/bot$API_TOKEN/sendMessage -d chat_id=-667232678 -d text="${JOB_NAME}: SUCCESS!! executed on ${NODE_NAME} more info at ${BUILD_URL}"
 				fi
