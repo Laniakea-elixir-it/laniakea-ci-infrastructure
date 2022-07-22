@@ -14,7 +14,7 @@ test_user:
 test:
     simple_node:
         name: "simple-node"
-        enabled: no
+        enabled: yes
         run_more: no # this tosca template doesn't produce a valid endpoint to check with requests.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/simple-node.yml"
         tosca_template_path: "/tmp/laniakea_dev/simple-node.yml"
@@ -53,7 +53,7 @@ test:
 
     galaxy_docker:
         name: "galaxy-docker"
-        enabled: yes
+        enabled: no
         run_more: ['endpoint', 'galaxy_tools']
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/galaxy-docker.yaml"
         tosca_template_path: "/tmp/laniakea_dev/galaxy-docker.yml"
