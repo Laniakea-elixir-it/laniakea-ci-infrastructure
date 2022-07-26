@@ -24,7 +24,7 @@ galaxy_root: /home/galaxy/galaxy
 galaxy_server_dir: '{{ galaxy_root }}/server' 
 galaxy_mutable_config_dir: '{{ galaxy_root }}/config' 
 galaxy_config_file: '{{ galaxy_mutable_config_dir }}/galaxy.yml' 
-galaxy_commit_id: release_20.05
+galaxy_commit_id: release_21.09
 galaxy_config_style: yaml
 galaxy_config:
   galaxy:
@@ -87,7 +87,8 @@ nginx_conf_http:
   client_max_body_size: 1g
 nginx_conf_user: galaxy
 nginx_conf_group: galaxy
-enable_galaxy_ie: true
+enable_galaxy_ie: false
+enable_interactive_tools: true
 database_path: '{{ export_dir }}/tool_deps/database'
 ##miniconda test
 miniconda_prefix: '{{ export_dir }}/tool_deps/_conda'

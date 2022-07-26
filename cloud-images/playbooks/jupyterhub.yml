@@ -1,0 +1,25 @@
+---
+- hosts: default
+  roles:
+    - role: laniakea.jupyterhub
+      become: yes
+
+  post_tasks:
+    - name: Backup export_dir
+      archive:
+        path: "/export"
+        dest: /opt/export_dir.tar.gz
+      become: yes
+
+    - name: Remove export_dir
+      file:
+        path: "/export"
+        state: absent
+      become: yes
+
+    - name: Stop jupyterhub
+      systemd:
+        state: stopped
+        enabled: no
+        name: jupyterhub.service
+      become: yes

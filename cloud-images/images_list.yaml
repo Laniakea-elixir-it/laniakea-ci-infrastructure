@@ -8,8 +8,8 @@ reports_repository: 'git@github.com:Laniakea-elixir-it/laniakea-images.git'
 images:
     galaxy-express:
         name: galaxy-express
-        version: v3.0.4
-        build: no
+        version: v4.0.0
+        build: yes
         packer:
             ssh_username: centos
             source_image: "a7294ef8-2e29-4062-9a2b-5b3bab00288a" # centos 7 2003
@@ -48,7 +48,7 @@ images:
     rstudio-seraut:
         name: rstudio-seurat
         version: v1.0.3
-        build: yes
+        build: no
         packer:
             ssh_username: centos
             source_image: "a7294ef8-2e29-4062-9a2b-5b3bab00288a" # centos 7 2003
@@ -57,3 +57,16 @@ images:
             network_id: "fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
             playbook_file: "rstudio_seurat.yml"
             ansible_galaxy_file: "rstudio.yml"
+
+    jupyterhub:
+        name: jupyterhub
+        version: v1.0.3
+        build: no
+        packer:
+            ssh_username: ubuntu
+            source_image: "de026237-0716-4f64-9913-2a1b71cbe669" # ubuntu 20.04
+            flavor: medium
+            volume_size: "10"
+            network_id: "fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
+            playbook_file: "jupyterhub.yml"
+            ansible_galaxy_file: "jupyterhub.yml"
