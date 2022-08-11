@@ -9,4 +9,4 @@ Laniakea CI Infrastructure for image and docker creation and testing.
 
 SSL certificate test
 --------------------
-Orchestrator dev: [![Build Status](https://build-usegalaxy-it.cloud.ba.infn.it:4000/jenkins/buildStatus/icon?job=orchestrator+dev+ssl+cert+test)](https://build-usegalaxy-it.cloud.ba.infn.it:4000/jenkins/view/check%20ssl/job/orchestrator%20dev%20ssl%20cert%20test/)
+Orchestrator dev: [![Build Status](http://build-usegalaxy-it.cloud.ba.infn.it:4000/jenkins/buildStatus/icon?job=orchestrator+dev+ssl+cert+test)](http://build-usegalaxy-it.cloud.ba.infn.it:4000/jenkins/view/check%20ssl/job/orchestrator%20dev%20ssl%20cert%20test/)
