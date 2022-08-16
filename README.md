@@ -35,5 +35,5 @@ SSL certificate test
 | Orchestrator dev | [![Build Status](http://build-usegalaxy-it.cloud.ba.infn.it:4000/jenkins/buildStatus/icon?job=orchestrator+dev+ssl+cert+check)](http://build-usegalaxy-it.cloud.ba.infn.it:4000/jenkins/view/check%20ssl/job/orchestrator%20dev%20ssl%20cert%20check/) |
 | IM dev | [![Build Status](https://build-usegalaxy-it.cloud.ba.infn.it/jenkins/buildStatus/icon?job=IM+dev+ssl+cert+check)](https://build-usegalaxy-it.cloud.ba.infn.it/jenkins/view/check%20ssl/job/IM%20dev%20ssl%20cert%20check/) |
 | Proxy dev | TBU |
-| SLAT dev | TBU |
+| SLAT dev | [![Build Status](https://build-usegalaxy-it.cloud.ba.infn.it/jenkins/buildStatus/icon?job=slat+test+ssl+cert+check)](https://build-usegalaxy-it.cloud.ba.infn.it/jenkins/view/check%20ssl/job/slat%20test%20ssl%20cert%20check/) |
 | Dashboard dev | TBU |
