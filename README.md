@@ -18,3 +18,6 @@ SSL certificate test
 | --- | --- |
 | IAM ReCaS dev | [![Build Status](https://build-usegalaxy-it.cloud.ba.infn.it/jenkins/buildStatus/icon?job=iam+recas+test+ssl+cert+check)](https://build-usegalaxy-it.cloud.ba.infn.it/jenkins/view/check%20ssl/job/iam%20recas%20test%20ssl%20cert%20check/) |
 | Orchestrator dev | [![Build Status](http://build-usegalaxy-it.cloud.ba.infn.it:4000/jenkins/buildStatus/icon?job=orchestrator+dev+ssl+cert+check)](http://build-usegalaxy-it.cloud.ba.infn.it:4000/jenkins/view/check%20ssl/job/orchestrator%20dev%20ssl%20cert%20check/) |
+| IM dev | TBU |
+| Proxy dev | TBU |
+| Dashboard dev | TBU |
