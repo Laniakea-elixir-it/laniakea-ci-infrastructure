@@ -10,7 +10,22 @@ Laniakea CI Infrastructure for image and docker creation and testing.
 SSL certificate test
 --------------------
 
+### Laniakea services
+
+| Service | Status |
+| --- | --- |
+| Jenkins | TBU |
+
 ### Production PaaS (Laniakea@ReCaS)
+
+| Service | Status |
+| --- | --- |
+| IAM ReCaS dev | TBU |
+| Orchestrator dev | TBU |
+| IM dev | TBU |
+| Proxy dev | TBU |
+| SLAT dev | TBU |
+| Dashboard dev | TBU |
 
 ### Development PaaS
 
@@ -20,4 +35,5 @@ SSL certificate test
 | Orchestrator dev | [![Build Status](http://build-usegalaxy-it.cloud.ba.infn.it:4000/jenkins/buildStatus/icon?job=orchestrator+dev+ssl+cert+check)](http://build-usegalaxy-it.cloud.ba.infn.it:4000/jenkins/view/check%20ssl/job/orchestrator%20dev%20ssl%20cert%20check/) |
 | IM dev | TBU |
 | Proxy dev | TBU |
+| SLAT dev | TBU |
 | Dashboard dev | TBU |
