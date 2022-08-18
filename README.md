@@ -14,18 +14,18 @@ SSL certificate test
 
 | Service | Status |
 | --- | --- |
-| Jenkins | TBU |
+| Jenkins | [![Build Status](https://build-usegalaxy-it.cloud.ba.infn.it/jenkins/buildStatus/icon?job=Jenkins+ssl+cert+check)](https://build-usegalaxy-it.cloud.ba.infn.it/jenkins/view/check%20ssl/job/Jenkins%20ssl%20cert%20check/) |
 
 ### Production PaaS (Laniakea@ReCaS)
 
 | Service | Status |
 | --- | --- |
-| IAM ReCaS dev | TBU |
-| Orchestrator dev | TBU |
-| IM dev | TBU |
-| Proxy dev | TBU |
-| SLAT dev | TBU |
-| Dashboard dev | TBU |
+| IAM ReCaS | TBU |
+| Orchestrator | TBU |
+| IM | TBU |
+| Proxy | TBU |
+| SLAM | TBU |
+| Dashboard | TBU |
 
 ### Development PaaS
 
