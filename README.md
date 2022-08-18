@@ -25,9 +25,9 @@ SSL certificate test
 | Service | Status |
 | --- | --- |
 | Orchestrator | [![Build Status](https://build-usegalaxy-it.cloud.ba.infn.it/jenkins/buildStatus/icon?job=orchestrator+Laniakea_at_ReCaS+ssl+cert+test)](https://build-usegalaxy-it.cloud.ba.infn.it/jenkins/view/check%20ssl/job/orchestrator%20Laniakea_at_ReCaS%20ssl%20cert%20test/) |
-| IM | TBU |
+| IM | N/A |
 | Proxy | N/A |
-| SLAM | N/A) |
+| SLAM | N/A |
 | Dashboard | [![Build Status](https://build-usegalaxy-it.cloud.ba.infn.it/jenkins/buildStatus/icon?job=Dashboard+Laniakea_at_ReCaS+ssl+cert+test)](https://build-usegalaxy-it.cloud.ba.infn.it/jenkins/view/check%20ssl/job/Dashboard%20Laniakea_at_ReCaS%20ssl%20cert%20test/) |
 
 ### Development PaaS
