@@ -21,7 +21,7 @@ test:
 
     galaxy:
         name: "galaxy-minimal"
-        enabled: yes
+        enabled: no 
         run_more: ['endpoint', 'ftp','galaxy_tools_FQC','galaxy_tools_mapping','screenshot']
         delete: always # always, no, on_success, on_error # TODO add the possibility to not delete the deployment.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/galaxy.yaml"
@@ -34,6 +34,18 @@ test:
             version: "release_21.09"
             admin_api_key: not_very_secret_api_key
             users: []
+
+    galaxy_express:
+        name: "galaxy-express"
+        enabled: yes
+        run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'screenshot']
+        delete: always
+        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/galaxy-express.yaml"
+        tosca_template_path: "/tmp/galaxy-express.yml"
+        inputs:
+            instance_flavor: "large"
+            storage_size: "50 GB"
+            version: "release_21.09" 
 
     irida:
         name: "irida"
