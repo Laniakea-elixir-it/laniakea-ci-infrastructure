@@ -45,7 +45,9 @@ test:
         inputs:
             instance_flavor: "large"
             storage_size: "50 GB"
-            version: "release_21.09" 
+            version: "release_21.09"
+            admin_api_key: not_very_secret_api_key
+            users: []
 
     irida:
         name: "irida"
