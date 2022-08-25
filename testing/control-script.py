@@ -96,7 +96,15 @@ def run_test_list(test_list, orchestrator_url, polling_time):
 
       # Run test
       logger.debug('Testing ' + name)
-      test_exit_status = run_test(tosca_template_path, orchestrator_url, inputs, polling_time, run_more)
+      # Test deployment
+      dep, create_status_record = test_deployment(tosca_template, orchestrator_url, inputs, polling_time)
+      # Run additional tests
+      try:
+        if create_status_record == "CREATE_COMPLETE" and type(run_more) is list:
+          run_additional_tests(dep, run_more)
+      # Delete deployment even if tests failed 
+      finally:
+          test_exit_status = end_test(dep, create_status_record)
       if test_exit_status:
         summary_output[name] = "SUCCESS"
       elif not test_exit_status:
@@ -106,11 +114,12 @@ def run_test_list(test_list, orchestrator_url, polling_time):
   logger.debug(summary_output)
   return summary_output
 
+
 #______________________________________
-def run_test(tosca_template, orchestrator_url, inputs, polling_time, additional_tests=False):
+def test_deployment(tosca_template, orchestrator_url, inputs, polling_time):
   # Start PaaS test deployment
   dep = Deployment(tosca_template, inputs, orchestrator_url, None)
-  
+
   dep_uuid = dep.get_uuid()
   dep_status = dep.get_status()
 
@@ -137,41 +146,47 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, additional_
   logger.debug('Deployment details - stdout: ' + create_out)
   logger.debug('Deployment details - stderr: ' + create_err)
 
-  # Get tests mapper, mapping tests to input files
-  test_mapper = load_test_mapper('./testing/laniakea_dev_test_mapper.yaml')
+  return dep, create_status_record
 
+
+#______________________________________
+def run_additional_tests(dep, additional_tests):
 
   #####################################################################################
   ## Run tests.
   ## To add tests, see the Test.py module and laniakea_dev_test_mapper
   #####################################################################################
 
-  if create_status_record == "CREATE_COMPLETE" and type(additional_tests) is list:
-  
-    for test in additional_tests:
+  # Get tests mapper, mapping tests to input files
+  test_mapper = load_test_mapper('./testing/laniakea_dev_test_mapper.yaml')
 
-      if test in test_mapper['test']:
+  for test in additional_tests:
 
-        logger.debug(f'Running {test} test...')
-        test_vars = test_mapper['test'][test]
+    if test in test_mapper['test']:
 
-        # Define general test name to get its function from Test module: tests for Galaxy tools all share the same function and start with 'galaxy_tools'
-        test_name = 'galaxy_tools' if test.startswith('galaxy_tools') else test
+      logger.debug(f'Running {test} test...')
+      test_vars = test_mapper['test'][test]
 
-        # Get function corresponding to the test
-        test_function = getattr(Tests, test_name)
+      # Define general test name to get its function from Test module: tests for Galaxy tools all share the same function and start with 'galaxy_tools'
+      test_name = 'galaxy_tools' if test.startswith('galaxy_tools') else test
 
-        # Run test with variables from the test mapper
-        test_function(dep, test_vars)
+      # Get function corresponding to the test
+      test_function = getattr(Tests, test_name)
 
-      else:
+      # Run test with variables from the test mapper
+      test_function(dep, test_vars)
 
-        logger.debug(f'Test {test} is missing in laniakea_dev_test_mapper.yaml')
+    else:
+
+      logger.debug(f'Test {test} is missing in laniakea_dev_test_mapper.yaml')
 
 
+#______________________________________
+def end_test(dep, create_status_record):
   #####################################################################################
   ## End tests.
   #####################################################################################
+  dep_uuid = dep.get_uuid()
 
   ## Always delete deployment
   delete_out, delete_err, delete_status = dep.depdel()
@@ -193,8 +208,7 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, additional_
     delete_out, delete_err, delete_status = dep.depdel()
     match = re.search(pattern, str(delete_out))
   logger.debug('Deployment uuid %s delete: %s' % (dep_uuid, delete_out))
-
-  # reset counter
+    # reset counter
   count = 0
   while(dep_status == 'DELETE_IN_PROGRESS'):
     time.sleep(60)
@@ -203,7 +217,7 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, additional_
     count = count + 1
     logger.debug('[Deletion] Update n. %s, uuid %s, status: %s.' % (count, dep_uuid, dep_status))
   logger.debug('Delete finished.')
-
+ 
   # Record Delete status. If DELETE_FAILED the job will file at the end.
   logger.debug(dep_status)
   delete_status_record = dep_status
