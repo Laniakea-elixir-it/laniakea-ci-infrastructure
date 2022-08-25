@@ -1,3 +1,12 @@
+"""
+This module contains functions that execute tests on deployments. When you want to add a test, add it under the
+test section of laniakea_dev_test_mapper.yaml with the variables needed by the test.
+The test function must then be added with the same name here, with two arguments: deployment and test_vars.
+The var deployment will correspond to the Deployment object instantiated by control-script.py and can be used
+to retrieve information on the deployment, such as its endpoint.
+The var test_vars will correspond to a dictionary containing the test variables specified in the laniakea_dev_test_mapper.yaml
+"""
+
 import requests
 
 from LogFacility import logger
@@ -8,6 +17,7 @@ import os
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from urllib.parse import urlparse
 
 
 #______________________________________
@@ -23,6 +33,7 @@ def check_orchestrator_status(path, url):
     logger.debug(stderr)
 
     return status
+
 
 
 #______________________________________
@@ -51,13 +62,21 @@ def check_endpoint(uuid):
       logger.debug(f"{endpoint}: is Not reachable \nErr: {e}")
       return False
 
+def endpoint(deployment, test_vars=None):
+    endpoint_status = check_endpoint(deployment.get_uuid())
+    if not endpoint_status:
+      logger.debug('The deployment is in CREATE_COMPLETE, but it is not reachable. Please check Orchestrator logs.')
+      create_status_record = 'CREATE_FAILED'
+      logger.debug('The create_status_record is set to ' + create_status_record)
 
 #______________________________________
-def run_galaxy_tools(endpoint, api_key, wf_file, input_file):
+def galaxy_tools(deployment, test_vars, api_key='not_very_secret_api_key'):
     import bioblend_test.install_tools_from_wf
     import bioblend_test.run_workflow
-    test_name = wf_file[wf_file.rfind('/')+1:] 
-    endpoint = endpoint + '/'
+    wf_file = test_vars['wf_file']
+    input_file = test_vars['input_file']
+    test_name = wf_file[wf_file.rfind('/')+1:]
+    endpoint = deployment.get_endpoint() + '/'
     logger.debug(f"Testing {test_name} on {endpoint} with api key {api_key}")
     logger.debug(f"Installing tools for workflow {test_name}")
     bioblend_test.install_tools_from_wf.install_tools(endpoint,api_key,wf_file) 
@@ -82,6 +101,13 @@ def test_ftp(host, file_path, user, password):
     ftp_upload(test=test, file_path=file_path)
     logger.debug(f"File successfully uploaded with FTP")
 
+def ftp(deployment, test_vars):
+    logger.debug(f'Running ftp test...')
+    ftp_file_path = test_vars['file_path']
+    ftp_user = test_vars['user']
+    ftp_password = test_vars['password']
+    host = urlparse(deployment.get_endpoint()).netloc
+    test_ftp(host=host, file_path=ftp_file_path, user=ftp_user, password=ftp_password)
 
 #______________________________________
 def start_firefox_driver(geckodriver_path):
@@ -117,3 +143,11 @@ def screenshot_galaxy(geckodriver_path, endpoint, username, password, output_pat
     time.sleep(5)
     driver.get_screenshot_as_file(output_path)
     driver.close()
+
+def screenshot(deployment, test_vars):
+    logger.debug(f'Running screenshot test...')
+    geckodriver_path = test_vars['geckodriver_path']
+    username = test_vars['username']
+    password = test_vars['password']
+    screenshot_output_path = test_vars['output_path']
+    screenshot_galaxy(geckodriver_path, deployment.get_endpoint(), username, password, screenshot_output_path)

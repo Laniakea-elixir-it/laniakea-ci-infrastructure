@@ -143,40 +143,29 @@ def run_test(tosca_template, orchestrator_url, inputs, polling_time, additional_
 
   #####################################################################################
   ## Run tests.
-  ## Implement all tests here.
+  ## To add tests, see the Test.py module and laniakea_dev_test_mapper
   #####################################################################################
 
   if create_status_record == "CREATE_COMPLETE" and type(additional_tests) is list:
   
     for test in additional_tests:
-      if test=='endpoint':
-        endpoint_status = Tests.check_endpoint(dep.get_uuid())
-        if not endpoint_status:
-          logger.debug('The deployment is in CREATE_COMPLETE, but it is not reachable. Please check Orchestrator logs.')
-          create_status_record = 'CREATE_FAILED'
-          logger.debug('The create_status_record is set to ' + create_status_record)
-      
-      elif test=='ftp':
-        logger.debug(f'Running {test} test...')
-        ftp_file_path = test_mapper['test'][test]['file_path']
-        ftp_user = test_mapper['test'][test]['user']
-        ftp_password = test_mapper['test'][test]['password']
-        host = dep.get_endpoint().rstrip('/').rstrip('/galaxy').lstrip('http://')
-        Tests.test_ftp(host=host, file_path=ftp_file_path, user=ftp_user, password=ftp_password)
 
-      elif test in test_mapper['test'].keys():
-        logger.debug(f'Running {test} test...')
-        Tests.run_galaxy_tools(dep.get_endpoint(),api_key='not_very_secret_api_key',wf_file=test_mapper['test'][test]['wf_file'],input_file=test_mapper['test'][test]['input_file'])
+      if test in test_mapper['test']:
 
-      elif test=='screenshot':
         logger.debug(f'Running {test} test...')
-        geckodriver_path = test_mapper['test'][test]['geckodriver_path']
-        username = test_mapper['test'][test]['username']
-        password = test_mapper['test'][test]['password']
-        screenshot_output_path = test_mapper['test'][test]['output_path']
-        Tests.screenshot_galaxy(geckodriver_path, dep.get_endpoint(), username, password, screenshot_output_path)
+        test_vars = test_mapper['test'][test]
+
+        # Define general test name to get its function from Test module: tests for Galaxy tools all share the same function and start with 'galaxy_tools'
+        test_name = 'galaxy_tools' if test.startswith('galaxy_tools') else test
+
+        # Get function corresponding to the test
+        test_function = getattr(Tests, test_name)
+
+        # Run test with variables from the test mapper
+        test_function(dep, test_vars)
 
       else:
+
         logger.debug(f'Test {test} is missing in laniakea_dev_test_mapper.yaml')
 
 

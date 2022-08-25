@@ -1,4 +1,8 @@
+# This file maps to each test its variables. To add a test, add it under 'test' and specify its variables.
+# The test function to be executed must then be added with the same name specified here in the Tests.py module.
+# Tests that run galaxy workflows using the bioblend script must start with 'galaxy_tools'.
 test:
+    endpoint:
     ftp:
         file_path: testing/ftp_files/input_mate1.fastq
         user: admin@admin.com
