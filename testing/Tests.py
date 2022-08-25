@@ -137,10 +137,21 @@ def galaxy_login(driver, endpoint, username, password):
     login_button.click()
     logger.debug('Logged into galaxy')
 
+def find_unique_path(path):
+    filename, extension = os.path.splitext(path)
+    counter = 1
+
+    while os.path.exists(path):
+        path = filename + str(counter) + extension
+        counter += 1
+
+    return path
+
 def screenshot_galaxy(geckodriver_path, endpoint, username, password, output_path):
     driver = start_firefox_driver(geckodriver_path)
     galaxy_login(driver, endpoint, username, password)
     time.sleep(5)
+    output_path = find_unique_path(output_path)
     driver.get_screenshot_as_file(output_path)
     driver.close()
 
