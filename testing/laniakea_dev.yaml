@@ -34,6 +34,7 @@ test:
             version: "release_21.09"
             admin_api_key: not_very_secret_api_key
             users: []
+            instance_description: "Galaxy Live"
 
     galaxy_express:
         name: "galaxy-express"
@@ -48,6 +49,7 @@ test:
             version: "release_21.09"
             admin_api_key: not_very_secret_api_key
             users: []
+            instance_description: "Galaxy Express"
 
     irida:
         name: "irida"
