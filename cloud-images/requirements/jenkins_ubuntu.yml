@@ -1,0 +1,6 @@
+- src: geerlingguy.ansible
+
+- src: geerlingguy.docker
+  version: 4.2.2
+
+- src: geerlingguy.packer

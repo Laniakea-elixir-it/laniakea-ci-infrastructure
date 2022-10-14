@@ -1,0 +1,12 @@
+---
+- hosts: default
+  roles:
+    - geerlingguy.ansible
+    - geerlingguy.docker
+    - geerlingguy.packer
+  tasks:
+    - name: 'Inject laniakea-robot ssh public key - root'
+      authorized_key:
+        user: 'root'
+        key: '{{ laniakea_robot_key_pub }}'
+      ignore_errors: true
