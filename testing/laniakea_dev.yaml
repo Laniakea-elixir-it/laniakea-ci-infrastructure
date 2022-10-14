@@ -11,13 +11,13 @@ test_user:
 
 ## All fields are mandatory.
 test:
-  simple_node:
-      name: "simple-node"
-      enabled: yes
-      run_more: no # this tosca template doesn't produce a valid endpoint to check with requests.
-      tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/simple-node.yml"
-      tosca_template_path: "/tmp/laniakea_dev/simple-node.yml"
-      inputs:
+    simple_node:
+        name: "simple-node"
+        enabled: yes
+        run_more: no # this tosca template doesn't produce a valid endpoint to check with requests.
+        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/simple-node.yml"
+        tosca_template_path: "/tmp/laniakea_dev/simple-node.yml"
+        inputs:
 
     galaxy:
         name: "galaxy-minimal"
