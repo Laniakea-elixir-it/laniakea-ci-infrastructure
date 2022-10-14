@@ -11,17 +11,17 @@ test_user:
 
 ## All fields are mandatory.
 test:
-  #    simple_node:
-  #        name: "simple-node"
-  #        enabled: yes
-  #        run_more: no # this tosca template doesn't produce a valid endpoint to check with requests.
-  #        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/simple-node.yml"
-  #        tosca_template_path: "/tmp/laniakea_dev/simple-node.yml"
-  #        inputs:
+  simple_node:
+      name: "simple-node"
+      enabled: yes
+      run_more: no # this tosca template doesn't produce a valid endpoint to check with requests.
+      tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/simple-node.yml"
+      tosca_template_path: "/tmp/laniakea_dev/simple-node.yml"
+      inputs:
 
     galaxy:
         name: "galaxy-minimal"
-        enabled: yes 
+        enabled: no
         run_more: ['endpoint', 'ftp','galaxy_tools_FQC','galaxy_tools_mapping','screenshot']
         delete: always # always, no, on_success, on_error # TODO add the possibility to not delete the deployment.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/galaxy.yaml"
@@ -38,7 +38,7 @@ test:
 
     galaxy_express:
         name: "galaxy-express"
-        enabled: yes
+        enabled: no
         run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'screenshot']
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/galaxy-express.yaml"
