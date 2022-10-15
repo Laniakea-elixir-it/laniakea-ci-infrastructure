@@ -38,7 +38,7 @@ test:
 
     galaxy_express:
         name: "galaxy-express"
-        enabled: yes
+        enabled: no
         run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot']
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/galaxy-express.yaml"
@@ -50,6 +50,18 @@ test:
             admin_api_key: not_very_secret_api_key
             users: []
             instance_description: "Galaxy Express"
+
+    rstudio_express:
+        name: "rstudio-express"
+        enabled: yes
+        run_more: ['endpoint', 'screenshot']
+        delete: always
+        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/rstudio-express.yaml"
+        tosca_template_path: "/tmp/laniakea_dev/rstudio-express.yaml"
+        inputs:
+            instance_flavor: "large"
+            storage_size: "50 GB"
+            users: []
 
     irida:
         name: "irida"
