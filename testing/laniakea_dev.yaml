@@ -39,7 +39,7 @@ test:
     galaxy_express:
         name: "galaxy-express"
         enabled: no
-        run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot']
+        run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot'] # Screenshot test available only for galaxt, since the credentials are required.
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/galaxy-express.yaml"
         tosca_template_path: "/tmp/galaxy-express.yml"
@@ -54,7 +54,7 @@ test:
     rstudio_express:
         name: "rstudio-express"
         enabled: yes
-        run_more: ['endpoint', 'screenshot']
+        run_more: ['endpoint'] # Screenshot test available only for galaxt, since the credentials are required. 
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/rstudio-express.yaml"
         tosca_template_path: "/tmp/laniakea_dev/rstudio-express.yaml"
