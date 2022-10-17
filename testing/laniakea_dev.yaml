@@ -51,9 +51,11 @@ test:
             users: []
             instance_description: "Galaxy Express"
 
+    #______________________________
+    # RStudio
     rstudio_minimal:
         name: "rstudio-minimal"
-        enabled: yes
+        enabled: no
         run_more: ['endpoint'] # Screenshot test available only for galaxt, since the credentials are required. 
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/rstudio.yaml"
@@ -75,7 +77,35 @@ test:
             storage_size: "50 GB"
             users: []
 
-    ### TODO check it again
+    #______________________________
+    # JupyterHub
+    jupyterhub_minimal:
+        name: "jupyterhub-minimal"
+        enabled: yes
+        run_more: ['endpoint'] # Screenshot test available only for galaxt, since the credentials are required. 
+        delete: always
+        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/jupyterhub,yml"
+        tosca_template_path: "/tmp/laniakea_dev/jupyterhub.yml"
+        inputs:
+            instance_flavor: "large"
+            storage_size: "50 GB"
+            users: []
+
+    jupyterhub_express:
+        name: "jupyterhub-express"
+        enabled: yes
+        run_more: ['endpoint'] # Screenshot test available only for galaxt, since the credentials are required. 
+        delete: always
+        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/jupyterhub-express.yml"
+        tosca_template_path: "/tmp/laniakea_dev/jupyterhub-express.yml"
+        inputs:
+            instance_flavor: "large"
+            storage_size: "50 GB"
+            users: []
+
+    #______________________________
+    # IRIDA
+    # TODO check it again
     irida:
         name: "irida"
         enabled: no
