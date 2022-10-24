@@ -1,15 +1,17 @@
-FROM ubuntu:20.04
+FROM centos:7
 
 MAINTAINER Marco Tangaro, ma.tangaro@ibiom.cnr.it
 
-# Append repository mirror to sources list
-RUN echo "deb https://repo.data.kit.edu/ubuntu/22.04 ./" > /etc/apt/sources.list
+# Add repository
+ADD https://repo.data.kit.edu/data-kit-edu-centos7.repo /etc/yum.repos.d/
+RUN yum install -y epel-release
 
 # Install oidc-agent
-RUN apt update -qq && apt install --no-install-recommends -y oidc-agent
+RUN yum install -y oidc-agent
+ENV OIDC_AGENT=/usr/bin/oidc-agent
 
 # Download orchent package
-ADD https://github.com/indigo-dc/orchent/releases/download/v1.2.8/orchent_1.2.8_amd64.deb /tmp/
+ADD https://github.com/indigo-dc/orchent/releases/download/v1.2.8/orchent-1.2.8-1.el7.x86_64.rpm /tmp/
 
 # Install orchent
-RUN dpkg -i /tmp/orchent_1.2.7-rc1_amd64.deb 
+RUN rpm -i /tmp/orchent-1.2.8-1.el7.x86_64.rpm
