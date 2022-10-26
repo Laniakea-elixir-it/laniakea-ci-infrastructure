@@ -75,7 +75,7 @@ images:
     jenkins_ubuntu:
         name: jenkins_ubuntu
         version: v1.0.0
-        build: yes
+        build: no
         packer:
             ssh_username: ubuntu
             source_image: "b03b8615-72c7-411e-bfea-37805f9c5b77" # ubuntu 20.04
