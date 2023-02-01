@@ -13,7 +13,7 @@ test_user:
 test:
     simple_node:
         name: "simple-node"
-        enabled: no
+        enabled: yes
         run_more: no # this tosca template doesn't produce a valid endpoint to check with requests.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/simple-node.yml"
         tosca_template_path: "/tmp/laniakea_dev/simple-node.yml"
@@ -81,7 +81,7 @@ test:
     # JupyterHub
     jupyterhub_minimal:
         name: "jupyterhub-minimal"
-        enabled: yes
+        enabled: no
         run_more: ['endpoint'] # Screenshot test available only for galaxt, since the credentials are required. 
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/jupyterhub.yml"
@@ -93,7 +93,7 @@ test:
 
     jupyterhub_express:
         name: "jupyterhub-express"
-        enabled: yes
+        enabled: no
         run_more: ['endpoint'] # Screenshot test available only for galaxt, since the credentials are required. 
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/jupyterhub-express.yml"
