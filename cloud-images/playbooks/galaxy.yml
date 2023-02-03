@@ -22,7 +22,7 @@
     - role: uchida.miniconda
       become: true
       become_user: "{{ galaxy_user.name }}"
-    - role: natefoo.postgresql_objects
+    - role: galaxyproject.postgresql_objects
       become: true
       become_user: postgres
     - galaxyproject.nginx
