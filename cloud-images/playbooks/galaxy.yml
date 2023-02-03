@@ -53,11 +53,11 @@
         state: stopped
         enabled: false
         name: nginx
-    - name: stop postgresql-10
+    - name: stop postgresql-11
       systemd:
         state: stopped
         enabled: false
-        name: postgresql-10
+        name: postgresql-11
     - name: stop docker.service
       systemd:
         state: stopped

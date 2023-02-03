@@ -2,6 +2,7 @@
 galaxy_virtualenv_command: /usr/bin/python3 -m virtualenv
 
 ##postgresql configuration
+postgresql_version: 11
 postgresql_objects_users:
   - name: galaxy
 postgresql_objects_databases:
