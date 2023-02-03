@@ -30,7 +30,7 @@ images:
             volume_size: "10"
             network_id: "fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
             playbook_file: "centos_custom.yml"
-            ansible_galaxy_file: "centos_custom.yml"
+            #ansible_galaxy_file: "centos_custom.yml"
 
     rstudio-minimal:
         name: rstudio-minimal
