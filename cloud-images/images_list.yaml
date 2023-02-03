@@ -8,7 +8,7 @@ reports_repository: 'git@github.com:Laniakea-elixir-it/laniakea-images.git'
 images:
     galaxy-express:
         name: "galaxy-express_v4.0.0,release_21.09"
-        version: v4.0.0
+        version: v4.0.1
         build: yes
         packer:
             ssh_username: centos
@@ -22,7 +22,7 @@ images:
     image-test-express:
         name: centos_custom
         version: v1.0.0
-        build: yes
+        build: no
         packer:
             ssh_username: centos
             source_image: "a7294ef8-2e29-4062-9a2b-5b3bab00288a" # centos 7 2003
