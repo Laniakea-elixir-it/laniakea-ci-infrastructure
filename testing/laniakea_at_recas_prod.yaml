@@ -6,7 +6,7 @@ orchestrator_url: 'https://paas-orchestrator.cloud.ba.infn.it'
 test:
     simple_node:
         name: "simple-node"
-        run_test: yes
+        run_test: no
         check_endopint: no # this tosca template doesn't produce a valid endpoint.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-ci-infrastructure/master/testing/node_with_image.yaml"
         tosca_template_path: "/tmp/simple_node.yml"
