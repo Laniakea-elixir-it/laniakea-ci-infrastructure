@@ -21,11 +21,11 @@ images:
 
     image-test-express:
         name: centos_custom
-        version: v1.0.0
+        version: v1.0.1
         build: no
         packer:
             ssh_username: centos
-            source_image: "a7294ef8-2e29-4062-9a2b-5b3bab00288a" # centos 7 2003
+            source_image: "8247c6e2-5073-4d1e-9bdd-a321207eb7b4" # centos 7 2211
             flavor: large
             volume_size: "10"
             network_id: "fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
