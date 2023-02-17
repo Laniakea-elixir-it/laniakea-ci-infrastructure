@@ -1,8 +1,19 @@
 ---
 - hosts: default
   tasks:
+    - name: Add the user '{{ laniakea_robot_user }}'
+      user:
+        name: '{{ laniakea_robot_user }}'
+        uid: 4321
+        shell: '/bin/bash'
+    - name: 'User rules for {{ laniakea_robot_user }}'
+      lineinfile:
+        dest: '/etc/sudoers'
+        state: present 
+        line: '{{ laniakea_robot_user }} ALL=(ALL) NOPASSWD:ALL'
+        insertafter: EOF
     - name: 'Inject laniakea-robot ssh public key - root'
       authorized_key:
-        user: 'root'
+        user: '{{ laniakea_robot_user }}'
         key: '{{ laniakea_robot_key_pub }}'
       ignore_errors: true
