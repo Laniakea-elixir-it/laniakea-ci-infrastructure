@@ -9,7 +9,7 @@ images:
     galaxy-express:
         name: "galaxy-express_v4.0.1,release_21.09"
         version: v4.0.1
-        build: yes
+        build: no
         packer:
             ssh_username: centos
             source_image: "a7294ef8-2e29-4062-9a2b-5b3bab00288a" # centos 7 2003
@@ -20,9 +20,9 @@ images:
             ansible_galaxy_file: "galaxy.yml"
 
     image-test-express:
-        name: centos_custom
-        version: v1.0.1
-        build: no
+        name: centos_2211_laniakea_robot
+        version: v1.0.2
+        build: yes
         packer:
             ssh_username: centos
             source_image: "8247c6e2-5073-4d1e-9bdd-a321207eb7b4" # centos 7 2211
