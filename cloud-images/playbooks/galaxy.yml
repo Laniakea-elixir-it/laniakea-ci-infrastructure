@@ -26,8 +26,8 @@
       become: true
       become_user: postgres
     - galaxyproject.nginx
-    - role: laniakea.galaxy_interactive_tools
-      when: enable_interactive_tools
+      #- role: laniakea.galaxy_interactive_tools
+      #when: enable_interactive_tools
 
   post_tasks:
 

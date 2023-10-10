@@ -1,15 +1,23 @@
 - src: galaxyproject.galaxy
-  version: 0.9.16
+  version: 0.10.4
 - src: galaxyproject.nginx
   version: 0.7.0
 - src: galaxyproject.postgresql
-  version: 1.0.3
+  version: 1.1.1
 - src: galaxyproject.postgresql_objects
-  version: 1.1.0
+  version: 1.2.0
 - src: geerlingguy.pip
   version: 2.0.0
 - src: uchida.miniconda
   version: 0.3.0
-- src: laniakea.galaxy_interactive_tools
+#- src: laniakea.galaxy_interactive_tools
+# - src: usegalaxy_eu.galaxy_systemd
+- src: usegalaxy_eu.certbot
+  version: 0.1.5
+# - src: galaxyproject.proftpd
+- name: galaxyproject.tusd
+  version: 0.0.1
+- src: galaxyproject.cvmfs
+  version: 0.2.14
        
 
