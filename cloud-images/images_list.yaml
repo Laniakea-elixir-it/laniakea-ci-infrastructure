@@ -7,15 +7,15 @@ reports_repository: 'git@github.com:Laniakea-elixir-it/laniakea-images.git'
 
 images:
     galaxy-express:
-        name: "galaxy-express_v4.0.1,release_21.09"
-        version: v4.0.1
-        build: yes
+        name: "galaxy-express_v5.0.0,release_22.05"
+        version: v5.0.0
+        build: no
         packer:
-            ssh_username: centos
-            source_image: "a7294ef8-2e29-4062-9a2b-5b3bab00288a" # centos 7 2003
+            ssh_username: rocky
+            source_image: "85ed0832-6a10-42fc-b483-712bc66d22ae" # RockyLinux 9.1 20230215
             flavor: large
             volume_size: "10"
-            network_id: "fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
+            network_id: "4b5f690e-8232-439b-9964-8d28b3108b0"
             playbook_file: "galaxy.yml"
             ansible_galaxy_file: "galaxy.yml"
 
