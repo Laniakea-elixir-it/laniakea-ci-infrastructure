@@ -12,7 +12,7 @@ images:
         build: yes
         packer:
             ssh_username: rocky
-            source_image: "85ed0832-6a10-42fc-b483-712bc66d22ae" # RockyLinux 9.1 20230215
+            source_image: "edf58cd1-b2f2-4d57-9bd6-0259e872ae4f" # RockyLinux 9.1 20231113
             flavor: large
             volume_size: "10"
             network_id: "214be9a0-ba80-42e5-89a8-c8fde3878e5d" # private net
