@@ -25,7 +25,7 @@ galaxy_root: /home/galaxy/galaxy
 galaxy_server_dir: '{{ galaxy_root }}/server' 
 galaxy_mutable_config_dir: '{{ galaxy_root }}/config' 
 galaxy_config_file: '{{ galaxy_mutable_config_dir }}/galaxy.yml' 
-galaxy_commit_id: release_21.09
+galaxy_commit_id: release_22.04
 galaxy_config_style: yaml
 galaxy_config:
   galaxy:
@@ -44,35 +44,33 @@ galaxy_config:
     conda_prefix: '{{ export_dir }}/tool_deps/_conda'
     job_working_directory: '{{ export_dir }}/database/job_working_dir'
 
-  uwsgi:
-    socket: 127.0.0.1:4001
-    buffer-size: 16384
-    processes: 1
-    threads: 4
-    offload-threads: 2
-    static-map:
-      - /static={{ galaxy_server_dir }}/static
-      - /favicon.ico={{ galaxy_server_dir }}/static/favicon.ico
-    static-safe: client/galaxy/images
-    master: true
-    virtualenv: "{{ galaxy_venv_dir }}"
-    pythonpath: "{{ galaxy_server_dir }}/lib"
-    module: galaxy.webapps.galaxy.buildapp:uwsgi_app()
-    manage-script-name: true
-    thunder-lock: true
-    die-on-term: true
-    hook-master-start:
-      - unix_signal:2 gracefully_kill_them_all
-      - unix_signal:15 gracefully_kill_them_all
-    py-call-osafterfork: true
-    enable-threads: true
-    stats: 127.0.0.1:4010
-    #logto: "/home/galaxy/galaxy/var/tmp/uwsgi.log"
-    no-orphans: true
-    mule:
-      - lib/galaxy/main.py
-      - lib/galaxy/main.py
-    farm: job-handlers:1,2
+  gravity:
+    process_manager: systemd
+    galaxy_root: "{{ galaxy_root }}/server"
+    galaxy_user: galaxy
+    virtualenv: "{{ galaxy_root }}/venv"
+      #app_server: gunicorn
+    gunicorn:
+      # listening options
+      bind: "127.0.0.1:4001"
+      # performance options
+      workers: 2
+      # Other options that will be passed to gunicorn
+      extra_args: '--forwarded-allow-ips="*"'
+      preload: true
+    celery:
+      concurrency: 2
+      loglevel: DEBUG
+    handlers:
+      handler:
+        processes: 3
+        pools:
+          - job-handler
+          - workflow-scheduler
+    tusd:
+      enable: true
+      tusd_path: /usr/local/sbin/tusd
+      upload_dir: "{{ export_dir }}/database/tus"
 
 ## systemd
 galaxy_manage_systemd: yes
@@ -88,8 +86,10 @@ nginx_conf_http:
   client_max_body_size: 1g
 nginx_conf_user: galaxy
 nginx_conf_group: galaxy
+
 enable_galaxy_ie: false
-enable_interactive_tools: true
-database_path: '{{ export_dir }}/tool_deps/database'
+enable_interactive_tools: false
+
+database_path: '{{ export_dir }}/database'
 ##miniconda test
 miniconda_prefix: '{{ export_dir }}/tool_deps/_conda'
