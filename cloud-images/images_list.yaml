@@ -15,7 +15,7 @@ images:
             source_image: "85ed0832-6a10-42fc-b483-712bc66d22ae" # RockyLinux 9.1 20230215
             flavor: large
             volume_size: "10"
-            network_id: "4b5f690e-8232-439b-9964-8d28b3108b0"
+            network_id: "214be9a0-ba80-42e5-89a8-c8fde3878e5d" # private net
             playbook_file: "galaxy.yml"
             ansible_galaxy_file: "galaxy.yml"
 
