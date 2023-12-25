@@ -1,6 +1,6 @@
 ---
 # CMDB currently available image list
-images_db_url: 'https://cloud-90-147-75-119.cloud.ba.infn.it/cmdb/image/list?include_docs=true'
+images_db_url: 'https://laniakea-dashboard.cloud.ba.infn.it/cmdb/image/list?include_docs=true'
 
 # A different repository is needed for report upload. Otherwise "infinit" image build will be triggered.
 reports_repository: 'git@github.com:Laniakea-elixir-it/laniakea-images.git'
