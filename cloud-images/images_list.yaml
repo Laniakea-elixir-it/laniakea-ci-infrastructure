@@ -9,7 +9,7 @@ images:
     galaxy-express:
         name: "galaxy-express_v5.0.0,release_22.05"
         version: v5.0.0
-        build: no
+        build: yes
         packer:
             ssh_username: rocky
             source_image: "85ed0832-6a10-42fc-b483-712bc66d22ae" # RockyLinux 9.1 20230215
