@@ -11,7 +11,7 @@ images:
         version: v5.0.0
         build: yes
         packer:
-            ssh_username: rocky
+            ssh_username: root
             source_image: "edf58cd1-b2f2-4d57-9bd6-0259e872ae4f" # RockyLinux 9.1 20231113
             flavor: large
             volume_size: "10"
