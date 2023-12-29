@@ -1,3 +1,11 @@
+upstream galaxy {
+    server 127.0.0.1:4001;
+
+    # Or if you serve galaxy at a path like http(s)://fqdn/galaxy
+    # Remember to set galaxy_url_prefix in the galaxy.yml file.
+    # server unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock:/galaxy;
+}
+
 server {
     # Listen on port 80
     listen        *:80 default_server;
@@ -8,35 +16,50 @@ server {
     access_log  /var/log/nginx/access.log;
     error_log   /var/log/nginx/error.log;
 
-    # The most important location block, by default all requests are sent to uWSGI
-    location / {
+    # The most important location block, by default all requests are sent to gunicorn
+    # If you serve galaxy at a path like /galaxy, change that below (and all other locations!)
+    location /galaxy {
         # This is the backend to send the requests to.
-        uwsgi_pass 127.0.0.1:4001;
-        uwsgi_param UWSGI_SCHEME $scheme;
-        include uwsgi_params;
+        proxy_pass http://127.0.0.1:4001;
+
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade $http_upgrade;
+    }
+
+    location /galaxy/api/upload/resumable_upload {
+        # Disable request and response buffering
+        proxy_request_buffering     off;
+        proxy_buffering             off;
+        proxy_http_version          1.1;
+
+        # Add X-Forwarded-* headers
+        proxy_set_header X-Forwarded-Host   $host;
+        proxy_set_header X-Forwarded-Proto  $scheme;
+
+        proxy_set_header Upgrade            $http_upgrade;
+        proxy_set_header Connection         "upgrade";
+        client_max_body_size        0;
+        proxy_pass http://127.0.0.1:{{ galaxy_tusd_port }}/files;
     }
 
     # Static files can be more efficiently served by Nginx. Why send the
-    # request to uWSGI which should be spending its time doing more useful
+    # request to Gunicorn which should be spending its time doing more useful
     # things like serving Galaxy!
-    location /static {
+    location /galaxy/static {
         alias {{ galaxy_server_dir }}/static;
-        expires 24h;
-    }
-
-    # The style directory is in a slightly different location
-    location /static/style {
-        alias {{ galaxy_server_dir }}/static/style;
         expires 24h;
     }
 
     # In Galaxy instances started with run.sh, many config files are
     # automatically copied around. The welcome page is one of them. In
     # production, this step is skipped, so we will manually alias that.
-    location /static/welcome.html {
+    location /galaxy/static/welcome.html {
         alias {{ galaxy_server_dir }}/static/welcome.html.sample;
         expires 24h;
     }
+
 
     # serve visualization and interactive environment plugin static content
     location ~ ^/plugins/(?<plug_type>[^/]+?)/((?<vis_d>[^/_]*)_?)?(?<vis_name>[^/]*?)/static/(?<static_file>.*?)$ {
@@ -47,14 +70,14 @@ server {
 
 {% if enable_galaxy_ie %}
     # Global GIE configuration
-    location /gie_proxy {
-            proxy_pass http://localhost:8800/gie_proxy;
+    location /galaxy/gie_proxy {
+            proxy_pass http://127.0.0.1:8000/gie_proxy;
             proxy_redirect off;
     }
 
     # Project Jupyter specific. Other IEs may require their own routes.
     location ~ ^/gie_proxy/jupyter/(?<nbtype>[^/]+)/api/kernels(?<rest>.*?)$ {
-            proxy_pass http://localhost:8800/gie_proxy/jupyter/$nbtype/api/kernels$rest;
+            proxy_pass http://127.0.0.1:8000/gie_proxy/jupyter/$nbtype/api/kernels$rest;
             proxy_redirect off;
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
@@ -62,8 +85,8 @@ server {
     }
 {% endif %}
 
-   # redirect /prefix -> /prefix
-   # rewrite ^/galaxy$ /galaxy/ last;
+    #redirect /prefix -> /prefix/
+    rewrite ^/galaxy$ /galaxy/ last;
 
     location /robots.txt {
         alias {{ galaxy_server_dir }}/static/robots.txt;
@@ -73,9 +96,13 @@ server {
         alias {{ galaxy_server_dir }}/static/favicon.ico;
     }
 
-    location /_x_accel_redirect/ {
-         internal;
-         alias /;
-     }
-        
+    location /_x_accel_redirect {
+        internal;
+        alias /;
+    }
+
+    # Support click-to-run in the GTN-in-Galaxy Webhook
+    location /training-material/ {
+        proxy_pass https://training.galaxyproject.org/training-material/;
+    }
 }
