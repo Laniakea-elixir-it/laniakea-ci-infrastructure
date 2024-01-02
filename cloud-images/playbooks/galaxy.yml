@@ -1,30 +1,44 @@
 ---
-- hosts: default
+- hosts: galaxyservers
   become: true
   become_user: root
   pre_tasks:
+    - name: '[EL] Install Packages for Rocky Linux'
+      ansible.builtin.dnf:
+        name: ['langpacks-en', 'glibc-all-langpacks', 'epel-release', 'python3-wheel-wheel']
+        enablerepo: crb
+        state: present
+    - name: Install python3-virtualenv
+      yum:
+        name: python3-virtualenv
+        enablerepo: epel-release
+        state: present
     - name: '[EL] Install Galaxy Dependencies'
       package:
-        name: ['git', 'make', 'python-psycopg2', 'libselinux-python', 'bzip2', 'python3','epel-release']
+        name:  ['acl', 'bzip2', 'git', 'make', 'python-psycopg2', 'python3-psycopg2', 'tar', 'pip',  'gcc', 'openssl-devel', 'bzip2-devel', 'libffi-devel', 'zlib-devel', 'xz-devel', 'sqlite-devel', 'wget']
+    - name: Install pgdg repository package (RedHat)
+      yum:
+        name: https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm   
+        disable_gpg_check: True
     - name: '[EL] update ca-certificates'
       command: 'yum update -y ca-certificates'
-    - name: '[EL] Add NGINX repository'
-      command: 'yum-config-manager --add-repo https://depot.galaxyproject.org/yum/galaxy.repo'
-    - name: '[EL] Install virtualenv for python3'
-      command: /usr/bin/pip3 install virtualenv
+        #- name: '[EL] Add NGINX repository'
+        #  command: 'yum-config-manager --add-repo https://depot.galaxyproject.org/yum/galaxy.repo'
+        ##- name: '[EL] Install virtualenv for python3'
+        #command: /usr/bin/pip3 install virtualenv
     - name: '[EL] Disable SELinux'
       selinux:
         state: disabled
   roles:
     - galaxyproject.postgresql
-    - geerlingguy.pip
-    - galaxyproject.galaxy
-    - role: uchida.miniconda
-      become: true
-      become_user: "{{ galaxy_user.name }}"
     - role: galaxyproject.postgresql_objects
       become: true
-      become_user: postgres
+      become_user: postgres      
+    - geerlingguy.pip
+    - galaxyproject.galaxy
+    - role: galaxyproject.miniconda
+      become: true
+      become_user: galaxy
     - galaxyproject.nginx
       #- role: laniakea.galaxy_interactive_tools
       #when: enable_interactive_tools
@@ -35,7 +49,7 @@
     - name: '[VM] Wait Galaxy'
       wait_for:
         host: 127.0.0.1
-        port: '4010'
+        port: '4001'
         timeout: 300
     - name: lock-file absent 
       file:

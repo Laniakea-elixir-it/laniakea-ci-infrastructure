@@ -7,10 +7,13 @@ postgresql_objects_users:
   - name: galaxy
 postgresql_objects_databases:
   - name: galaxy
+    owner: galaxy
   - name: galaxy_tools
+    owner: galaxy
 
 ## Path configuration
 export_dir: /export
+database_path: '{{ export_dir }}/database'
 
 ## Galaxy configuration
 galaxy_create_user: true
@@ -25,7 +28,7 @@ galaxy_root: /home/galaxy/galaxy
 galaxy_server_dir: '{{ galaxy_root }}/server' 
 galaxy_mutable_config_dir: '{{ galaxy_root }}/config' 
 galaxy_config_file: '{{ galaxy_mutable_config_dir }}/galaxy.yml' 
-galaxy_commit_id: release_22.04
+galaxy_commit_id: release_23.0
 galaxy_config_style: yaml
 galaxy_config:
   galaxy:
@@ -43,6 +46,10 @@ galaxy_config:
     tool_dependency_dir: '{{ export_dir }}/tool_deps'
     conda_prefix: '{{ export_dir }}/tool_deps/_conda'
     job_working_directory: '{{ export_dir }}/database/job_working_dir'
+    galaxy_url_prefix: /galaxy
+    #TUS
+    tus_upload_store: "{{ database_path }}/tus"
+    galaxy_infrastructure_url: "https://{{ inventory_hostname }}/galaxy"
 
   gravity:
     process_manager: systemd
@@ -77,19 +84,42 @@ galaxy_manage_systemd: yes
 
 ## nginx
 nginx_selinux_allow_local_connections: true
-nginx_flavor: galaxy
+nginx_server_src_dir: ../templates/galaxy/nginx
 nginx_servers:
   - galaxy
 nginx_enable_default_server: false
 nginx_conf_http:
-        # server_tokens: off
-  client_max_body_size: 1g
+      client_max_body_size: 1g
+      gzip: "on" # This is enabled by default in Ubuntu, and the duplicate directive will cause a crash.
+      gzip_proxied: "any"
+      gzip_static: "on" # The ngx_http_gzip_static_module module allows sending precompressed files with the ".gz" filename extension instead of regular files.
+      gzip_vary: "on"
+      gzip_min_length: 128
+      gzip_comp_level: 6 # Tradeoff of better compression for slightly more CPU time.
+      gzip_types: |
+        text/plain
+        text/css
+        text/xml
+        text/javascript
+        application/javascript
+        application/x-javascript
+        application/json
+        application/xml
+        application/xml+rss
+        application/xhtml+xml
+        application/x-font-ttf
+        application/x-font-opentype
+        image/png
+        image/svg+xml
+        image/x-icon
 nginx_conf_user: galaxy
 nginx_conf_group: galaxy
 
 enable_galaxy_ie: false
 enable_interactive_tools: false
 
-database_path: '{{ export_dir }}/database'
-##miniconda test
+# Miniconda test
 miniconda_prefix: '{{ export_dir }}/tool_deps/_conda'
+
+# TUS
+galaxy_tusd_port: 1080
