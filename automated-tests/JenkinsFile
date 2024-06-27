@@ -1,0 +1,50 @@
+pipeline {
+	agent { label "jenkins_wn_1"}
+		options { disableConcurrentBuilds() }
+	stages {
+		stage('deploy') {
+			steps {
+				withCredentials([string(credentialsId: 'iam-recas-laniakea-test-jenkins', variable: 'IAM_CLIENT_PASSWORD')]) {
+					sh '''
+					python3 -m venv tests/
+					. tests/bin/activate
+					pip install bioblend
+					pip install selenium
+					wget https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz
+					tar -xf geckodriver-v0.26.0-linux64.tar.gz
+					eval `oidc-keychain`
+         	 		./testing/expect_laniakea_dev.sh $IAM_CLIENT_PASSWORD
+					git clone https://github.com/Laniakea-elixir-it/bioblend_test.git testing/bioblend_test
+					git clone https://github.com/Laniakea-elixir-it/general-reads-hg19.git testing/ftp_files
+          			./testing/control-script.sh "dev"
+					'''
+				}
+			}
+		}
+	}
+	post { 
+		always { 
+			cleanWs()
+		}
+		success {
+			withCredentials([string(credentialsId: 'telegram_bot_API_token', variable: 'API_TOKEN')]) {
+				sh '''
+				if [ -f /tmp/galaxy_screenshot.png ]; then
+                                    for photo in /tmp/galaxy_screenshot*.png; do
+                                        curl https://api.telegram.org/bot$API_TOKEN/sendphoto -F "chat_id=-667232678" -F "photo=@${photo}" -F "caption=${JOB_NAME}: SUCCESS!! executed on ${NODE_NAME} more info at ${BUILD_URL}"
+                                    done
+                                    rm /tmp/galaxy_screenshot*.png
+				else
+				    curl -s -X POST https://api.telegram.org/bot$API_TOKEN/sendMessage -d chat_id=-667232678 -d text="${JOB_NAME}: SUCCESS!! executed on ${NODE_NAME} more info at ${BUILD_URL}"
+				fi
+				'''
+			}
+		}
+		failure {
+			withCredentials([string(credentialsId: 'telegram_bot_API_token', variable: 'API_TOKEN')]) {
+				sh 'curl -s -X POST https://api.telegram.org/bot$API_TOKEN/sendMessage -d chat_id=-667232678 -d text="${JOB_NAME}: FAIL!! executed on ${NODE_NAME} more info at ${BUILD_URL}"'
+			}
+		}
+	}
+}
+

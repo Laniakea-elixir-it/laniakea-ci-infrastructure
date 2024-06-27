@@ -1,0 +1,20 @@
+# This file maps to each test its variables. To add a test, add it under 'test' and specify its variables.
+# The test function to be executed must then be added with the same name specified here in the Tests.py module.
+# Tests that run galaxy workflows using the bioblend script must start with 'galaxy_tools'.
+test:
+    endpoint:
+    ftp:
+        file_path: testing/ftp_files/input_mate1.fastq
+        user: admin@admin.com
+        password: galaxy_admin_password
+    galaxy_tools_FQC:
+        wf_file: testing/bioblend_test/workflows/test_workflow.ga
+        input_file: testing/bioblend_test/inputs/input_files.json
+    galaxy_tools_mapping:
+        wf_file: testing/bioblend_test/workflows/bowtie2_mapping.ga
+        input_file: testing/bioblend_test/inputs/input_files.json
+    screenshot:
+        geckodriver_path: ./geckodriver
+        username: admin@admin.com
+        password: galaxy_admin_password
+        output_path: /tmp/galaxy_screenshot.png
