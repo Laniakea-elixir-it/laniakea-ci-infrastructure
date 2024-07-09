@@ -28,7 +28,7 @@ pipeline {
 			echo 'SUCCESS!'
 		}
 		failure {
-			mail bcc: '', body: 'The check failed', cc: 'ma.tangaro@gmail.com', from: '', replyTo: '', subject: 'This is a test email', to: 'ma.tangaro@ibiom.cnr.it'
+			echo 'FAIL!'
 		}
 	}
 }
