@@ -57,7 +57,7 @@ def end():
   logger.debug('**************************************')
 
 #______________________________________
-def run_test_list(test_list, orchestrator_url, polling_time):
+def run_test_list(test_list, group, orchestrator_url, polling_time):
 
   summary_output = {}
   for i in test_list['test']:
@@ -97,7 +97,7 @@ def run_test_list(test_list, orchestrator_url, polling_time):
       # Run test
       logger.debug('Testing ' + name)
       # Test deployment
-      dep, create_status_record = test_deployment(tosca_template_path, orchestrator_url, inputs, polling_time)
+      dep, create_status_record = test_deployment(group, tosca_template_path, orchestrator_url, inputs, polling_time)
       # Run additional tests
       try:
         if create_status_record == "CREATE_COMPLETE" and type(run_more) is list:
@@ -116,9 +116,9 @@ def run_test_list(test_list, orchestrator_url, polling_time):
 
 
 #______________________________________
-def test_deployment(tosca_template, orchestrator_url, inputs, polling_time):
+def test_deployment(group, tosca_template, orchestrator_url, inputs, polling_time):
   # Start PaaS test deployment
-  dep = Deployment(tosca_template, inputs, orchestrator_url, None)
+  dep = Deployment(group, tosca_template, inputs, orchestrator_url, None)
 
   dep_uuid = dep.get_uuid()
   dep_status = dep.get_status()
@@ -256,7 +256,8 @@ def indigo_paas_checker():
     sys.exit(1)
 
   # Run PaaS orchestrator tests
-  summary_json = run_test_list(test_list, orchestrator_url, float(options.polling_time))
+  iam_group = test_list['iam_group']
+  summary_json = run_test_list(test_list, iam_group, orchestrator_url, float(options.polling_time))
 
   errors = "ERROR" in summary_json.values()
   if errors:
