@@ -34,4 +34,4 @@ echo $TEST_LIST
 /usr/bin/python --version
 
 # Run check script.
-python $PWD/testing/control-script.py -c "$PWD/automated-tests/health-check.sh" -l $TEST_LIST
+python $PWD/automated-tests/control-script.py -c "$PWD/automated-tests/health-check.sh" -l $TEST_LIST

@@ -158,7 +158,7 @@ def run_additional_tests(dep, additional_tests):
   #####################################################################################
 
   # Get tests mapper, mapping tests to input files
-  test_mapper = load_test_mapper('./testing/laniakea_dev_test_mapper.yaml')
+  test_mapper = load_test_mapper('./automated-tests/laniakea_dev_test_mapper.yaml')
 
   for test in additional_tests:
 
