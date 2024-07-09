@@ -28,7 +28,9 @@ pipeline {
 			echo 'SUCCESS!'
 		}
 		failure {
-			echo 'FAILURE!'
+			step([$class: 'Mailer',
+  			notifyEveryUnstableBuild: true,
+  			recipients: emailextrecipients([culprits(), requestor()])])
 		}
 	}
 }
