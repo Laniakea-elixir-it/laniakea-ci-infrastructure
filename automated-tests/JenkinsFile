@@ -28,9 +28,7 @@ pipeline {
 			echo 'SUCCESS!'
 		}
 		failure {
-			step([$class: 'Mailer',
-  			notifyEveryUnstableBuild: true,
-  			recipients: emailextrecipients([culprits(), requestor()])])
+			mail bcc: '', body: 'The check failed', cc: 'ma.tangaro@gmail.com', from: '', replyTo: '', subject: 'This is a test email', to: 'ma.tangaro@ibiom.cnr.it'
 		}
 	}
 }
