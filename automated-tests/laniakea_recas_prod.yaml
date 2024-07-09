@@ -40,18 +40,18 @@ test:
 
     galaxy_express:
         name: "galaxy-express"
-        enabled: no
-        run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot'] # Screenshot test available only for galaxt, since the credentials are required.
+        enabled: yes
+        run_more: ['endpoint'] 
+        #run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot'] # Screenshot test available only for galaxt, since the credentials are required.
         delete: always
-        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/galaxy-express.yaml"
+        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/galaxy/galaxy-express.yaml"
         tosca_template_path: "/tmp/galaxy-express.yml"
         inputs:
+            users: []
             instance_flavor: "large"
             storage_size: "50 GB"
-            version: "galaxy-express_v4.0.0,release_21.09"
-            admin_api_key: not_very_secret_api_key
-            users: []
-            instance_description: "Galaxy Express"
+            version: "rocklinux-9.3-express-galaxy-23.0_v1.0.4_beta4"
+            instance_description: "Laniakea Jenkins"
 
     #______________________________
     # RStudio
