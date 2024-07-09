@@ -25,10 +25,10 @@ pipeline {
 			cleanWs()
 		}
 		success {
-			echo 'SUCCESS!'
+			echo 'SUCCESS!
 		}
 		failure {
-			echo 'FAIL!'
+			mail bcc: '', body: 'Automated test for Laniakea Errored. Please check.', from: '', replyTo: '', subject: '[build-usegalaxy-it] Laniakea automated test - FAIL', to: 'ma.tangaro@ibiom.cnr.it'
 		}
 	}
 }
