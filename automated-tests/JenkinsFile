@@ -1,5 +1,5 @@
 pipeline {
-	agent { label "jenkins_wn_1"}
+	agent { label "build-usegalaxy-it.wn1" }
 		options { disableConcurrentBuilds() }
 	stages {
 		stage('deploy') {
