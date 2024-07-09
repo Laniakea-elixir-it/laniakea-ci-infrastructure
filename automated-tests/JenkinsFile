@@ -27,11 +27,9 @@ pipeline {
 		}
 		success {
 			echo 'SUCCESS!'
-			}
 		}
 		failure {
 			echo 'FAILURE!'
-			}
 		}
 	}
 }
