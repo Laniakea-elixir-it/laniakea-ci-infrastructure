@@ -1,6 +1,6 @@
 ---
 # Laniakea develplment branch Orchestrator URL
-orchestrator_url: 'automated-tests/JenkinsFile'
+orchestrator_url: 'https://laniakea-dashboard.cloud.ba.infn.it/orchestrator'
 
 # Add user to access the deployment if needed. # Do not change, this should match the tosca template.
 test_user:
