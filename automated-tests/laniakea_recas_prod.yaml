@@ -19,6 +19,7 @@ test:
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/single-vm/single_vm.yaml"
         tosca_template_path: "/tmp/laniakea_dev/single_vm.yaml"
         inputs:
+            users: []
 
     galaxy:
         name: "galaxy-minimal"
