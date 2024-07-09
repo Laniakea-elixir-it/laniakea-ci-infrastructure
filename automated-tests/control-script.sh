@@ -15,10 +15,9 @@ if [[ $1 == "prod" ]]; then
 elif [[ $1 == "dev" ]]; then
 
   # Lanaieka dev
-  export ORCHENT_AGENT_ACCOUNT=iam-recas-test_laniakea-dev_matangaro_jenkins-test
-  #export ORCHENT_URL="https://cloud-90-147-75-119.cloud.ba.infn.it/orchestrator"
-  export ORCHENT_URL="https://cloud-90-147-102-77.cloud.ba.infn.it"
-  export TEST_LIST=./testing/laniakea_dev.yaml
+  export ORCHENT_AGENT_ACCOUNT=iam-recas-laniakea-bot
+  export ORCHENT_URL="https://laniakea-dashboard.cloud.ba.infn.it/orchestrator/"
+  export TEST_LIST=./automated-tests/laniakea_recas_prod.yaml
 
   echo "Loading development config"
 
@@ -35,4 +34,4 @@ echo $TEST_LIST
 /usr/bin/python --version
 
 # Run check script.
-python $PWD/testing/control-script.py -c "$PWD/testing/health-check.sh" -l $TEST_LIST
+python $PWD/testing/control-script.py -c "$PWD/automated-tests/health-check.sh" -l $TEST_LIST
