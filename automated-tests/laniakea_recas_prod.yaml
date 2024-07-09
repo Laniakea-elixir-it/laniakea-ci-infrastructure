@@ -14,7 +14,7 @@ test_user:
 test:
     simple_node:
         name: "simple-node"
-        enabled: yes
+        enabled: no
         run_more: no # this tosca template doesn't produce a valid endpoint to check with requests.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/single-vm/single_vm.yaml"
         tosca_template_path: "/tmp/laniakea_dev/single_vm.yaml"
@@ -52,6 +52,7 @@ test:
             storage_size: "50 GB"
             version: "rocklinux-9.3-express-galaxy-23.0_v1.0.4_beta4"
             instance_description: "Laniakea Jenkins"
+            enable_interactive_tools: false
 
     #______________________________
     # RStudio
