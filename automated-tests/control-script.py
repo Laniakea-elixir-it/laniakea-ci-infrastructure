@@ -104,7 +104,9 @@ def run_test_list(test_list, group, orchestrator_url, polling_time):
           run_additional_tests(dep, run_more)
       # Delete deployment even if tests failed 
       finally:
-          test_exit_status = end_test(dep, create_status_record)
+          delete = test_list['test'][i]['delete']
+          test_exit_status = end_test(dep, create_status_record, delete)
+
       if test_exit_status:
         summary_output[name] = "SUCCESS"
       elif not test_exit_status:
@@ -182,11 +184,15 @@ def run_additional_tests(dep, additional_tests):
 
 
 #______________________________________
-def end_test(dep, create_status_record):
+def end_test(dep, create_status_record, delete):
   #####################################################################################
   ## End tests.
   #####################################################################################
   dep_uuid = dep.get_uuid()
+
+  if delete == 'no':
+    logger.debug('Deployment not due for delete.')
+    return True
 
   ## Always delete deployment
   delete_out, delete_err, delete_status = dep.depdel()
