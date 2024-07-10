@@ -104,7 +104,7 @@ def run_test_list(test_list, group, orchestrator_url, polling_time):
           run_additional_tests(dep, run_more)
       # Delete deployment even if tests failed 
       finally:
-          delete = test_list['test'][i]['delete']
+          delete = str(test_list['test'][i]['delete'])
           logger.debug('DELETE OPTION: ' + delete + ' ' + type(delete))
           test_exit_status = end_test(dep, create_status_record, delete)
 
