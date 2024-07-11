@@ -27,6 +27,7 @@ pipeline {
 			to: '$DEFAULT_RECIPIENTS',
 			attachmentsPattern: 'automated-tests/galaxy_screenshot.png'
                         )
+			cleanWs()
 		}
 		failure {
 			emailext ( 
@@ -35,10 +36,8 @@ pipeline {
                 	to: '$DEFAULT_RECIPIENTS',
 			attachLog: true
             		)
+			cleanWs()
 		}
-                always {
-                        cleanWs()
-                }
 	}
 }
 
