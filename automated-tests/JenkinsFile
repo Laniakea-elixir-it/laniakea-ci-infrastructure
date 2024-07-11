@@ -21,9 +21,6 @@ pipeline {
 		}
 	}
 	post { 
-		always { 
-			cleanWs()
-		}
 		success {
 			emailext (
 			subject: '$DEFAULT_SUBJECT',
@@ -40,6 +37,9 @@ pipeline {
 			attachLog: true
             		)
 		}
+                always {
+                        cleanWs()
+                }
 	}
 }
 
