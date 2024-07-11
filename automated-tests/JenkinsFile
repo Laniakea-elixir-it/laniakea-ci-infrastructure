@@ -14,6 +14,7 @@ pipeline {
 					eval `oidc-keychain`
 					./automated-tests/expect.sh $IAM_CLIENT_PASSWORD
 					git clone https://github.com/Laniakea-elixir-it/bioblend_test.git automated-tests/bioblend_test
+					./automated-tests/control-script.sh "dev"
 					'''
 				}
 			}
