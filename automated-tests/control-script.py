@@ -98,7 +98,6 @@ def run_test_list(test_list, group, orchestrator_url, polling_time):
       logger.debug('Testing ' + name)
       # Test deployment
       dep, create_status_record = test_deployment(group, tosca_template_path, orchestrator_url, inputs, polling_time)
-      logger.debug(dep)
       # Run additional tests
       try:
         if create_status_record == "CREATE_COMPLETE" and type(run_more) is list:
