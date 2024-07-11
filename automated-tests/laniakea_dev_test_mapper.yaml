@@ -17,4 +17,4 @@ test:
         geckodriver_path: ./geckodriver
         username: admin@admin.com
         password: galaxy_admin_password
-        output_path: /tmp/galaxy_screenshot.png
+        output_path: ./automated-tests/galaxy_screenshot.png
