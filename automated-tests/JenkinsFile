@@ -25,7 +25,11 @@ pipeline {
 			cleanWs()
 		}
 		success {
-			echo 'SUCCESS!'
+			emailext (
+			subject: '$DEFAULT_SUBJECT',
+			body: '$DEFAULT_CONTENT',
+			to: '$DEFAULT_RECIPIENTS'
+                        )
 		}
 		failure {
 			emailext ( 
