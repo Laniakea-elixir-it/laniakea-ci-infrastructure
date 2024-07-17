@@ -12,7 +12,7 @@ pipeline {
                                         eval `oidc-agent-service use`
                                         . /home/ubuntu/usegalaxy-it.sh
                                         expect expect.sh $IAM_CLIENT_PASSWORD
-                                        export IAM_ACCESS_TOKEN=$(oidc-token iam-recas-jenkins-bot)
+                                        export IAM_ACCESS_TOKEN=$(oidc-token iam-recas-laniakea-bot)
 					export OS_TOKEN=$(openstack --os-auth-type v3oidcaccesstoken --os-access-token ${IAM_ACCESS_TOKEN} token issue  -f json | jq -r ".id")
 					echo '$OS_TOKEN'
 					export PACKER_LOG=1
