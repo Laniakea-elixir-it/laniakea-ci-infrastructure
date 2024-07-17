@@ -8,6 +8,7 @@ pipeline {
 					sh '''
                                         python3 -m venv build/
 					. build/bin/activate
+                                        pip install -r ./cloud-images/requirements.txt
                                         eval `oidc-agent-service use`
                                         . /home/ubuntu/usegalaxy-it.sh
                                         expect expect.sh $IAM_CLIENT_PASSWORD
@@ -26,7 +27,7 @@ pipeline {
 			subject: '$DEFAULT_SUBJECT',
 			body: '$DEFAULT_CONTENT',
 			to: '$DEFAULT_RECIPIENTS',
-			attachmentsPattern: 'automated-tests/galaxy_screenshot.png'
+			attachLog: true
                         )
 			cleanWs()
 		}
