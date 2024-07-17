@@ -1,4 +1,4 @@
 pyyaml
 jinja2
 requests
-python-openstackclient
+openstackclient
