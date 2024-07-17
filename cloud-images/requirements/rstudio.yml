@@ -1,2 +1,2 @@
-- src: laniakea.rstudio
+- src: https://github.com/Laniakea-elixir-it/ansible-role-laniakea-rstudio.git
   version: master

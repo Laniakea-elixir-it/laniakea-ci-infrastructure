@@ -9,7 +9,7 @@ images:
     galaxy-express:
         name: "galaxy-express_v5.0.0,release_22.05"
         version: v5.0.0
-        build: yes
+        build: no
         packer:
             ssh_username: rocky
             source_image: "edf58cd1-b2f2-4d57-9bd6-0259e872ae4f" # RockyLinux 9.1 20231113
@@ -34,14 +34,14 @@ images:
 
     rstudio-minimal:
         name: rstudio-minimal
-        version: v1.0.3
-        build: no
+        version: v1.0.0
+        build: yes
         packer:
-            ssh_username: centos
-            source_image: "a7294ef8-2e29-4062-9a2b-5b3bab00288a" # centos 7 2003
-            flavor: medium
-            volume_size: "10"
-            network_id: "fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
+            ssh_username: rocky
+            source_image: "edf58cd1-b2f2-4d57-9bd6-0259e872ae4f" # RockyLinux 9.3 20231113
+            flavor: large
+            volume_size: "20"
+            network_id: "edf58cd1-b2f2-4d57-9bd6-0259e872ae4f"
             playbook_file: "rstudio_minimal.yml"
             ansible_galaxy_file: "rstudio.yml"
 
