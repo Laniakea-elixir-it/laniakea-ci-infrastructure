@@ -6,7 +6,7 @@
       dnf:
         name:
           - hdf5-devel 
-      state: present
+        state: present
 
   roles:
     - role: ansible-role-laniakea-rstudio
