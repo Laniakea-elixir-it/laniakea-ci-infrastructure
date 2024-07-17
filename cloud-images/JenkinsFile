@@ -1,0 +1,44 @@
+pipeline {
+	agent { label "build-usegalaxy-it.wn1" }
+		options { disableConcurrentBuilds() }
+	stages {
+		stage('deploy') {
+			steps {
+				withCredentials([string(credentialsId: 'iam-recas-laniakea-bot-password', variable: 'IAM_CLIENT_PASSWORD')]) {
+					sh '''
+                                        python3 -m venv build/
+					. build/bin/activate
+                                        eval `oidc-agent-service use`
+                                        . /home/ubuntu/usegalaxy-it.sh
+                                        expect expect.sh $IAM_CLIENT_PASSWORD
+                                        export IAM_ACCESS_TOKEN=$(oidc-token usegalaxy-it-jenkins-bot)
+					export OS_TOKEN=$(openstack --os-auth-type v3oidcaccesstoken --os-access-token ${IAM_ACCESS_TOKEN} token issue  -f json | jq -r ".id")
+					export PACKER_LOG=1
+					python3 ./cloud-images/build_images.py
+					'''
+				}
+			}
+		}
+	}
+	post { 
+		success {
+			emailext (
+			subject: '$DEFAULT_SUBJECT',
+			body: '$DEFAULT_CONTENT',
+			to: '$DEFAULT_RECIPIENTS',
+			attachmentsPattern: 'automated-tests/galaxy_screenshot.png'
+                        )
+			cleanWs()
+		}
+		failure {
+			emailext ( 
+                	subject: '$DEFAULT_SUBJECT',
+                	body: '$DEFAULT_CONTENT',
+                	to: '$DEFAULT_RECIPIENTS',
+			attachLog: true
+            		)
+			cleanWs()
+		}
+	}
+}
+
