@@ -1,5 +1,7 @@
 ---
 - hosts: default
+  become_user: root
+  became: true
 
   pre_tasks:
     - name: Install Packages for Rocky Linux
