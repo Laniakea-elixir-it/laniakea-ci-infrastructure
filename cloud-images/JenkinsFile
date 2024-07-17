@@ -14,7 +14,7 @@ pipeline {
                                         expect expect.sh $IAM_CLIENT_PASSWORD
                                         export IAM_ACCESS_TOKEN=$(oidc-token iam-recas-laniakea-bot)
 					export OS_TOKEN=$(openstack --os-auth-type v3oidcaccesstoken --os-access-token ${IAM_ACCESS_TOKEN} token issue  -f json | jq -r ".id")
-					echo '$OS_TOKEN'
+					echo $OS_TOKEN
 					export PACKER_LOG=1
 					mkdir report
 					cd cloud-images
