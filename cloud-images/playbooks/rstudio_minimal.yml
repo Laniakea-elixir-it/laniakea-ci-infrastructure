@@ -4,10 +4,15 @@
   become: true
 
   pre_tasks:
+    - name: Enable EPEL
+      dnf:
+        name:
+          - epel-release
+        state: present
     - name: Install Packages for Rocky Linux
       dnf:
         name:
-          - hdf5-devel 
+          - hdf5-devel
         state: present
 
   roles:
