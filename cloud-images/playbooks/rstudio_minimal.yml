@@ -1,5 +1,13 @@
 ---
 - hosts: default
+
+  pre_tasks:
+    - name: Install Packages for Rocky Linux
+      dnf:
+        name:
+          - hdf5-devel 
+      state: present
+
   roles:
     - role: ansible-role-laniakea-rstudio
       become: yes
