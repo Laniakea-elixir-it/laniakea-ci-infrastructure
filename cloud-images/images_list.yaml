@@ -41,7 +41,7 @@ images:
             source_image: "edf58cd1-b2f2-4d57-9bd6-0259e872ae4f" # RockyLinux 9.3 20231113
             flavor: large
             volume_size: "20"
-            network_id: "edf58cd1-b2f2-4d57-9bd6-0259e872ae4f"
+            network_id: "4b5f690e-8232-439b-9964-8d28b3108b03"
             playbook_file: "rstudio_minimal.yml"
             ansible_galaxy_file: "rstudio.yml"
 
