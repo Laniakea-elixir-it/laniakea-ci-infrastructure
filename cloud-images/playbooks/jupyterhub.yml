@@ -1,7 +1,7 @@
 ---
 - hosts: default
   roles:
-    - role: laniakea.jupyterhub
+    - role: ansible-role-laniakea-jupyterhub
       become: yes
 
   post_tasks:
