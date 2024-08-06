@@ -1,0 +1,18 @@
+---
+auth_url: https://keystone.recas.ba.infn.it
+auth_type: "v3oidcaccesstoken"
+protocol: "openid"
+identity_provider: "recas-bari"
+identity_api_version: 3
+region_name: "RegionOne"
+interface: "public"
+
+tenants:
+  elixir-italy-services:
+    id: d08a559abb2047f38ac447a332715d08
+  ELIXIR-PAAS:
+    id: 3b38073bf9e04049bf0cab08b2c1c9a0
+  usegalaxy-it:
+    id: de43ed139278425c981263c90e39f18e
+  elixir-italy-general:
+    id: f3f336ebe3364caab8a83bb1b89e7304
