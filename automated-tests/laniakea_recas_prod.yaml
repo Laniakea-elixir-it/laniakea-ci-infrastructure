@@ -14,8 +14,9 @@ test_user:
 test:
     simple_node:
         name: "simple-node"
-        enabled: no
+        enabled: yes
         run_more: no # this tosca template doesn't produce a valid endpoint to check with requests.
+        delete: yes
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/single-vm/single_vm.yaml"
         tosca_template_path: "/tmp/laniakea_dev/single_vm.yaml"
         inputs:
@@ -23,19 +24,18 @@ test:
 
     galaxy:
         name: "galaxy-minimal"
-        enabled: no
-        run_more: ['endpoint', 'ftp','galaxy_tools_FQC','galaxy_tools_mapping','screenshot']
+        enabled: yes
+        run_more: ['endpoint']
         delete: always # always, no, on_success, on_error # TODO add the possibility to not delete the deployment.
-        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/galaxy.yaml"
+        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/galaxy/galaxy.yaml"
         tosca_template_path: "/tmp/laniakea_dev/galaxy.yml"
         inputs:
             instance_flavor: "large"
             storage_size: "50 GB"
-            os_distribution: "centos"
-            os_version: "7"
-            version: "release_21.09"
+            os_distribution: "rockylinux"
+            os_version: "9.3"
+            version: "release_24.1"
             admin_api_key: not_very_secret_api_key
-            users: []
             instance_description: "Galaxy Live"
 
     galaxy_express:
@@ -44,7 +44,7 @@ test:
         #run_more: ['endpoint'] 
         #run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot'] # Screenshot test available only for galaxt, since the credentials are required.
         run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot']
-        delete: no #always
+        delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/galaxy/galaxy-express.yaml"
         tosca_template_path: "/tmp/galaxy-express.yml"
         inputs:
