@@ -27,7 +27,7 @@ test:
 
     galaxy:
         name: "galaxy-minimal"
-        enabled: no
+        enabled: yes
         run_more: ['endpoint']
         delete: always # always, no, on_success, on_error # TODO add the possibility to not delete the deployment.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/galaxy/galaxy.yaml"
@@ -43,7 +43,7 @@ test:
 
     galaxy_express:
         name: "galaxy-express"
-        enabled: no
+        enabled: yes
         #run_more: ['endpoint'] 
         #run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot'] # Screenshot test available only for galaxt, since the credentials are required.
         run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot']
