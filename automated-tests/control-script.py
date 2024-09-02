@@ -261,6 +261,12 @@ def indigo_paas_checker():
     end()
     sys.exit(1)
 
+  # Clean template dest dir
+  tosca_dest = test_list['tosca_dest']
+  if os.path.exists(tosca_dest):
+      os.rmdir(tosca_dest)
+  os.mkdir(tosca_dest)
+
   # Run PaaS orchestrator tests
   iam_group = test_list['iam_group']
   summary_json = run_test_list(test_list, iam_group, orchestrator_url, float(options.polling_time))
