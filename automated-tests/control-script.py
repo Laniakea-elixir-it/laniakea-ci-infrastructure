@@ -9,10 +9,12 @@ import re
 import yaml 
 import requests
 import json
+import shutil
 
 from LogFacility import logger
 logger.info('Start Test')
 
+# Custom imports
 from Deployments import Deployment
 import Utils
 import Tests
@@ -264,7 +266,7 @@ def indigo_paas_checker():
   # Clean template dest dir
   tosca_dest = test_list['tosca_dest']
   if os.path.exists(tosca_dest):
-      os.rmdir(tosca_dest)
+      shutil.rmtree(tosca_dest)
   os.mkdir(tosca_dest)
 
   # Run PaaS orchestrator tests
