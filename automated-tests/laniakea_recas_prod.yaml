@@ -17,17 +17,19 @@ tosca_dest: '/tmp/laniakea_dev'
 test:
     simple_node:
         name: "simple-node"
-        enabled: no
+        enabled: yes
         run_more: no # this tosca template doesn't produce a valid endpoint to check with requests.
         delete: yes
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/single-vm/single_vm.yaml"
         tosca_template_path: "/tmp/laniakea_dev/single_vm.yaml"
         inputs:
             users: []
+            os_distribution: rockylinux
+            os_version: 9.3
 
     galaxy:
         name: "galaxy-minimal"
-        enabled: yes
+        enabled: no
         run_more: ['endpoint']
         delete: always # always, no, on_success, on_error # TODO add the possibility to not delete the deployment.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/galaxy/galaxy.yaml"
@@ -43,7 +45,7 @@ test:
 
     galaxy_express:
         name: "galaxy-express"
-        enabled: yes
+        enabled: no
         #run_more: ['endpoint'] 
         #run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot'] # Screenshot test available only for galaxt, since the credentials are required.
         run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot']
