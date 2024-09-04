@@ -17,7 +17,7 @@ tosca_dest: '/tmp/laniakea_dev'
 test:
     simple_node:
         name: "simple-node"
-        enabled: yes
+        enabled: no
         run_more: no # this tosca template doesn't produce a valid endpoint to check with requests.
         delete: yes
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/single-vm/single_vm.yaml"
@@ -29,7 +29,7 @@ test:
 
     galaxy:
         name: "galaxy-minimal"
-        enabled: no
+        enabled: yes
         run_more: ['endpoint']
         delete: always # always, no, on_success, on_error # TODO add the possibility to not delete the deployment.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/galaxy/galaxy.yaml"
