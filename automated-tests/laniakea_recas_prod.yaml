@@ -35,7 +35,9 @@ test:
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/galaxy/galaxy.yaml"
         tosca_template_path: "/tmp/laniakea_dev/galaxy.yml"
         inputs:
-            instance_flavor: "large"
+            users: []
+            num_cpus: 4
+            mem_size: 8 GB
             storage_size: "50 GB"
             os_distribution: "rockylinux"
             os_version: "9.3"
