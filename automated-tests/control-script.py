@@ -235,6 +235,10 @@ def end_test(dep, create_status_record, delete):
     logger.debug('Deployment ' + dep_uuid + ' creation failed.')
     current_status = dep.get_status()
     logger.debug('Current status ' + current_status)
+    deplog_out, deplog_err, deplog_status = dep.deplog()
+    logger.debug('Deployments logs')
+    logger.debug('Deployment details - stdout: ' + deplog_out)
+    logger.debug('Deployment details - stderr: ' + deplog_err)
     return False
   if(delete_status_record == 'DELETE_FAILED'):
     logger.debug('Deployment ' + dep_uuid + ' delete failed.')
