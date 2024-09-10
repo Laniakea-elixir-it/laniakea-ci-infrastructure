@@ -68,11 +68,6 @@ def run_test_list(test_list, group, orchestrator_url, polling_time):
 
     if enable_test:
 
-      delete = str(test_list['test'][i]['delete'])
-      logger.debug("------ PROVA DELETE --------")
-      logger.debug(test_list['test'][i]['delete'])
-      logger.debug(delete)
-
       name = test_list['test'][i]['name']
 
       tosca_template_path = test_list['test'][i]['tosca_template_path']
@@ -197,7 +192,7 @@ def end_test(dep, create_status_record, delete):
   #####################################################################################
   dep_uuid = dep.get_uuid()
 
-  if delete == 'no':
+  if delete is False:
     logger.debug('Deployment not due for delete.')
     return True
 
