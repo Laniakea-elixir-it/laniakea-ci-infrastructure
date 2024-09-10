@@ -41,7 +41,7 @@ test:
             storage_size: "50 GB"
             os_distribution: "rockylinux"
             os_version: "9.3"
-            version: "release_23.20"
+            version: "release_23.0"
             admin_api_key: not_very_secret_api_key
             instance_description: "Galaxy Live"
 
