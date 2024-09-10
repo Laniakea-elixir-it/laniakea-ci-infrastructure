@@ -68,6 +68,10 @@ def run_test_list(test_list, group, orchestrator_url, polling_time):
 
     if enable_test:
 
+      delete = str(test_list['test'][i]['delete'])
+      logger.debug("------ PROVA DELETE --------")
+      logger.debug(delete)
+
       name = test_list['test'][i]['name']
 
       tosca_template_path = test_list['test'][i]['tosca_template_path']
