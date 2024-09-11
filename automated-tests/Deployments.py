@@ -118,6 +118,14 @@ class Deployment:
     
         return stdout.decode("utf-8"), stderr.decode("utf-8"), status
 
+    def deplog(self):
+
+        command="/usr/bin/orchent deplog " + self.dep_uuid
+
+        stdout, stderr, status = Utils.run_command(command)
+
+        return stdout.decode("utf-8"), stderr.decode("utf-8"), status
+
 
     def depdel(self):
 
