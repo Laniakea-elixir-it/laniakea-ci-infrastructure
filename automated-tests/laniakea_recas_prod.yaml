@@ -44,6 +44,7 @@ test:
             version: "release_23.0"
             admin_api_key: not_very_secret_api_key
             instance_description: "Galaxy Live"
+            enable_interactive_tools: false
 
     galaxy_express:
         name: "galaxy-express"
