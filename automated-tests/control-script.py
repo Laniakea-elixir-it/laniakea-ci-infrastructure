@@ -192,6 +192,16 @@ def end_test(dep, create_status_record, delete):
   #####################################################################################
   dep_uuid = dep.get_uuid()
 
+  # Always print logs
+  deplog_out, deplog_err, deplog_status = dep.deplog()
+  logger.debug('Deployments logs')
+  logger.debug('Deployment details - stdout: ' + deplog_out)
+  logger.debug('Deployment details - stderr: ' + deplog_err)
+
+  # Avoid delete if required in yaml
+  logger.debug('--------- DELETE TEST ------------')
+  logger.debug(delete)
+  logger.debug(type(delete))
   if delete is False:
     logger.debug('Deployment not due for delete.')
     return True
@@ -235,10 +245,6 @@ def end_test(dep, create_status_record, delete):
     logger.debug('Deployment ' + dep_uuid + ' creation failed.')
     current_status = dep.get_status()
     logger.debug('Current status ' + current_status)
-    deplog_out, deplog_err, deplog_status = dep.deplog()
-    logger.debug('Deployments logs')
-    logger.debug('Deployment details - stdout: ' + deplog_out)
-    logger.debug('Deployment details - stderr: ' + deplog_err)
     return False
   if(delete_status_record == 'DELETE_FAILED'):
     logger.debug('Deployment ' + dep_uuid + ' delete failed.')
@@ -266,6 +272,11 @@ def indigo_paas_checker():
     logger.debug('Unable to contact the orchestrator at %s.' % options.orchestrator_url)
     end()
     sys.exit(1)
+
+  logger.debug('--------- DELETE TEST ------------')
+  delete = str(test_list['test'][i]['delete'])
+  logger.debug(delete)
+  logger.debug(type(delete))
 
   # Clean template dest dir
   tosca_dest = test_list['tosca_dest']
