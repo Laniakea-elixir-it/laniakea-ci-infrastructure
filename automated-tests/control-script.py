@@ -68,6 +68,7 @@ def run_test_list(test_list, group, orchestrator_url, polling_time):
 
     logger.debug("------------- DELETE TEST ------------")
     delete = str(test_list['test'][i]['delete'])
+    logger.debug(test_list['test'][i]['name']
     logger.debug(delete)
     logger.debug(type(delete))
 
