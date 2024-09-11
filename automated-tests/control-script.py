@@ -66,6 +66,11 @@ def run_test_list(test_list, group, orchestrator_url, polling_time):
 
     enable_test = test_list['test'][i]['enabled']
 
+    logger.debug("------------- DELETE TEST ------------")
+    delete = str(test_list['test'][i]['delete'])
+    logger.debug(delete)
+    logger.debug(type(delete))
+
     if enable_test:
 
       name = test_list['test'][i]['name']
@@ -272,11 +277,6 @@ def indigo_paas_checker():
     logger.debug('Unable to contact the orchestrator at %s.' % options.orchestrator_url)
     end()
     sys.exit(1)
-
-  logger.debug('--------- DELETE TEST ------------')
-  delete = str(test_list['test'][i]['delete'])
-  logger.debug(delete)
-  logger.debug(type(delete))
 
   # Clean template dest dir
   tosca_dest = test_list['tosca_dest']
