@@ -66,12 +66,6 @@ def run_test_list(test_list, group, orchestrator_url, polling_time):
 
     enable_test = test_list['test'][i]['enabled']
 
-    logger.debug("------------- DELETE TEST ------------")
-    delete = test_list['test'][i]['delete']
-    logger.debug(test_list['test'][i]['name'])
-    logger.debug(delete)
-    logger.debug(type(delete))
-
     if enable_test:
 
       name = test_list['test'][i]['name']
@@ -205,9 +199,6 @@ def end_test(dep, create_status_record, delete):
   logger.debug('Deployment details - stderr: ' + deplog_err)
 
   # Avoid delete if required in yaml
-  logger.debug('--------- DELETE TEST ------------')
-  logger.debug(delete)
-  logger.debug(type(delete))
   if delete is False:
     logger.debug('Deployment not due for delete.')
     return True
