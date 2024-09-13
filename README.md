@@ -6,10 +6,8 @@ Laniakea CI Infrastructure for image and docker creation and testing.
 | Service | Status |
 | --- | --- |
 | Laniakea image build | [![Build Status](http://build-usegalaxy-it.cloud.ba.infn.it:4000/jenkins/buildStatus/icon?job=Laniakea_image_build)](http://build-usegalaxy-it.cloud.ba.infn.it:4000/jenkins/view/Laniakea/job/Laniakea_image_build/) |
-| Laniakea prod testing | [![Build Status](http://build-usegalaxy-it.cloud.ba.infn.it:4000/jenkins/buildStatus/icon?subject=testing)](http://build-usegalaxy-it.cloud.ba.infn.it/:4000/jenkins/job/laniakea_at_recas_prod_test/) |
-| Laniakea dev testing | [![Build Status](https://build-usegalaxy-it.cloud.ba.infn.it/jenkins/buildStatus/icon?subject=testing)](https://build-usegalaxy-it.cloud.ba.infn.it/jenkins/view/Laniakea/job/laniakea_dev_test/) |
-
-
+| Laniakea prod testing | [![Build Status](https://build-usegalaxy-it.cloud.ba.infn.it/jenkins/buildStatus/icon?job=laniakea-automated-tests)](https://build-usegalaxy-it.cloud.ba.infn.it/jenkins/view/Laniakea/job/laniakea-automated-tests/) |
+| Laniakea dev testing | - |
 
 SSL certificate test
 --------------------
