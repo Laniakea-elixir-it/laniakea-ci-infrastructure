@@ -95,6 +95,7 @@ def parse_list(info_list, outpath):
 
     r = requests.get(images_db_url)
     current_images_list = r.json()
+    print(current_image_list)
     for k in range(len(current_images_list['rows'])):
         current_image_name = current_images_list['rows'][k]['doc']['data']['image_name']
         current_image_version = current_images_list['rows'][k]['doc']['data']['version']
