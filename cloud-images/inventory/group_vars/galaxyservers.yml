@@ -2,7 +2,7 @@
 galaxy_virtualenv_command: /usr/bin/python3 -m virtualenv
 
 ##postgresql configuration
-postgresql_version: 11
+postgresql_version: 12
 postgresql_objects_users:
   - name: galaxy
 postgresql_objects_databases:
@@ -59,7 +59,7 @@ galaxy_config:
       #app_server: gunicorn
     gunicorn:
       # listening options
-      bind: "127.0.0.1:4001"
+      bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
       # performance options
       workers: 2
       # Other options that will be passed to gunicorn
