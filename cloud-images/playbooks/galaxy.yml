@@ -1,5 +1,5 @@
 ---
-- hosts: galaxyservers
+- hosts: default
   become: true
   become_user: root
   pre_tasks:
