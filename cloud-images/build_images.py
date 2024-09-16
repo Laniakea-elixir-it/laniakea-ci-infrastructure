@@ -95,10 +95,12 @@ def parse_list(info_list, outpath):
 
     r = requests.get(images_db_url)
     current_images_list = r.json()
-    print(current_image_list)
     for k in range(len(current_images_list['rows'])):
         current_image_name = current_images_list['rows'][k]['doc']['data']['image_name']
-        current_image_version = current_images_list['rows'][k]['doc']['data']['version']
+        if 'version' not in current_images_list['rows'][k]['doc']['data']:
+            logger.debug('There is no version to compare with.')
+        else:
+            current_image_version = current_images_list['rows'][k]['doc']['data']['version']
 
     images_to_build = []
     for i in info_list['images']:
