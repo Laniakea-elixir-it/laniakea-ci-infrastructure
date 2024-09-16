@@ -35,7 +35,7 @@ images:
     rstudio-minimal:
         name: rstudio-minimal
         version: v1.0.0
-        build: no
+        build: yes
         packer:
             ssh_username: rocky
             source_image: "edf58cd1-b2f2-4d57-9bd6-0259e872ae4f" # RockyLinux 9.3 20231113
