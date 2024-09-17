@@ -49,8 +49,8 @@
     - name: '[VM] Wait Galaxy'
       wait_for:
         host: 127.0.0.1
-        port: '4001'
-        timeout: 300
+        path: "/home/galaxy/galaxy/config/gunicorn.sock"
+        timeout: 500
     - name: lock-file absent 
       file:
         path: /export/tool_deps/conda.lock 
@@ -58,20 +58,23 @@
 
     # Stop services
     - name: stop galaxy
+      command: "/usr/local/bin/galaxyctl -c /home/galaxy/galaxy/config/galaxy.yml stop"
+      become: yes
+    - name: stop TUSd
       systemd:
         state: stopped
         enabled: false
-        name: galaxy
+        name: galaxy-tusd
     - name: stop nginx
       systemd:
         state: stopped
         enabled: false
         name: nginx
-    - name: stop postgresql-11
+    - name: stop postgresql
       systemd:
         state: stopped
         enabled: false
-        name: postgresql-11
+        name: postgresql-13
     - name: stop docker.service
       systemd:
         state: stopped
