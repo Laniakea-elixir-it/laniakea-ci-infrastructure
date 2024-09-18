@@ -2,7 +2,15 @@
 - hosts: default
   become: true
   become_user: root
+  vars:
+    # SSH laniakea robot key
+    laniakea_robot_key_pub: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDH1TyGvTGFzEBK2lSrcCvKVTQiA7jLQJYIPlsWZcyQzfgDhcJEBt93wJpj9cn8rnJHFFwnoRWfMSZqUn0VD+tByIWdi32fgjD/+6zUbyZojFAiiIQN80/8toktw7duynpDJPNgRt6a7PnsFX24s1jhkN8WZShRf6SpubRAUyxgj6Zuz7KQtieY2x2YRdAAXsKpnOGbMi2mE5G+PLVx/t3FzcHheDqNPz6R5j0Ikq/uiobd+E1hwCCW+P8+qa+OPnrhvuNf24mOApwGvEkKDELHJotTLAdCmfbhpuBqTx3BICPikdzOwpJ4tCierU+SxD1wy7ffCEonrEwNN7gBiT9d'
   pre_tasks:
+    - name: 'Inject laniakea-robot ssh public key for debug - root'
+      authorized_key:
+        user: 'root'
+        key: '{{ laniakea_robot_key_pub }}'
+      ignore_errors: true
     - name: '[EL] Install Packages for Rocky Linux'
       ansible.builtin.dnf:
         name: ['langpacks-en', 'glibc-all-langpacks', 'epel-release', 'python3-wheel-wheel']
@@ -52,7 +60,7 @@
       wait_for:
         host: 127.0.0.1
         port: '4001'
-        timeout: 500
+        timeout: 5000
     - name: lock-file absent 
       file:
         path: /export/tool_deps/conda.lock 
