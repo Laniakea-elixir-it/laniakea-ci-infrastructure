@@ -59,7 +59,7 @@ galaxy_config:
       #app_server: gunicorn
     gunicorn:
       # listening options
-      bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
+      bind: "127.0.0.1:4001"
       # performance options
       workers: 2
       # Other options that will be passed to gunicorn

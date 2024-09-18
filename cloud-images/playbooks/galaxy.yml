@@ -46,10 +46,12 @@
   post_tasks:
 
     # Wait Galaxy and Conda
+    # Galaxy here is configured for listening on TPC 4001 port.
+    # It is configured to gunicorn socket file bind with ansible at deploy time.
     - name: '[VM] Wait Galaxy'
       wait_for:
         host: 127.0.0.1
-        path: "/home/galaxy/galaxy/config/gunicorn.sock"
+        port: '4001'
         timeout: 500
     - name: lock-file absent 
       file:
