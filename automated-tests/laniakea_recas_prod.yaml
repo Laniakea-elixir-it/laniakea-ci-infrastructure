@@ -19,7 +19,7 @@ test:
         name: "simple-node"
         enabled: no
         run_more: no # this tosca template doesn't produce a valid endpoint to check with requests.
-        delete: yes
+        delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/single-vm/single_vm.yaml"
         tosca_template_path: "/tmp/laniakea_dev/single_vm.yaml"
         inputs:
@@ -31,7 +31,7 @@ test:
         name: "galaxy-minimal"
         enabled: no
         run_more: ['endpoint']
-        delete: yes # always, no, on_success, on_error # TODO add the possibility to not delete the deployment.
+        delete: always # always, no, on_success, on_error # TODO add the possibility to not delete the deployment.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/galaxy/galaxy.yaml"
         tosca_template_path: "/tmp/laniakea_dev/galaxy.yml"
         inputs:
@@ -48,16 +48,17 @@ test:
 
     galaxy_express:
         name: "galaxy-express"
-        enabled: no
+        enabled: yes
         #run_more: ['endpoint'] 
         #run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot'] # Screenshot test available only for galaxt, since the credentials are required.
         run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot']
         delete: always
-        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/galaxy/galaxy-express.yaml"
+        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/galaxy/laniakea-galaxy-express.yaml"
         tosca_template_path: "/tmp/galaxy-express.yml"
         inputs:
             users: []
-            instance_flavor: "large"
+            num_cpus: 4
+            mem_size: 8 GB
             storage_size: "50 GB"
             version: "rocklinux-9.3-express-galaxy-23.0_v1.0.4_beta4"
             instance_description: "Laniakea Jenkins"
