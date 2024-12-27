@@ -52,7 +52,7 @@ test:
         #run_more: ['endpoint'] 
         #run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot'] # Screenshot test available only for galaxt, since the credentials are required.
         run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot']
-        delete: no
+        delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/galaxy/laniakea-galaxy-express.yaml"
         tosca_template_path: "/tmp/galaxy-express.yml"
         inputs:
