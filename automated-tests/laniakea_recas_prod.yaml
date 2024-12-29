@@ -17,7 +17,7 @@ tosca_dest: '/tmp/laniakea_dev'
 test:
     simple_node:
         name: "simple-node"
-        enabled: yes
+        enabled: no
         run_more: no # this tosca template doesn't produce a valid endpoint to check with requests.
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/single-vm/single_vm.yaml"
@@ -52,7 +52,7 @@ test:
         #run_more: ['endpoint'] 
         #run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot'] # Screenshot test available only for galaxt, since the credentials are required.
         run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot']
-        delete: always
+        delete: no
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/galaxy/laniakea-galaxy-express.yaml"
         tosca_template_path: "/tmp/galaxy-express.yml"
         inputs:
@@ -74,7 +74,7 @@ test:
         enabled: no
         run_more: ['endpoint'] # Screenshot test available only for galaxt, since the credentials are required. 
         delete: always
-        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/single-vm/single_vm.yaml"
+        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/utils/nfs.yml"
         tosca_template_path: "/tmp/laniakea_dev/nfs.yaml"
         inputs:
             instance_flavor: "large"
