@@ -66,6 +66,46 @@ test:
             admin_api_key: not_very_secret_api_key
 
     #______________________________
+    # HTCondor
+    
+    nfs:
+        name: "nfs"
+        enalbed: no
+        enabled: no
+        run_more: ['endpoint'] # Screenshot test available only for galaxt, since the credentials are required. 
+        delete: always
+        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/single-vm/single_vm.yaml"
+        tosca_template_path: "/tmp/laniakea_dev/nfs.yaml"
+        inputs:
+            instance_flavor: "large"
+            storage_size: "50 GB"
+            users: []
+
+    htcondor:
+        name: "htcondor"
+        enabled: no
+        run_more: ['endpoint'] # Screenshot test available only for galaxt, since the credentials are required.
+        delete: always
+        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/single-vm/single_vm.yaml"
+        tosca_template_path: "/tmp/laniakea_dev/htcondor.yaml"
+        inputs:
+            instance_flavor: "large"
+            storage_size: "50 GB"
+            users: []
+
+    galaxy_htcondor:
+        name: "galaxy-cluster"
+        enabled: no
+        run_more: ['endpoint'] # Screenshot test available only for galaxt, since the credentials are required.
+        delete: always
+        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/single-vm/single_vm.yaml"
+        tosca_template_path: "/tmp/laniakea_dev/galaxy-cluster.yaml"
+        inputs:
+            instance_flavor: "large"
+            storage_size: "50 GB"
+            users: []
+              
+    #______________________________
     # RStudio
     rstudio_minimal:
         name: "rstudio-minimal"
