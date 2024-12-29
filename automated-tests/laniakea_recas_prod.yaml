@@ -17,7 +17,7 @@ tosca_dest: '/tmp/laniakea_dev'
 test:
     simple_node:
         name: "simple-node"
-        enabled: no
+        enabled: yes
         run_more: no # this tosca template doesn't produce a valid endpoint to check with requests.
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/single-vm/single_vm.yaml"
