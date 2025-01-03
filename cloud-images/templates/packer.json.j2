@@ -17,8 +17,8 @@
 			"type": "ansible",
                         {% if 'galaxy' in playbook_file %}
                         "extra_arguments": ["--extra-vars","@./inventory/group_vars/galaxyservers.yml"],
-                        {% elif 'centos_custom' in playbook_file %}
-                        "extra_arguments": ["--extra-vars","@./inventory/group_vars/centos_custom.yml"],
+                        {% elif 'rockylinux-laniakea-dev' in playbook_file %}
+                        "extra_arguments": ["--extra-vars","@./inventory/group_vars/rockylinux-laniakea-dev.yml"],
                         {% endif%}
 			"inventory_directory": "./inventory/",
                         {% if ansible_galaxy_file %}

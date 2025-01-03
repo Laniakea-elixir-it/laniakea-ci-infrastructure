@@ -1,0 +1,2 @@
+- src: https://github.com/geerlingguy/ansible-role-repo-epel.git
+  version: 3.1.1

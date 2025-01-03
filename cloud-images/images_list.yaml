@@ -9,7 +9,7 @@ images:
     galaxy-express:
         name: "galaxy-express,release_23.2"
         version: v1.0.0
-        build: yes
+        build: no
         packer:
             ssh_username: rocky
             source_image: "edf58cd1-b2f2-4d57-9bd6-0259e872ae4f" # RockyLinux 9.3 20231113
@@ -19,18 +19,18 @@ images:
             playbook_file: "galaxy.yml"
             ansible_galaxy_file: "galaxy.yml"
 
-    image-test-express:
-        name: centos_2211_laniakea_robot
-        version: v1.0.2
-        build: no
+    rockylinux-lanaiakea-dev:
+        name: rockylinux.9.5-laniakea-dev
+        version: v1.0.0
+        build: yes
         packer:
-            ssh_username: centos
-            source_image: "8247c6e2-5073-4d1e-9bdd-a321207eb7b4" # centos 7 2211
+            ssh_username: rocky
+            source_image: "19c7bdff-d7cd-4623-98cd-d6d75741fe7a" # RockyLinux_9.5_20241118
             flavor: large
             volume_size: "10"
-            network_id: "fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
-            playbook_file: "centos_custom.yml"
-            #ansible_galaxy_file: "centos_custom.yml"
+            network_id: "4b5f690e-8232-439b-9964-8d28b3108b03" # public net
+            playbook_file: "rockylinux-laniakea-dev.yml"
+            ansible_galaxy_file: "rockylinux-laniakea-dev.yml"
 
     rstudio-minimal:
         name: rstudio-minimal
