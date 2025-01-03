@@ -18,3 +18,5 @@
         user: '{{ laniakea_robot_user }}'
         key: '{{ laniakea_robot_key_pub }}'
       ignore_errors: true
+  roles:
+    - ansible-role-repo-epel
