@@ -71,7 +71,7 @@ test:
     nfs:
         name: "nfs"
         enabled: yes
-        run_more: ['endpoint'] 
+        run_more: [] 
         delete: yes
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/utils/nfs.yml"
         tosca_template_path: "/tmp/laniakea_dev/nfs.yaml"
