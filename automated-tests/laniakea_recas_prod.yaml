@@ -17,7 +17,7 @@ tosca_dest: '/tmp/laniakea_dev'
 test:
     simple_node:
         name: "simple-node"
-        enabled: no
+        enabled: yes
         run_more: no # this tosca template doesn't produce a valid endpoint to check with requests.
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/single-vm/single_vm.yaml"
@@ -48,7 +48,7 @@ test:
 
     galaxy_express:
         name: "galaxy-express"
-        enabled: no
+        enabled: yes
         #run_more: ['endpoint'] 
         #run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot'] # Screenshot test available only for galaxt, since the credentials are required.
         run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot']
@@ -72,7 +72,7 @@ test:
         name: "nfs"
         enabled: yes
         run_more: ['endpoint'] 
-        delete: no
+        delete: yes
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/utils/nfs.yml"
         tosca_template_path: "/tmp/laniakea_dev/nfs.yaml"
         inputs:
@@ -134,7 +134,7 @@ test:
     # JupyterHub
     jupyterhub_minimal:
         name: "jupyterhub"
-        enabled: no
+        enabled: yes
         run_more: ['endpoint'] # Screenshot test available only for galaxt, since the credentials are required. 
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/jupyterhub/jupyterhub.yml"
