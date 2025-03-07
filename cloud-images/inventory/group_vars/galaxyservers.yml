@@ -28,7 +28,7 @@ galaxy_root: /home/galaxy/galaxy
 galaxy_server_dir: '{{ galaxy_root }}/server' 
 galaxy_mutable_config_dir: '{{ galaxy_root }}/config' 
 galaxy_config_file: '{{ galaxy_mutable_config_dir }}/galaxy.yml' 
-galaxy_commit_id: release_23.2
+galaxy_commit_id: release_24.1
 galaxy_config_style: yaml
 galaxy_config:
   galaxy:
@@ -59,7 +59,7 @@ galaxy_config:
       #app_server: gunicorn
     gunicorn:
       # listening options
-      bind: "127.0.0.1:4001"
+      bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
       # performance options
       workers: 2
       # Other options that will be passed to gunicorn
