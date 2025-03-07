@@ -167,7 +167,7 @@ def build_image(path):
     """
     Run subprocess call redirecting stdout, stderr and the command exit code.
     """
-    cmd = packer_exe + ' build ' + path + '-debug'
+    cmd = packer_exe + ' build ' + path
     logger.debug(cmd)
 
     proc = subprocess.Popen( args=cmd, shell=True,  stdout=subprocess.PIPE, stderr=subprocess.STDOUT )
