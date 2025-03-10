@@ -82,7 +82,7 @@ test:
     htcondor:
         name: "htcondor"
         enabled: yes
-        run_more: ['endpoint'] # Screenshot test available only for galaxt, since the credentials are required.
+        run_more: []
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/utils/htcondor.yml"
         tosca_template_path: "/tmp/laniakea_dev/htcondor.yaml"
