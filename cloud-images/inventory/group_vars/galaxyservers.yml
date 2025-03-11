@@ -66,6 +66,7 @@ galaxy_config:
     conda_prefix: '{{ export_dir }}/tool_deps/_conda'
     job_working_directory: '{{ export_dir }}/database/job_working_dir'
     galaxy_url_prefix: /galaxy
+    job_config: "{{ galaxy_job_config }}"
     #TUS
     tus_upload_store: "{{ database_path }}/tus"
     galaxy_infrastructure_url: "https://{{ inventory_hostname }}/galaxy"
