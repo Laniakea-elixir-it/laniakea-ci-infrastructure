@@ -48,7 +48,7 @@ test:
 
     galaxy_express:
         name: "galaxy-express"
-        enabled: no
+        enabled: yes
         #run_more: ['endpoint'] 
         #run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot'] # Screenshot test available only for galaxt, since the credentials are required.
         run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot']
@@ -68,7 +68,7 @@ test:
     galaxy_express_htcondor:
         name: "galaxy-express-htcondor"
         enabled: yes
-        run_more: ['endpoint, galaxy_tools_FQC, galaxy_tools_mapping'] # Screenshot test available only for galaxt, since the credentials are required.
+        run_more: ['endpoint, galaxy_tools_FQC, galaxy_tools_mapping', 'screenshot'] # Screenshot test available only for galaxt, since the credentials are required.
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/galaxy/galaxy-express-htcondor.yaml"
         tosca_template_path: "/tmp/laniakea_dev/galaxy-express-cluster.yaml"
@@ -81,7 +81,7 @@ test:
             exec_cpus: 4
             exec_mem: 8 GB
             version: "rocklinux-9.3-express-galaxy-23.0_v1.0.4_beta4"
-            instance_description: "Laniakea Jenkins"
+            instance_description: "HTCondor"
             enable_interactive_tools: false
             admin_api_key: not_very_secret_api_key
 

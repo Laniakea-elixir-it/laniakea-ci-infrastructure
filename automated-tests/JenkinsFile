@@ -26,7 +26,7 @@ pipeline {
 			subject: '$DEFAULT_SUBJECT',
 			body: '$DEFAULT_CONTENT',
 			to: '$DEFAULT_RECIPIENTS',
-			attachmentsPattern: 'automated-tests/galaxy_screenshot.png'
+			attachmentsPattern: 'automated-tests/galaxy_screenshot.png, automated-tests/galaxy_screenshot*'
                         )
 			cleanWs()
 		}

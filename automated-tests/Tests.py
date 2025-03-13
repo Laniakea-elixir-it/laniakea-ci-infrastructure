@@ -18,7 +18,7 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from urllib.parse import urlparse
-
+from datetime import datetime
 
 #______________________________________
 def check_orchestrator_status(path, url):
@@ -154,6 +154,9 @@ def screenshot_galaxy(geckodriver_path, endpoint, username, password, output_pat
     output_path = find_unique_path(output_path)
     driver.get_screenshot_as_file(output_path)
     driver.close()
+    current_date = datetime.now().strftime("%y%m%d_%H%M%S")
+    output_path_renamed = 'galaxy_screenshot' + current_date + '.png'
+    os.rename(output_path, output_path_renamed)
 
 def screenshot(deployment, test_vars):
     logger.debug(f'Running screenshot test...')
