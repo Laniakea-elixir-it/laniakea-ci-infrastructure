@@ -20,7 +20,10 @@ pipeline {
 			}
 		}
 	}
-	post { 
+	post {
+                always {
+                       archiveArtifacts 'automated-tests/galaxy_screenshot*'
+                } 
 		success {
 			emailext (
 			subject: '$DEFAULT_SUBJECT',
