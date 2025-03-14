@@ -22,7 +22,7 @@ pipeline {
 	}
 	post {
                 always {
-                       archiveArtifacts 'automated-tests/galaxy_screenshot*'
+                       archiveArtifacts 'galaxy_screenshot*'
                 } 
 		success {
 			emailext (
