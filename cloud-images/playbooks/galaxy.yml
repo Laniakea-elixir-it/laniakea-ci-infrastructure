@@ -60,7 +60,7 @@
       wait_for:
         host: 127.0.0.1
         path: "{{ galaxy_mutable_config_dir }}/gunicorn.sock"
-        timeout: 5000
+        timeout: 15000
     - name: lock-file absent 
       file:
         path: /export/tool_deps/conda.lock 
