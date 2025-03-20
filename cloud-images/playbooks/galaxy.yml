@@ -54,6 +54,7 @@
   post_tasks:
 
     # Wait Galaxy and Conda
+    # WARNING!!! PLEASE READ BEFORE CHANGE!
     # Galaxy here is configured for listening on TPC 4001 port.
     # It is configured to gunicorn socket file bind with ansible at deploy time.
     - name: 'Wait Galaxy'
