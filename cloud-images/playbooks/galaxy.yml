@@ -59,7 +59,7 @@
     - name: 'Wait Galaxy'
       wait_for:
         host: 127.0.0.1
-        path: "{{ galaxy_mutable_config_dir }}/gunicorn.sock"
+          port: '4001'
         timeout: 15000
     - name: lock-file absent 
       file:
