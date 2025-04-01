@@ -52,6 +52,15 @@
       #when: enable_interactive_tools
 
   post_tasks:
+    # Create the /export directory otherwise Galaxy can't start
+    # It will be deleted before the end of this playbook as last task
+    - name: 'Create /export'
+      file:
+        state: directory
+        path: '{{ export_dir }}'
+        owner: galaxy
+        group: galaxy
+         mode: '0755'
 
     # Wait Galaxy and Conda
     # WARNING!!! PLEASE READ BEFORE CHANGE!
