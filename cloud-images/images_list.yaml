@@ -7,7 +7,7 @@ reports_repository: 'git@github.com:Laniakea-elixir-it/laniakea-images.git'
 
 images:
     galaxy-express:
-        name: "galaxy-express,release_24.1"
+        name: "galaxy-express,release_24.2"
         version: v1.0.0
         build: yes
         packer:
