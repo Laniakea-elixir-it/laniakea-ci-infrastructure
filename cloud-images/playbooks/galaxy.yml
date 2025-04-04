@@ -52,6 +52,7 @@
       #when: enable_interactive_tools
 
   post_tasks:
+
     # Create the /export directory otherwise Galaxy can't start
     # It will be deleted before the end of this playbook as last task
     - name: 'Create /export'
@@ -60,7 +61,13 @@
         path: '{{ export_dir }}'
         owner: galaxy
         group: galaxy
-         mode: '0755'
+        mode: '0755'
+
+    # Start Galaxy
+    - name: galaxyctl update
+      command: "{{ galaxy_gravity_command }} -c {{ galaxy_config_file }} update"
+    - name: galaxy gravity restart
+      command: "{{ galaxy_gravity_command }} -c {{ galaxy_config_file }} graceful"
 
     # Wait Galaxy and Conda
     # WARNING!!! PLEASE READ BEFORE CHANGE!

@@ -30,6 +30,7 @@ galaxy_mutable_config_dir: '{{ galaxy_root }}/config'
 galaxy_config_file: '{{ galaxy_mutable_config_dir }}/galaxy.yml' 
 galaxy_commit_id: release_24.2
 galaxy_config_style: yaml
+galaxy_systemd_mode: 'gravity'
 
 # Galaxy Job Configuration
 galaxy_job_config:
