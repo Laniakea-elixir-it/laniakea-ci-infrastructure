@@ -43,6 +43,7 @@
       become: true
       become_user: postgres      
     - geerlingguy.pip
+    - galaxyproject.tusd
     - galaxyproject.galaxy
     - role: galaxyproject.miniconda
       become: true
