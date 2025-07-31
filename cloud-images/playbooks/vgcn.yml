@@ -79,7 +79,7 @@
     - name: Add groups to Galaxy user
       ansible.builtin.user:
         name: '{{ galaxy_user.name }}'
-        groups: condor,docker
+        groups: docker # we also need to add condor group.
         append: true
 
     - debug:
