@@ -9,7 +9,7 @@ images:
     galaxy-express:
         name: "galaxy-express,release_24.2"
         version: v1.0.1
-        build: yes
+        build: no
         packer:
             ssh_username: rocky
             source_image: "9e46d3fc-b7e7-4268-ab19-283cb1296f84" # RockyLinux_9.5_20241118
@@ -71,7 +71,6 @@ images:
             playbook_file: "jupyterhub.yml"
             ansible_galaxy_file: "jupyterhub.yml"
 
-
     jenkins_ubuntu:
         name: jenkins_ubuntu
         version: v1.0.0
@@ -84,3 +83,16 @@ images:
             network_id: "fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
             playbook_file: "jenkins_ubuntu.yml"
             ansible_galaxy_file: "jenkins_ubuntu.yml"
+
+    vgcn_usegalaxy_it:
+        name: "vgcn_usegalaxy_it"
+        version: v0.0.1
+        build: yes
+        packer:
+            ssh_username: rocky
+            source_image: "9e46d3fc-b7e7-4268-ab19-283cb1296f84" # RockyLinux_9.5_20241118
+            flavor: large
+            volume_size: "10"
+            network_id: "4b5f690e-8232-439b-9964-8d28b3108b03" # public net
+            playbook_file: "vgcn.yml"
+            ansible_galaxy_file: "vgcn.yml"

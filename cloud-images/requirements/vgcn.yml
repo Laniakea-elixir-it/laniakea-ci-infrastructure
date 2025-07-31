@@ -1,0 +1,26 @@
+---
+roles:
+
+  - name: geerlingguy.pip
+    src: https://github.com/geerlingguy/ansible-role-pip.git
+    version: 3.1.0
+
+  - name: geerlingguy.epel
+    src: https://github.com/geerlingguy/ansible-role-repo-epel.git
+    version: 3.1.1
+
+  - name: geerlingguy.ansible
+    src: https://github.com/geerlingguy/ansible-role-ansible.git
+    version: 2.3.0
+
+  - name: geerlingguy.docker
+    src: https://github.com/geerlingguy/ansible-role-docker.git
+    version: 7.4.7 
+
+  - name: galaxyproject.cvmfs
+    src: https://github.com/galaxyproject/ansible-cvmfs.git
+    version: 0.3.2
+
+  - name: usegalaxy_eu.apptainer
+    src: https://github.com/usegalaxy-eu/ansible-apptainer.git
+    version: 0.0.4
