@@ -19,6 +19,8 @@
                         "extra_arguments": ["--extra-vars","@./inventory/group_vars/galaxyservers.yml"],
                         {% elif 'rockylinux-laniakea-dev' in playbook_file %}
                         "extra_arguments": ["--extra-vars","@./inventory/group_vars/rockylinux-laniakea-dev.yml"],
+                        {% elif 'vgcn' in playbook_file %}
+                        "extra_arguments": ["--extra-vars","@./inventory/group_vars/vgcn.yml"],
                         {% endif%}
 			"inventory_directory": "./inventory/",
                         {% if ansible_galaxy_file %}
