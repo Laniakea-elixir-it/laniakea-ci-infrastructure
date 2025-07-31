@@ -75,5 +75,12 @@
     - usegalaxy_eu.apptainer
 
   post_tasks:
+
+    - name: Add groups to Galaxy user
+      ansible.builtin.user:
+        name: '{{ galaxy_user.name }}'
+        groups: condor,docker
+        append: true
+
     - debug:
         msg: 'DONE'
