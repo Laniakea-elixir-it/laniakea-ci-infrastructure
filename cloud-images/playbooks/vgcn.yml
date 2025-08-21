@@ -67,6 +67,13 @@
         state: present
         createhome: no
 
+    - name: SUDO rules for galaxy user
+      lineinfile:
+        dest: '/etc/sudoers'
+        state: present 
+        line: '{{ galaxy_user.name }} ALL=(ALL) NOPASSWD:ALL'
+        insertafter: EOF
+
   roles:
     - geerlingguy.pip
     - geerlingguy.ansible
