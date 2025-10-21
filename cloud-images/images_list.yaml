@@ -87,7 +87,7 @@ images:
     vgcn_usegalaxy_it:
         name: "vgcn_usegalaxy_it"
         version: v0.0.1
-        build: yes
+        build: no
         packer:
             ssh_username: rocky
             source_image: "9e46d3fc-b7e7-4268-ab19-283cb1296f84" # RockyLinux_9.5_20241118
