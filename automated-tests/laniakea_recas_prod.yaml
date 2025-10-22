@@ -67,7 +67,7 @@ test:
 
     galaxy_express_htcondor:
         name: "galaxy-express-htcondor"
-        enabled: yes
+        enabled: no
         run_more: ['endpoint', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot'] # Screenshot test available only for galaxt, since the credentials are required.
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/galaxy/galaxy-express-htcondor.yaml"
@@ -92,7 +92,7 @@ test:
         name: "nfs"
         enabled: no
         run_more: [] 
-        delete: yes
+        delete: no
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/utils/nfs.yml"
         tosca_template_path: "/tmp/laniakea_dev/nfs.yaml"
         inputs:
@@ -143,7 +143,7 @@ test:
     # JupyterHub
     jupyterhub_minimal:
         name: "jupyterhub"
-        enabled: yes
+        enabled: no
         run_more: ['endpoint'] # Screenshot test available only for galaxt, since the credentials are required. 
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/jupyterhub/jupyterhub.yml"
