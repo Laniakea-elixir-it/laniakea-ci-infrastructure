@@ -48,7 +48,7 @@ test:
 
     galaxy_express:
         name: "galaxy-express"
-        enabled: yes
+        enabled: no
         #run_more: ['endpoint'] 
         #run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot'] # Screenshot test available only for galaxt, since the credentials are required.
         run_more: ['endpoint', 'ftp', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot']
@@ -67,7 +67,7 @@ test:
 
     galaxy_express_htcondor:
         name: "galaxy-express-htcondor"
-        enabled: no
+        enabled: yes
         run_more: ['endpoint', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot'] # Screenshot test available only for galaxt, since the credentials are required.
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/galaxy/galaxy-express-htcondor.yaml"
