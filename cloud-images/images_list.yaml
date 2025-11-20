@@ -35,7 +35,7 @@ images:
     rstudio-minimal:
         name: "rstudio-minimal,2025.09.2-418"
         version: v2.0.0
-        build: yes
+        build: no
         packer:
             ssh_username: rocky
             source_image: "9e46d3fc-b7e7-4268-ab19-283cb1296f84" # RockyLinux_9.5_20241118
@@ -50,7 +50,7 @@ images:
         version: v2.0.0
         build: yes
         packer:
-            ssh_username: centos
+            ssh_username: rocky
             source_image: "9e46d3fc-b7e7-4268-ab19-283cb1296f84" # RockyLinux_9.5_20241118
             flavor: large
             volume_size: "20"

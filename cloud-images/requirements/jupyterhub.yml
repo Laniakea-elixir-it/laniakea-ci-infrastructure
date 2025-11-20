@@ -1,2 +1,2 @@
 - src: https://github.com/Laniakea-elixir-it/ansible-role-laniakea-jupyterhub.git
-  version: master
+  version: main
