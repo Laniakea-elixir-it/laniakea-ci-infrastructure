@@ -1,5 +1,8 @@
 ---
 - hosts: default
+  become_user: root
+  become: true
+
   pre_tasks:
     - name: Enable EPEL
       dnf:
