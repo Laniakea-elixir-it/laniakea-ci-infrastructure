@@ -46,28 +46,28 @@ images:
             ansible_galaxy_file: "rstudio.yml"
 
     rstudio-seraut:
-        name: rstudio-seurat
-        version: v1.0.3
-        build: no
+        name: "rstudio-seurat,2025.09.2-418"
+        version: v2.0.0
+        build: yes
         packer:
             ssh_username: centos
-            source_image: "a7294ef8-2e29-4062-9a2b-5b3bab00288a" # centos 7 2003
-            flavor: medium
-            volume_size: "10"
-            network_id: "fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
+            source_image: "9e46d3fc-b7e7-4268-ab19-283cb1296f84" # RockyLinux_9.5_20241118
+            flavor: large
+            volume_size: "20"
+            network_id: "4b5f690e-8232-439b-9964-8d28b3108b03"
             playbook_file: "rstudio_seurat.yml"
             ansible_galaxy_file: "rstudio.yml"
 
     jupyterhub:
         name: jupyterhub
-        version: v1.0.3
-        build: no
+        version: v2.0.0
+        build: yes
         packer:
             ssh_username: ubuntu
-            source_image: "de026237-0716-4f64-9913-2a1b71cbe669" # ubuntu 20.04
-            flavor: medium
-            volume_size: "10"
-            network_id: "fe82ef7b-4bb7-4c1e-b4ec-ec5c1b0c7333"
+            source_image: "39c7fd3d-b302-498b-8330-d74056879d29" # ubuntu 22.04
+            flavor: large
+            volume_size: "20"
+            network_id: "4b5f690e-8232-439b-9964-8d28b3108b03"
             playbook_file: "jupyterhub.yml"
             ansible_galaxy_file: "jupyterhub.yml"
 
