@@ -80,7 +80,7 @@ test:
             exec_num: 2
             exec_cpus: 4
             exec_mem: 8 GB
-            version: "rocklinux-9.3-express-galaxy-23.0_v1.0.4_beta4"
+            version: "galaxy-express,release_24.2_v1.0.2"
             instance_description: "HTCondor"
             enable_interactive_tools: false
             admin_api_key: not_very_secret_api_key
