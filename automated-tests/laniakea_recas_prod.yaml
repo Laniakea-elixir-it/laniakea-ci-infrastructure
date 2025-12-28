@@ -69,7 +69,7 @@ test:
         name: "galaxy-express-htcondor"
         enabled: yes
         #run_more: ['endpoint', 'galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot'] # Screenshot test available only for galaxy, since the credentials are required.
-        run_more: ['endpoint','galaxy_tools_FQC', 'galaxy_tools_mapping']
+        run_more: ['endpoint','galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot']
         delete: no
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/galaxy/galaxy-express-htcondor.yaml"
         tosca_template_path: "/tmp/laniakea_dev/galaxy-express-cluster.yaml"
