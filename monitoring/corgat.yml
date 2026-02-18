@@ -1,0 +1,30 @@
+---
+
+- name: CorGAT monitoring playbook
+  hosts: corgat
+  become: true
+  become_method: sudo
+
+  vars_files:
+    - group_vars/certbot.yml
+    - group_vars/nginx.yml
+
+  pre_tasks:
+
+    - name: Install nginx upload module RPM
+      ansible.builtin.yum:
+        name: https://github.com/mtangaro/nginx-upload-module-build/raw/refs/heads/main/nginx_v1.20.1/build-module-artifacts/nginx-module-upload-1.20.1+1.0-1.el7.ngx.x86_64.rpm
+        state: present
+      become: yes
+
+    - name: Update all packages
+      ansible.builtin.yum:
+        name: "*"
+        state: latest
+        update_cache: yes
+
+  roles:
+    - role: usegalaxy-eu.certbot # run before nginx to aviod fail in the next step
+      vars:
+        - certbot_install_method: package
+        - server_names: "{{ groups['corgat'][0] }}"

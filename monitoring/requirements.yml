@@ -1,0 +1,26 @@
+---
+collections:
+  - name: community.crypto
+    version: 2.25.0
+    source: https://galaxy.ansible.com
+    type: galaxy
+  - name: community.docker
+    version: 4.4.0
+    source: https://galaxy.ansible.com
+    type: galaxy
+  - name: community.general
+    version: 8.5.0 
+    source: https://galaxy.ansible.com
+    type: galaxy
+  - name: ansible.posix
+    version: 1.6.2
+    source: https://galaxy.ansible.com
+    type: galaxy
+
+roles:
+  - name: usegalaxy-eu.certbot
+    src: https://github.com/usegalaxy-eu/ansible-certbot
+    version: 0.1.11
+  - name: galaxyproject.nginx
+    src: https://github.com/galaxyproject/ansible-nginx.git
+    version: 0.7.1

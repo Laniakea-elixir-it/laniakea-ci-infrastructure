@@ -1,0 +1,4 @@
+requests==2.31.0
+ansible-core==2.15.12
+boto==2.49.0
+jmespath
