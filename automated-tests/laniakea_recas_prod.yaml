@@ -27,11 +27,14 @@ test:
             os_distribution: rockylinux
             os_version: 9.3
 
+    #
+    # Galaxy Live build
+    #
     galaxy:
         name: "galaxy-minimal"
-        enabled: no
+        enabled: yes
         run_more: ['endpoint']
-        delete: always # always, no, on_success, on_error # TODO add the possibility to not delete the deployment.
+        delete: no # always, no, on_success, on_error # TODO add the possibility to not delete the deployment.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/galaxy/galaxy.yaml"
         tosca_template_path: "/tmp/laniakea_dev/galaxy.yml"
         inputs:
@@ -66,11 +69,12 @@ test:
             admin_api_key: not_very_secret_api_key
 
     #
+    # DEFAULT TEST.
     # Test Galaxy express with HTCondor support
     #
     galaxy_express_htcondor:
         name: "galaxy-express-htcondor"
-        enabled: yes
+        enabled: no
         run_more: ['endpoint','galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot']
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/galaxy/galaxy-express-htcondor.yaml"
