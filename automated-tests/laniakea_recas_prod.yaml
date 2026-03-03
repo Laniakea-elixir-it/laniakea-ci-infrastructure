@@ -40,8 +40,8 @@ test:
             mem_size: 8 GB
             storage_size: "50 GB"
             os_distribution: "rockylinux"
-            os_version: "9.3"
-            version: "release_23.2"
+            os_version: "9.5"
+            version: "release_25.1"
             admin_api_key: not_very_secret_api_key
             instance_description: "Galaxy Live"
             enable_interactive_tools: false
@@ -83,14 +83,17 @@ test:
             exec_num: 2
             exec_cpus: 4
             exec_mem: 8 GB
-            version: "galaxy-express,release_24.2_v1.0.2"
+            version: "galaxy-express,release_24.2_v1.0.3"
             instance_description: "HTCondor"
             enable_interactive_tools: false
             admin_api_key: not_very_secret_api_key
 
     #______________________________
     # HTCondor
-    
+   
+    #
+    # Deploy VMs with nfs share. The number of VM is 2 and is hard coded.
+    #
     nfs:
         name: "nfs"
         enabled: no
@@ -101,7 +104,10 @@ test:
         inputs:
             storage_size: "50 GB"
             users: []
-
+    
+    #
+    # Deploy HTCondor CM and executors with nfs share
+    #
     htcondor:
         name: "htcondor"
         enabled: no
