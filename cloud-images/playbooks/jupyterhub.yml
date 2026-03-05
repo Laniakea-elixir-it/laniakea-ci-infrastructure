@@ -1,16 +1,6 @@
 ---
 - hosts: default
 
-  vars:
-    robot_key_pub: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMZ6M41F4sf9ipRutlCNxGxpSNT9snjwIhaWbNiGKIr9 ma.tangaro@gmail.com' # usegalaxy-it robot
-
-  ipre_tasks:
-    - name: 'Inject robot ssh public key for debug - root'
-      authorized_key:
-        user: 'root'
-        key: '{{ robot_key_pub }}'
-      ignore_errors: true
-
   roles:
     - role: ansible-role-laniakea-jupyterhub
       become: yes
