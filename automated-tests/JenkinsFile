@@ -22,16 +22,22 @@ pipeline {
 	}
 	post {
                 always {
-                       archiveArtifacts 'galaxy_screenshot*'
+                       archiveArtifacts  allowEmptyArchive: true, artifacts:'galaxy_screenshot*'
                 } 
 		success {
-			emailext (
-			subject: '$DEFAULT_SUBJECT',
-			body: '$DEFAULT_CONTENT',
-			to: '$DEFAULT_RECIPIENTS',
-			attachmentsPattern: 'automated-tests/galaxy_screenshot.png, automated-tests/galaxy_screenshot*'
-                        )
-			cleanWs()
+                        script {
+                                def attachPattern = ''
+                                if (fileExists('automated-tests/galaxy_screenshot.png')) {
+                                        attachPattern = 'automated-tests/galaxy_screenshot.png, automated-tests/galaxy_screenshot*'
+                                }
+                                emailext (
+                                subject: '$DEFAULT_SUBJECT',
+                                body: '$DEFAULT_CONTENT',
+                                to: '$DEFAULT_RECIPIENTS',
+                                attachmentsPattern: attachPattern
+                                )
+                        }
+                        cleanWs()
 		}
 		failure {
 			emailext ( 
