@@ -32,7 +32,7 @@ test:
     #
     galaxy:
         name: "galaxy-minimal"
-        enabled: yes
+        enabled: no
         run_more: ['endpoint']
         delete: no # always, no, on_success, on_error # TODO add the possibility to not delete the deployment.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/galaxy/galaxy.yaml"
@@ -156,8 +156,8 @@ test:
     # JupyterHub
     jupyterhub_minimal:
         name: "jupyterhub"
-        enabled: no
-        run_more: ['endpoint'] # Screenshot test available only for galaxt, since the credentials are required. 
+        enabled: yes
+        run_more: ['endpoint']
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/jupyterhub/jupyterhub.yml"
         tosca_template_path: "/tmp/laniakea_dev/jupyterhub.yml"
@@ -166,17 +166,16 @@ test:
             num_cpus: 4
             mem_size: 8 GB
             storage_size: "50 GB"
-            os_distribution: "ubuntu"
-            os_version: "22.04"
 
     jupyterhub_express:
         name: "jupyterhub-express"
-        enabled: no
+        enabled: yes
         run_more: ['endpoint'] # Screenshot test available only for galaxt, since the credentials are required. 
         delete: always
-        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/laniakea-dashboard-config/laniakea-v3.0.0/tosca-templates/jupyterhub-express.yml"
+        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/jupyterhub/jupyterhub-express.yml"
         tosca_template_path: "/tmp/laniakea_dev/jupyterhub-express.yml"
         inputs:
-            instance_flavor: "large"
-            storage_size: "50 GB"
             users: []
+            num_cpus: 4
+            mem_size: 8 GB
+            storage_size: "50 GB"
