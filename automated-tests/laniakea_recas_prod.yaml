@@ -32,7 +32,7 @@ test:
     #
     galaxy:
         name: "galaxy-minimal"
-        enabled: no
+        enabled: yes
         run_more: ['endpoint']
         delete: no # always, no, on_success, on_error # TODO add the possibility to not delete the deployment.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/galaxy/galaxy.yaml"
@@ -44,7 +44,7 @@ test:
             storage_size: "50 GB"
             os_distribution: "rockylinux"
             os_version: "9.5"
-            version: "release_25.1"
+            version: "release_24.2"
             admin_api_key: not_very_secret_api_key
             instance_description: "Galaxy Live"
             enable_interactive_tools: false
@@ -76,7 +76,7 @@ test:
         name: "galaxy-express-htcondor"
         enabled: no
         run_more: ['endpoint','galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot']
-        delete: no
+        delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/galaxy/galaxy-express-htcondor.yaml"
         tosca_template_path: "/tmp/laniakea_dev/galaxy-express-cluster.yaml"
         inputs:
@@ -102,7 +102,7 @@ test:
         name: "nfs"
         enabled: no
         run_more: [] 
-        delete: no
+        delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/utils/nfs.yml"
         tosca_template_path: "/tmp/laniakea_dev/nfs.yaml"
         inputs:
@@ -143,7 +143,7 @@ test:
 
     rstudio_express:
         name: "rstudio-express"
-        enabled: yes
+        enabled: no
         run_more: ['endpoint'] 
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/rstudio/rstudio-express.yaml"
