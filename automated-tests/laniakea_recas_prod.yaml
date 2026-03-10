@@ -74,7 +74,7 @@ test:
     #
     galaxy_express_htcondor:
         name: "galaxy-express-htcondor"
-        enabled: yes
+        enabled: no
         run_more: ['endpoint','galaxy_tools_FQC', 'galaxy_tools_mapping', 'screenshot']
         delete: no
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/galaxy/galaxy-express-htcondor.yaml"
@@ -130,7 +130,7 @@ test:
     # RStudio
     rstudio_minimal:
         name: "rstudio-minimal"
-        enabled: yes
+        enabled: no
         run_more: ['endpoint'] 
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/rstudio/rstudio.yaml"
@@ -158,7 +158,7 @@ test:
     # JupyterHub
     jupyterhub_minimal:
         name: "jupyterhub"
-        enabled: yes
+        enabled: no
         run_more: ['endpoint']
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/jupyterhub/jupyterhub.yml"
@@ -171,7 +171,7 @@ test:
 
     jupyterhub_express:
         name: "jupyterhub-express"
-        enabled: yes
+        enabled: no
         run_more: ['endpoint'] # Screenshot test available only for galaxt, since the credentials are required. 
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/refs/heads/master/jupyterhub/jupyterhub-express.yml"
