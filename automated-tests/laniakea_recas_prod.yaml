@@ -151,7 +151,7 @@ test:
         inputs:
             instance_flavor: "large"
             storage_size: "50 GB"
-            flavor: "rstudio-minimal"
+            flavor: "rstudio-minimal,2026.01.1-403_v2.0.2"
             users: []
 
     #______________________________
