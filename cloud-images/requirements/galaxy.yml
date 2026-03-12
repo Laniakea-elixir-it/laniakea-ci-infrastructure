@@ -1,21 +1,29 @@
-- src: galaxyproject.galaxy
-  version: 0.11.1
-- src: galaxyproject.nginx
-  version: 1.0.0
-- src: galaxyproject.postgresql
-  version: 1.1.6
-- src: galaxyproject.postgresql_objects
-  version: 1.2.0
+- name: galaxyproject.galaxy
+  src: https://github.com/galaxyproject/ansible-galaxy
+  version: 0.12.3
+- name: galaxyproject.nginx
+  src: https://github.com/galaxyproject/ansible-nginx 
+  version: 0.7.1
+- name: galaxyproject.postgresql
+  src: https://github.com/galaxyproject/ansible-postgresql
+  version: 1.1.8
+- name: galaxyproject.postgresql_objects
+  src: https://github.com/galaxyproject/ansible-postgresql-objects
+  version: 1.2.1
 - src: geerlingguy.pip
   version: 3.1.0
-- src: galaxyproject.miniconda
+- name: galaxyproject.miniconda
+  src: https://github.com/galaxyproject/ansible-miniconda
   version: 0.3.1
 #- src: laniakea.galaxy_interactive_tools
 # - src: usegalaxy_eu.galaxy_systemd
-- src: usegalaxy_eu.certbot
+- name: usegalaxy_eu.certbot
+  src: https://github.com/usegalaxy-eu/ansible-certbot
   version: 0.1.11
 # - src: galaxyproject.proftpd
 - name: galaxyproject.tusd
+  src: https://github.com/galaxyproject/ansible-role-tusd
   version: 0.0.1
-- src: galaxyproject.cvmfs
+- name: galaxyproject.cvmfs
+  src: https://github.com/galaxyproject/ansible-cvmfs
   version: 0.3.0
