@@ -7,9 +7,9 @@ reports_repository: 'git@github.com:Laniakea-elixir-it/laniakea-images.git'
 
 images:
     galaxy-express:
-        name: "galaxy-express,release_24.2"
-        version: v1.0.3
-        build: no
+        name: "galaxy-express,release_25.1"
+        version: v1.0.0
+        build: yes
         packer:
             ssh_username: rocky
             source_image: "9e46d3fc-b7e7-4268-ab19-283cb1296f84" # RockyLinux_9.5_20241118
@@ -61,7 +61,7 @@ images:
     jupyterhub:
         name: jupyterhub
         version: v2.0.1
-        build: yes
+        build: no
         packer:
             ssh_username: ubuntu
             source_image: "39c7fd3d-b302-498b-8330-d74056879d29" # ubuntu 22.04
