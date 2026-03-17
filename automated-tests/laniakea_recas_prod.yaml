@@ -39,8 +39,8 @@ test:
         tosca_template_path: "/tmp/laniakea_dev/galaxy.yml"
         inputs:
             users: []
-            num_cpus: 4
-            mem_size: 8 GB
+            num_cpus: 8
+            mem_size: 16 GB
             storage_size: "50 GB"
             os_distribution: "rockylinux"
             os_version: "9.5"
