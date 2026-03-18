@@ -13,7 +13,7 @@ images:
         packer:
             ssh_username: rocky
             source_image: "9e46d3fc-b7e7-4268-ab19-283cb1296f84" # RockyLinux_9.5_20241118
-            flavor: large
+            flavor: xlarge
             volume_size: "10"
             network_id: "4b5f690e-8232-439b-9964-8d28b3108b03" # public net
             playbook_file: "galaxy.yml"
