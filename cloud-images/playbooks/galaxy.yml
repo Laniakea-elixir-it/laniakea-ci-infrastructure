@@ -102,7 +102,7 @@
       systemd:
         state: stopped
         enabled: false
-        name: postgresql-15
+        name: 'postgresql-{{ postgresql_version }}'
     - name: stop docker.service
       systemd:
         state: stopped
