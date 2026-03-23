@@ -1,0 +1,55 @@
+---
+# ==============================================================================
+# Common variables for all bastions
+# Overridable per host in inventory/host_vars/<hostname>/vars.yml
+# ==============================================================================
+
+# --- OpenVPN ---
+openvpn_port:          "1194"
+openvpn_protocol:      "tcp"
+openvpn_dns:           "google"
+openvpn_server_subnet: "10.8.0.0"
+openvpn_server_mask:   "255.255.255.0"
+openvpn_cipher:        "AES-256-CBC"
+openvpn_client_name:   "client"
+openvpn_client_output_dir: "/root"
+openvpn_reneg_sec:     0
+openvpn_hand_window:   300
+openvpn_pam_plugin_path: "/usr/lib/x86_64-linux-gnu/openvpn/plugins/openvpn-plugin-auth-pam.so"
+
+# Easy-RSA
+easyrsa_version:   "3.2.5"
+easyrsa_cert_days: 3650
+
+# PAM OAuth2
+pam_install_method:  "package"
+pam_package_repo:    "https://github.com/Laniakea-elixir-it/pam_oauth2_device"
+pam_package_version: "0.0.4"
+
+# Build-from-source (only if pam_install_method=build)
+pam_module_repo:   "https://github.com/Laniakea-elixir-it/pam_oauth2_device"
+pam_module_branch: "master"
+pam_module_dest:   "/opt/pam_oauth2_device"
+pam_build_deps:
+  - git
+  - make
+  - gcc
+  - build-essential
+  - libcurl4-nss-dev
+  - libpam0g-dev
+  - qrencode
+
+pam_module_so:   "/usr/lib/x86_64-linux-gnu/security/pam_oauth2_device.so"
+pam_config_dir:  "/etc/pam_oauth2_device"
+pam_config_path: "/etc/pam_oauth2_device/config.json"
+
+qr_error_correction_level: -1
+pam_debug:                true
+extra_local_users:        []
+
+# SSH/PAM
+sshd_config_file: "/etc/ssh/sshd_config"
+pam_sshd_file:    "/etc/pam.d/sshd"
+
+# Jump user
+jump_user: "im"

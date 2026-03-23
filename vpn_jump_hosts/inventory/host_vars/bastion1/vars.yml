@@ -1,0 +1,42 @@
+---
+# Vars for bastion1
+
+# Networking
+openvpn_public_ip:      "1.2.3.4"
+openvpn_tenant_network: "192.168.1.0"
+openvpn_tenant_netmask: "255.255.255.0"
+openvpn_tenant_prefix:  "24"
+openvpn_tenant_iface:   "eth0"
+
+# Identity Provider
+# iam, egi, lifescience or keycloak can be used
+idp_provider: "iam"
+
+oidc_providers:
+  iam:
+    device_endpoint:   "https://iam.example.com/devicecode"
+    token_endpoint:    "https://iam.example.com/token"
+    userinfo_endpoint: "https://iam.example.com/userinfo"
+  egi:
+    device_endpoint:   "https://aai.egi.eu/auth/realms/egi/protocol/openid-connect/auth/device"
+    token_endpoint:    "https://aai.egi.eu/auth/realms/egi/protocol/openid-connect/token"
+    userinfo_endpoint: "https://aai.egi.eu/auth/realms/egi/protocol/openid-connect/userinfo"
+  lifescence:
+    device_endpoint:   "https://login.aai.lifescience-ri.eu/oidc/devicecode"
+    token_endpoint:    "https://login.aai.lifescience-ri.eu/oidc/token"
+    userinfo_endpoint: "https://login.aai.lifescience-ri.eu/oidc/userinfo"
+
+# OIDC
+username_attribute: "preferred_username"
+allowed_groups:     []
+
+# Email
+enable_email: false
+smtp:
+  smtp_server_url:  "smtps://smtp.example.com:465"
+  smtp_username:    ""
+  smtp_insecure:    false
+  smtp_ca_path:     ""
+  from_address:     "vpn@example.com"
+  from_username:    "noreply@example.com"
+  cc_address:       ""

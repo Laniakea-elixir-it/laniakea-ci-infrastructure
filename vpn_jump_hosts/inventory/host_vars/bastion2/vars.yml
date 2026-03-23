@@ -1,0 +1,32 @@
+---
+# Vars for bastion2
+
+# Networking
+openvpn_public_ip:      "5.6.7.8"
+openvpn_tenant_network: "192.168.2.0"
+openvpn_tenant_netmask: "255.255.255.0"
+openvpn_tenant_prefix:  "24"
+openvpn_tenant_iface:   "eth0"
+
+# Identity Provider
+idp_provider: "lifescience"
+oidc_providers:
+  lifescience:
+    device_endpoint:   "https://aai.lifescience-ri.eu/devicecode"
+    token_endpoint:    "https://aai.lifescience-ri.eu/token"
+    userinfo_endpoint: "https://aai.lifescience-ri.eu/userinfo"
+
+# OIDC
+username_attribute: "preferred_username"
+allowed_groups:     []
+
+# Email
+enable_email: false
+smtp:
+  smtp_server_url:  "smtps://smtp.example.com:465"
+  smtp_username:    ""
+  smtp_insecure:    false
+  smtp_ca_path:     ""
+  from_address:     "vpn@example.com"
+  from_username:    "noreply@example.com"
+  cc_address:       ""

@@ -1,0 +1,6 @@
+[elixir-paas]
+elixir-paas ansible_host=212.189.205.146 ansible_user=root
+
+#[elixir-italy-service]
+#elixir-italy-services ansible_host=5.6.7.8  ansible_user=ubuntu
+

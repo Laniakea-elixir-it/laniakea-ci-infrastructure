@@ -1,0 +1,23 @@
+---
+# ==============================================================================
+# Configure and manages all bastions in the inventory
+#
+# Usage:
+#   All bastions:        ansible-playbook -i inventory/hosts site.yml --ask-vault-pass
+#   Specific bastion:    ansible-playbook -i inventory/hosts site.yml -l bastion1 --ask-vault-pass
+#   Add client:          ansible-playbook -i inventory/hosts site.yml -l bastion1 --tags add_client -e "openvpn_client_name=test" --ask-vault-pass
+#   Revoke client:       ansible-playbook -i inventory/hosts site.yml -l bastion1 --tags revoke_client -e "openvpn_client_name=test" --ask-vault-pass
+#   Remove OpenVPN:      ansible-playbook -i inventory/hosts site.yml -l bastion1 --tags remove_openvpn --ask-vault-pass
+#
+# Adding a bastion:
+#   1. Add the entry in inventory/hosts
+#   2. Create inventory/host_vars/<hostname>/vars.yml  with network and IdP variables
+#   3. Create inventory/host_vars/<hostname>/vault.yml with secrets and encrypt it
+# ==============================================================================
+
+- name: Manage OpenVPN server and PAM OAuth2 authentication
+  hosts: elixir-paas
+  become: true
+  roles:
+    - ansible-role-openvpn
+    - ansible-role-pam-oauth2

@@ -1,0 +1,14 @@
+---
+# Secrets for bastion1
+# Encrypt with: ansible-vault encrypt inventory/host_vars/bastion1/vault.yml
+
+client_id:     "PASTE_CLIENT_ID"
+client_secret: "PASTE_CLIENT_SECRET"
+
+preferred_username: "your_username"
+extra_local_users:
+  - "im"
+
+jump_user_pubkey: "ssh-rsa AAAA..."
+
+# smtp_password: "PASTE_SMTP_PASSWORD" # add here if enable_email: true
