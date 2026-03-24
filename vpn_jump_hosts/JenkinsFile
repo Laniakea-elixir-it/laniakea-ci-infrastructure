@@ -1,20 +1,30 @@
 pipeline {
-	agent { label "build-usegalaxy-it.wn1" }
-		options { disableConcurrentBuilds() }
+    agent { label "build-usegalaxy-it.wn1" }
+    options { disableConcurrentBuilds() }
+    
     environment {
         ANSIBLE_HOST_KEY_CHECKING = 'False'
     }
-	stages {
-		stage('deploy') {
-			steps {
-				withCredentials([string(credentialsId: 'laniakea_vault_password', variable: 'LANIAKEA_VAULT_PASSWORD')]) {
+
+    stages {
+        stage('Deploy VPN Jump Hosts') {
+            steps {
+                withCredentials([
+                    string(credentialsId: 'laniakea_vault_password', variable: 'LANIAKEA_VAULT_PASSWORD'),
+                    sshUserPrivateKey(credentialsId: 'laniakea_robot_ssh_key_pair', keyFileVariable: 'SSH_KEY')
+                ]) {
                     dir('vpn_jump_hosts') {
                         sh '''#!/bin/bash
                         python3 -m venv venv
                         . venv/bin/activate
                         pip install -r requirements.txt
                         ansible-galaxy role install -r requirements.yml -p roles
-                        ansible-playbook -i inventory/hosts configure_jump_host.yml --vault-password-file <(echo "$LANIAKEA_VAULT_PASSWORD")
+                        IPS=$(ansible-vault view inventory/hosts --vault-password-file <(echo "$LANIAKEA_VAULT_PASSWORD") | grep ansible_host | awk -F'ansible_host=' '{print $2}' | awk '{print $1}')
+                        for IP in $IPS; do
+                            ssh-keygen -f "$HOME/.ssh/known_hosts" -R "$IP"
+                            ssh-keyscan -H "$IP" >> "$HOME/.ssh/known_hosts"
+                        done
+                        ansible-playbook -i inventory/hosts configure_jump_host.yml --vault-password-file <(echo "$VAULT_PASS") --private-key "$SSH_KEY" -u root
                         '''
                     }
                 }
