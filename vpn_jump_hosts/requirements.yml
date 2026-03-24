@@ -1,0 +1,6 @@
+---
+- name: ansible-role-openvpn
+  src: https://github.com/Laniakea-elixir-it/ansible-role-openvpn
+
+- name: ansible-role-pam-oauth2
+  src: https://github.com/Laniakea-elixir-it/ansible-role-pam-oauth2
