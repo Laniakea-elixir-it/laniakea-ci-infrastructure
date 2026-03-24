@@ -24,7 +24,7 @@ pipeline {
                             ssh-keygen -f "$HOME/.ssh/known_hosts" -R "$IP"
                             ssh-keyscan -H "$IP" >> "$HOME/.ssh/known_hosts"
                         done
-                        ansible-playbook -i inventory/hosts configure_jump_host.yml --vault-password-file <(echo "$VAULT_PASS") --private-key "$SSH_KEY" -u root
+                        ansible-playbook -i inventory/hosts configure_jump_host.yml --vault-password-file <(echo "$LANIAKEA_VAULT_PASSWORD") --private-key "$SSH_KEY" -u root
                         '''
                     }
                 }
