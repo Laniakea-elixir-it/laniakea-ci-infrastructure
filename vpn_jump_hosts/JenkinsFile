@@ -1,0 +1,42 @@
+pipeline {
+	agent { label "build-usegalaxy-it.wn1" }
+		options { disableConcurrentBuilds() }
+	stages {
+		stage('deploy') {
+			steps {
+				withCredentials([string(credentialsId: 'laniakea_vault_password', variable: 'LANIAKEA_VAULT_PASSWORD')]) {
+                    dir('vpn_jump_hosts') {
+                        sh '''
+                        python3 -m venv venv
+                        . venv/bin/activate
+                        pip install -r requirements.txt
+                        ansible-galaxy role install -r requirements.yml -p roles
+                        ansible-playbook -i inventory/hosts configure_jump_host.yml --vault-password-file <(echo "$LANIAKEA_VAULT_PASSWORD")
+                        '''
+                    }
+                }
+            }
+        }
+    }
+
+        post {
+                success {
+                        emailext (
+                        subject: '$DEFAULT_SUBJECT',
+                        body: '$DEFAULT_CONTENT',
+                        to: '$DEFAULT_RECIPIENTS',
+                        attachLog: true
+                        )
+                        cleanWs()
+                }
+                failure {
+                        emailext (
+                        subject: '$DEFAULT_SUBJECT',
+                        body: '$DEFAULT_CONTENT',
+                        to: '$DEFAULT_RECIPIENTS',
+                        attachLog: true
+                        )
+                        cleanWs()
+                }
+        }
+}
