@@ -1,6 +1,5 @@
 ---
-ovpn_file: "vpn-{{ ansible_host }}-{{ openvpn_client_name }}.ovpn"
-ovpn_file_path: "{{ openvpn_client_output_dir }}/{{ ovpn_file }}"
+ovpn_file_path: "{{ openvpn_client_output_dir }}/vpn-{{ openvpn_public_ip }}-{{ openvpn_client_name }}.ovpn"
 
 # Hashicorp Vault
 # upload VPNconfiles on vault
