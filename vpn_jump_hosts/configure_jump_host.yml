@@ -16,46 +16,36 @@
 # ==============================================================================
 
 - name: Manage OpenVPN server and PAM OAuth2 authentication
-  hosts: elixir-paas
+  hosts: elixir-italy-services
   become: true
   roles:
     - ansible-role-openvpn
     - ansible-role-pam-oauth2
-  post_tasks:
-    - name: Fetch ovpn file from vpn server
-      fetch:
-        src: "{{ openvpn_client_output_dir }}/vpn-{{ openvpn_public_ip }}-{{ openvpn_client_name }}.ovpn"
-        dest: "/tmp/vpn-{{ openvpn_public_ip }}-{{ openvpn_client_name }}.ovpn"
-        flat: yes
-
 
 # Run this only on Laniakea
 - name: Reconfigure Laniakea dashboard dev
   hosts: laniakea-dashboard-dev
   become: true
   vars:
-    vpn_server_host: elixir-paas
-    openvpn_public_ip: "{{ hostvars[vpn_server_host]['ansible_host'] }}"
-    ovpn_file: "vpn-{{ openvpn_public_ip }}-{{ openvpn_client_name }}.ovpn"
+    vpn_server_host: elixir-italy-services
   pre_tasks:
-    - name: Copy ovpn file to laniakea-dashboard-dev
-      copy:
-        src: "/tmp/vpn-{{ openvpn_public_ip }}-{{ openvpn_client_name }}.ovpn"
-        dest: "{{ openvpn_client_output_dir }}/vpn-{{ openvpn_public_ip }}-{{ openvpn_client_name }}.ovpn"
-        mode: '0600'
+    - name: Load VPN server host vars
+      include_vars:
+        file: "inventory/host_vars/{{ vpn_server_host }}/vars.yml"
   roles:
     - ansible-role-laniakea-jh-config
 
-- hosts: laniakea-dashboard-dev
-  become: true
-  vars:
-    openvpn_bastion_host: elixir-paas
-    openvpn_public_ip: "212.189.205.146"
-    openvpn_tenant_network: "172.18.7.0"
-    openvpn_tenant_iface: "ens4"
-    openvpn_tenant_prefix: "24"
-  roles:
-    - ansible-role-laniakea-orchdash-vpn-gateway
+#- hosts: laniakea-dashboard-dev
+#  become: true
+#  vars:
+#    openvpn_bastion_host: elixir-italy-services
+#    openvpn_public_ip: "212.189.205.177"
+#    openvpn_tenant_network: "172.18.10.0"
+#    openvpn_tenant_iface: "ens3"
+#    openvpn_tenant_prefix: "24"
+#
+#  roles:
+#    - ansible-role-laniakea-orchdash-vpn-gateway
 
 #- name: Reconfigure Laniakea dashboard prod
 #  hosts: laniakea-dashboard-prod

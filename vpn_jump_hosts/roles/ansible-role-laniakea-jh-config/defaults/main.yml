@@ -7,4 +7,3 @@ ovpn_file_path: "{{ openvpn_client_output_dir }}/{{ ovpn_file }}"
 
 vault_path: "secrets/vpn/{{ ovpn_file }}"
 
-
