@@ -21,6 +21,13 @@
   roles:
     - ansible-role-openvpn
     - ansible-role-pam-oauth2
+  post_tasks:
+    - name: Fetch ovpn file from vpn server
+      fetch:
+        src: "{{ ovpn_file_path }}"
+        dest: "/tmp/{{ ovpn_file }}"
+        flat: yes
+
 
 # Run this only on Laniakea
 - name: Reconfigure Laniakea dashboard dev
@@ -28,6 +35,12 @@
   become: true
   roles:
     - ansible-role-laniakea-jh-config
+  post_tasks:
+    - name: Copy ovpn file to laniakea-dashboard-dev
+      copy:
+        src: "/tmp/{{ ovpn_file }}"
+        dest: "{{ ovpn_file_path }}"
+        mode: '0600'
 
 #- name: Reconfigure Laniakea dashboard prod
 #  hosts: laniakea-dashboard-prod
