@@ -21,3 +21,16 @@
   roles:
     - ansible-role-openvpn
     - ansible-role-pam-oauth2
+
+# Run this only on Laniakea
+- name: Reconfigure Laniakea dashboard dev
+  hosts: laniakea-dashboard-dev
+  become: true
+  roles:
+    - ansible-role-laniakea-jh
+
+#- name: Reconfigure Laniakea dashboard prod
+#  hosts: laniakea-dashboard-prod
+#  become: true
+#  roles:
+#    - ansible-role-laniakea-jh
