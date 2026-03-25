@@ -27,7 +27,7 @@
   hosts: laniakea-dashboard-dev
   become: true
   roles:
-    - ansible-role-laniakea-jh
+    - ansible-role-laniakea-jh-config
 
 #- name: Reconfigure Laniakea dashboard prod
 #  hosts: laniakea-dashboard-prod
