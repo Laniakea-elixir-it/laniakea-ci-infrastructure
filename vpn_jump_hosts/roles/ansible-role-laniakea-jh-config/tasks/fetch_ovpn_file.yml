@@ -2,13 +2,13 @@
 
 - name: Retrieve VPN confile from the jump host
   slurp:
-    src: "{{ openvpn_client_output_dir }}/vpn-{{ openvpn_public_ip }}-{{ openvpn_client_name }}.ovpn"
+    src: "{{ ovpn_file_path }}"
   register: ovpn_file
   delegate_to: "{{ vpn_server_host }}"
   run_once: true
 
 - name: Copy ovpn file to destination
   copy:
-    dest: "{{ openvpn_client_output_dir }}/vpn-{{ openvpn_public_ip }}-{{ openvpn_client_name }}.ovpn"
+    dest: "{{ ovpn_file_path }}"
     content: "{{ ovpn_file.content | b64decode }}"
     mode: '0600'
