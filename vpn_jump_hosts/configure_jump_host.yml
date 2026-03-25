@@ -36,6 +36,7 @@
   vars:
     vpn_server_host: elixir-paas
     openvpn_public_ip: "{{ hostvars[vpn_server_host]['ansible_host'] }}"
+    ovpn_file: "vpn-{{ openvpn_public_ip }}-{{ openvpn_client_name }}.ovpn"
   pre_tasks:
     - name: Copy ovpn file to laniakea-dashboard-dev
       copy:
