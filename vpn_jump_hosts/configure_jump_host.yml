@@ -27,28 +27,11 @@
   hosts: laniakea-dashboard-dev
   become: true
   vars:
-    vpn_server_host: elixir-paas
+    openvpn_server_host: elixir-paas
   pre_tasks:
     - name: Load VPN server host vars
       include_vars:
-        file: "inventory/host_vars/{{ vpn_server_host }}/vars.yml"
+        file: "inventory/host_vars/{{ openvpn_server_host }}/vars.yml" # can't be included through var_file, since it is evaluated before vars
   roles:
     - ansible-role-laniakea-jh-config
-
-#- hosts: laniakea-dashboard-dev
-#  become: true
-#  vars:
-#    openvpn_bastion_host: elixir-italy-services
-#    openvpn_public_ip: "212.189.205.177"
-#    openvpn_tenant_network: "172.18.10.0"
-#    openvpn_tenant_iface: "ens3"
-#    openvpn_tenant_prefix: "24"
-#
-#  roles:
-#    - ansible-role-laniakea-orchdash-vpn-gateway
-
-#- name: Reconfigure Laniakea dashboard prod
-#  hosts: laniakea-dashboard-prod
-#  become: true
-#  roles:
-#    - ansible-role-laniakea-jh
+    - ansible-role-laniakea-orchdash-vpn-gateway

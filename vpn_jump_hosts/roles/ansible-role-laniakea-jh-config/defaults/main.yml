@@ -1,7 +1,7 @@
 ---
-ovpn_file_path: "{{ openvpn_client_output_dir }}/vpn-{{ openvpn_public_ip }}-{{ openvpn_client_name }}.ovpn"
+openvpn_file_path: "{{ openvpn_client_output_dir }}/vpn-{{ openvpn_public_ip }}-{{ openvpn_client_name }}.ovpn"
 
 # Hashicorp Vault
 # upload VPNconfiles on vault
 
-vault_path: "secrets/vpn/vpn-{{ openvpn_public_ip }}-{{ openvpn_client_name }}.ovpn"
+openvpn_file_vault_path: "secrets/vpn/vpn-{{ openvpn_public_ip }}-{{ openvpn_client_name }}.ovpn"
