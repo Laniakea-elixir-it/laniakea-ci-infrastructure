@@ -1,0 +1,9 @@
+- name: Read and encode ovpn file in base64
+  slurp:
+    src: "{{ ovpn_file_path }}"
+  register: ovpn_content
+
+- name: Store base64 content into Vault via Docker
+  shell: >
+    echo "{{ ovpn_content.content }}" |
+    docker exec -i vault vault kv put {{ vault_path }} vpnconfile=-
