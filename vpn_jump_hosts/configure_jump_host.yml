@@ -24,7 +24,7 @@
   post_tasks:
     - name: Fetch ovpn file from vpn server
       fetch:
-        src: "{{ ovpn_file_path }}"
+        src: "{{ openvpn_client_output_dir }}/vpn-{{ openvpn_public_ip }}-{{ openvpn_client_name }}.ovpn"
         dest: "/tmp/{{ ovpn_file }}"
         flat: yes
 
