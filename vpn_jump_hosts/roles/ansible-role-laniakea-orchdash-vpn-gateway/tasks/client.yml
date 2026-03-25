@@ -1,0 +1,28 @@
+---
+- name: Ensure OpenVPN is installed on the dashboard
+  package:
+    name: openvpn
+    state: present
+
+- name: Ensure client config directory exists
+  file:
+    path: "{{ openvpn_client_config_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+
+- name: Deploy .ovpn file from template
+  template:
+    src: client.ovpn.j2
+    dest: "{{ openvpn_client_config_dir }}/{{ openvpn_client_config_name }}"
+    owner: root
+    group: root
+    mode: '0600'
+  notify: Restart openvpn client
+
+- name: Enable and start the OpenVPN client service
+  systemd:
+    name: "{{ openvpn_service_client_name }}"
+    enabled: true
+    state: started

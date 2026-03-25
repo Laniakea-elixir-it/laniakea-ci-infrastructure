@@ -1,0 +1,11 @@
+---
+- name: Configure OpenVPN server (bastion)
+  import_tasks: server.yml
+  delegate_to: "{{ openvpn_bastion_host }}"
+
+- name: Generate client certificate and fetch files
+  import_tasks: generate_client_cert.yml
+  delegate_to: "{{ openvpn_bastion_host }}"
+
+- name: Configure OpenVPN client (dashboard)
+  import_tasks: client.yml

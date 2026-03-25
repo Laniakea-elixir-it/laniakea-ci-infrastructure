@@ -1,0 +1,34 @@
+port {{ openvpn_port }}
+proto {{ openvpn_protocol }}
+dev {{ openvpn_dev }}
+
+ca   {{ openvpn_server_dir }}/ca.crt
+cert {{ openvpn_server_dir }}/server.crt
+key  {{ openvpn_server_dir }}/server.key
+dh   {{ openvpn_server_dir }}/dh.pem
+crl-verify {{ openvpn_server_dir }}/crl.pem
+tls-crypt {{ openvpn_tls_crypt_key }}
+
+# Certificate-only authentication — no PAM, no username/password
+verify-client-cert require
+
+server {{ openvpn_server_subnet }} {{ openvpn_server_mask }}
+ifconfig-pool-persist {{ openvpn_server_dir }}/ipp2.txt
+
+# Push tenant private network route to clients
+push "route {{ openvpn_tenant_network }} {{ openvpn_tenant_netmask }}"
+
+{% for route in openvpn_push_routes %}
+push "route {{ route.network }} {{ route.netmask }}"
+{% endfor %}
+
+cipher {{ openvpn_cipher }}
+user nobody
+group nogroup
+persist-key
+persist-tun
+keepalive {{ openvpn_keepalive }}
+
+status /var/log/openvpn/status_orchdash.log
+log-append /var/log/openvpn/orchdash.log
+verb {{ openvpn_verb }}

@@ -1,0 +1,20 @@
+---
+- name: Ensure OpenVPN is installed on the bastion
+  package:
+    name: openvpn
+    state: present
+
+- name: Deploy server_orchdash.conf from template
+  template:
+    src: server_orchdash.conf.j2
+    dest: "{{ openvpn_server_dir }}/{{ openvpn_server_config }}"
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart openvpn server
+
+- name: Enable and start the OpenVPN server service
+  systemd:
+    name: "{{ openvpn_service_name }}"
+    enabled: true
+    state: started

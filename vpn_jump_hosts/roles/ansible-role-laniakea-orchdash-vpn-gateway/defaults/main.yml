@@ -1,0 +1,59 @@
+---
+# REQUIRED, no default, so must be provided explicitly
+# openvpn_public_ip: "212.189.202.200"   # public IP of the bastion
+# openvpn_tenant_network: "172.18.7.0"   # private network of the VMs
+# openvpn_tenant_iface: "ens4"           # interface toward the tenant network
+# openvpn_tenant_prefix: "24"            # prefix length of the tenant network
+
+openvpn_public_ip: ""
+openvpn_tenant_network: ""
+openvpn_tenant_iface: ""
+openvpn_tenant_prefix: ""
+
+# Network
+openvpn_port: "1195"                     # must differ from the PAM instance port (1194)
+openvpn_protocol: "tcp"                  # udp | tcp
+openvpn_server_subnet: "10.9.0.0"        # must differ from the PAM instance subnet (10.8.0.0)
+openvpn_server_mask: "255.255.255.0"
+openvpn_tenant_netmask: "255.255.255.0"
+
+# Additional subnets to push to the client (on top of tenant_network)
+openvpn_push_routes: []
+# - network: "192.168.100.0"
+#   netmask: "255.255.255.0"
+
+# Crypto
+openvpn_cipher: "AES-256-CBC"
+
+# Easy-RSA
+easyrsa_cert_days: 3650
+
+# Client
+openvpn_client_name: "dashboard"
+openvpn_client_output_dir: "/root"
+
+# Paths
+openvpn_server_dir: "/etc/openvpn/server"
+openvpn_easyrsa_dir: "/etc/openvpn/server/easy-rsa"
+openvpn_client_config_dir: "/etc/openvpn/client"
+
+# Server config filename and systemd service name
+openvpn_server_config: "server_orchdash.conf"
+openvpn_service_name: "openvpn-server@server_orchdash"
+
+# tun interface — must differ from tun0 used by the PAM instance
+openvpn_dev: "tun1"
+
+# tls-crypt pre-shared key
+openvpn_tls_crypt_key: "{{ openvpn_server_dir }}/tc.key"
+
+# Client config filename and systemd service name on the dashboard host
+openvpn_client_config_name: "orchestrator-dashboard-{{ openvpn_public_ip }}.ovpn"
+openvpn_service_client_name: "openvpn-client@orchestrator-dashboard-{{ openvpn_public_ip }}"
+
+# Bastion hostname in the Ansible inventory (used for delegate_to)
+openvpn_bastion_host: ""
+
+# Logging
+openvpn_verb: 3
+openvpn_keepalive: "10 120"

@@ -1,0 +1,11 @@
+---
+- name: Restart openvpn server
+  systemd:
+    name: "{{ openvpn_service_name }}"
+    state: restarted
+  delegate_to: "{{ openvpn_bastion_host }}"
+
+- name: Restart openvpn client
+  systemd:
+    name: "{{ openvpn_service_client_name }}"
+    state: restarted

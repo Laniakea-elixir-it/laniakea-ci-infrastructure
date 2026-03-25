@@ -1,0 +1,52 @@
+---
+- name: Check if client certificate already exists
+  stat:
+    path: "{{ openvpn_easyrsa_dir }}/pki/issued/{{ openvpn_client_name }}.crt"
+  register: client_cert_stat
+
+- name: Generate client certificate request (skipped if already exists)
+  command: >
+    ./easyrsa gen-req {{ openvpn_client_name }} nopass
+  args:
+    chdir: "{{ openvpn_easyrsa_dir }}"
+  environment:
+    EASYRSA_BATCH: "1"
+    EASYRSA_CERT_EXPIRE: "{{ easyrsa_cert_days }}"
+  when: not client_cert_stat.stat.exists
+
+- name: Sign client certificate (skipped if already exists)
+  command: >
+    ./easyrsa sign-req client {{ openvpn_client_name }}
+  args:
+    chdir: "{{ openvpn_easyrsa_dir }}"
+  environment:
+    EASYRSA_BATCH: "1"
+    EASYRSA_CERT_EXPIRE: "{{ easyrsa_cert_days }}"
+  when: not client_cert_stat.stat.exists
+
+- name: Read ca.crt
+  slurp:
+    src: "{{ openvpn_easyrsa_dir }}/pki/ca.crt"
+  register: ca_cert_content
+
+- name: Read client certificate
+  slurp:
+    src: "{{ openvpn_easyrsa_dir }}/pki/issued/{{ openvpn_client_name }}.crt"
+  register: client_cert_content
+
+- name: Read client private key
+  slurp:
+    src: "{{ openvpn_easyrsa_dir }}/pki/private/{{ openvpn_client_name }}.key"
+  register: client_key_content
+
+- name: Read tls-crypt key (tc.key)
+  slurp:
+    src: "{{ openvpn_tls_crypt_key }}"
+  register: tls_crypt_content
+
+- name: Store certificate contents as facts for the client template
+  set_fact:
+    openvpn_ca_content: "{{ ca_cert_content.content | b64decode }}"
+    openvpn_client_cert_content: "{{ client_cert_content.content | b64decode }}"
+    openvpn_client_key_content: "{{ client_key_content.content | b64decode }}"
+    openvpn_tls_crypt_content: "{{ tls_crypt_content.content | b64decode }}"
