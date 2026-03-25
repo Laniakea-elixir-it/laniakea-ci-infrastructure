@@ -33,14 +33,14 @@
 - name: Reconfigure Laniakea dashboard dev
   hosts: laniakea-dashboard-dev
   become: true
-  roles:
-    - ansible-role-laniakea-jh-config
-  post_tasks:
+  pre_tasks:
     - name: Copy ovpn file to laniakea-dashboard-dev
       copy:
-        src: "/tmp/{{ ovpn_file }}"
-        dest: "{{ ovpn_file_path }}"
+        src: "/tmp/vpn-{{ openvpn_public_ip }}-{{ openvpn_client_name }}.ovpn"
+        dest: "{{ openvpn_client_output_dir }}/vpn-{{ openvpn_public_ip }}-{{ openvpn_client_name }}.ovpn"
         mode: '0600'
+  roles:
+    - ansible-role-laniakea-jh-config
 
 #- name: Reconfigure Laniakea dashboard prod
 #  hosts: laniakea-dashboard-prod
