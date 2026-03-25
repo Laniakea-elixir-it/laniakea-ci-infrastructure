@@ -1,7 +1,7 @@
 ---
 
 - name: Retrieve ovpn file
-  ansible.builtin.include_task: fetch_ovpn_file.yml
+  ansible.builtin.include_tasks: fetch_ovpn_file.yml
 
 - name: Upload Open VPN confile on Hashicorp Vault
   ansible.builtin.include_tasks: vault_upload.yml
