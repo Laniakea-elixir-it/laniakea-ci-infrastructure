@@ -1,3 +1,6 @@
+- debug:
+    msg: "{{ ovpn_file_path }}"
+
 - name: Read and encode ovpn file in base64
   slurp:
     src: "{{ ovpn_file_path }}"
