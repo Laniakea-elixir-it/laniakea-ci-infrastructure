@@ -46,6 +46,17 @@
   roles:
     - ansible-role-laniakea-jh-config
 
+- hosts: laniakea-dashboard-dev
+  become: true
+  vars:
+    openvpn_bastion_host: elixir-paas
+    openvpn_public_ip: "212.189.205.146"
+    openvpn_tenant_network: "172.18.7.0"
+    openvpn_tenant_iface: "ens4"
+    openvpn_tenant_prefix: "24"
+  roles:
+    - ansible-role-laniakea-orchdash-vpn-gateway
+
 #- name: Reconfigure Laniakea dashboard prod
 #  hosts: laniakea-dashboard-prod
 #  become: true
