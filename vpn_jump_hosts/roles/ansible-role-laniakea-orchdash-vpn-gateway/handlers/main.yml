@@ -3,7 +3,7 @@
   systemd:
     name: "{{ openvpn_service_name }}"
     state: restarted
-  delegate_to: "{{ openvpn_bastion_host }}"
+  delegate_to: "{{ openvpn_server_host }}"
 
 - name: Restart openvpn client
   systemd:

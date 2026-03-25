@@ -52,7 +52,7 @@ openvpn_client_config_name: "orchestrator-dashboard-{{ openvpn_public_ip }}.ovpn
 openvpn_service_client_name: "openvpn-client@orchestrator-dashboard-{{ openvpn_public_ip }}"
 
 # Bastion hostname in the Ansible inventory (used for delegate_to)
-openvpn_bastion_host: ""
+openvpn_server_host: ""
 
 # Logging
 openvpn_verb: 3
