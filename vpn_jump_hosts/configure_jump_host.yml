@@ -16,7 +16,7 @@
 # ==============================================================================
 
 - name: Manage OpenVPN server and PAM OAuth2 authentication
-  hosts: elixir-italy-services
+  hosts: elixir-paas
   become: true
   roles:
     - ansible-role-openvpn
@@ -27,7 +27,7 @@
   hosts: laniakea-dashboard-dev
   become: true
   vars:
-    openvpn_server_host: elixir-italy-services
+    openvpn_server_host: elixir-paas
   pre_tasks:
     - name: Load VPN server host vars
       include_vars:
