@@ -25,10 +25,10 @@
     insertafter: "RemainAfterExit=yes"
     line: "{{ item }}"
   loop:
-    - "ExecStart=/sbin/iptables -w 5 -I FORWARD -s {{ openvpn_server_subnet }}/24 -d {{ tenant_network }}/{{ tenant_prefix }} -j ACCEPT"
-    - "ExecStart=/sbin/iptables -w 5 -t nat -A POSTROUTING -s {{ openvpn_server_subnet }}/24 -d {{ tenant_network }}/{{ tenant_prefix }} -o {{ openvpn_tenant_iface }} -j MASQUERADE"
-    - "ExecStop=/sbin/iptables -w 5 -D FORWARD -s {{ openvpn_server_subnet }}/24 -d {{ tenant_network }}/{{ tenant_prefix }} -j ACCEPT"
-    - "ExecStop=/sbin/iptables -w 5 -t nat -D POSTROUTING -s {{ openvpn_server_subnet }}/24 -d {{ tenant_network }}/{{ tenant_prefix }} -o {{ openvpn_tenant_iface }} -j MASQUERADE"
+    - "ExecStart=/sbin/iptables -w 5 -I FORWARD -s {{ openvpn_server_subnet }}/24 -d {{ openvpn_tenant_network }}/{{ openvpn_tenant_prefix }} -j ACCEPT"
+    - "ExecStart=/sbin/iptables -w 5 -t nat -A POSTROUTING -s {{ openvpn_server_subnet }}/24 -d {{ openvpn_tenant_network }}/{{ openvpn_tenant_prefix }} -o {{ openvpn_tenant_iface }} -j MASQUERADE"
+    - "ExecStop=/sbin/iptables -w 5 -D FORWARD -s {{ openvpn_server_subnet }}/24 -d {{ openvpn_tenant_network }}/{{ openvpn_tenant_prefix }} -j ACCEPT"
+    - "ExecStop=/sbin/iptables -w 5 -t nat -D POSTROUTING -s {{ openvpn_server_subnet }}/24 -d {{ openvpn_tenant_network }}/{{ openvpn_tenant_prefix }} -o {{ openvpn_tenant_iface }} -j MASQUERADE"
 
 - name: Reload systemd daemon
   systemd:
