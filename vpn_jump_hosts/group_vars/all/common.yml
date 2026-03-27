@@ -22,7 +22,11 @@ easyrsa_version:   "3.2.5"
 easyrsa_cert_days: 3650
 
 # PAM OAuth2
-pam_install_method:  "package"
+# use apt package: "package"
+# build package: "build"
+pam_install_method:  "build"
+
+# Install package
 pam_package_repo:    "https://github.com/Laniakea-elixir-it/pam_oauth2_device"
 pam_package_version: "0.0.4"
 
