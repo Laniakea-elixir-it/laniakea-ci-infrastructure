@@ -27,6 +27,10 @@ oidc_providers:
     userinfo_endpoint: "https://login.aai.lifescience-ri.eu/oidc/userinfo"
 
 # OIDC
+oidc_scopes:
+  - openid
+  - profile
+  - eduperson_entitlement # add eduperson_entitlement for EGI and LS-AAI
 username_attribute: "preferred_username"
 allowed_groups:     []
 
