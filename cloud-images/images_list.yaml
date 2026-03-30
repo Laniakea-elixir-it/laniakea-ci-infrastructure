@@ -32,6 +32,18 @@ images:
             playbook_file: "rockylinux-laniakea-dev.yml"
             ansible_galaxy_file: "rockylinux-laniakea-dev.yml"
 
+    ubuntu-laniakea-dev:
+        name: "ubuntu-22.04_20260320-laniakea-dev"
+        version: v1.0.0
+        build: yes
+        packer:
+            ssh_username: ubuntu
+            source_image: "444234ec-eb75-4e4a-81dc-7ce3e7e08038" # Ubuntu-22.04-20260316
+            flavor: medium
+            volume_size: "10"
+            network_id: "4b5f690e-8232-439b-9964-8d28b3108b03" # public net
+            playbook_file: "ubuntu-laniakea-dev.yml"
+
     rstudio-minimal:
         name: "rstudio-minimal,2026.01.1-403"
         version: v2.0.2
