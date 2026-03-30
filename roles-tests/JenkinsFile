@@ -1,0 +1,61 @@
+pipeline {
+    agent { label "build-usegalaxy-it.wn1" }
+    options { disableConcurrentBuilds() }
+    
+    environment {
+        ANSIBLE_HOST_KEY_CHECKING = 'False'
+    }
+
+    parameters {
+        string(name: 'TARGET_HOSTS', defaultValue: 'galaxy_25', description: 'Host Ansible target')
+        string(name: 'PLAYBOOK_DIR', defaultValue: 'galaxy', description: 'Playbook directory and name')
+        string(name: 'PLAYBOOK_FILE', defaultValue: 'galaxy.yml', description: 'Playbook name')
+    }
+
+    stages {
+        stage('Deploy VPN Jump Hosts') {
+            steps {
+                withCredentials([
+                    string(credentialsId: 'laniakea_vault_password', variable: 'LANIAKEA_VAULT_PASSWORD'),
+                    sshUserPrivateKey(credentialsId: 'laniakea_robot_ssh_key_pair', keyFileVariable: 'SSH_KEY')
+                ]) {
+                    dir('vpn_jump_hosts') {
+                        sh '''#!/bin/bash
+                        python3 -m venv venv
+                        . venv/bin/activate
+                        pip install -r ./ansible-playbooks/requirements.txt
+                        ansible-galaxy role install -r ./ansible-playbooks/${params.PLAYBOOK_DIR}/requirements.yml -p roles
+                        IPS=$(ansible-vault view inventory/hosts --vault-password-file <(echo "$LANIAKEA_VAULT_PASSWORD") | grep ansible_host | awk -F'ansible_host=' '{print $2}' | awk '{print $1}')
+                        for IP in $IPS; do
+                            ssh-keygen -f "$HOME/.ssh/known_hosts" -R "$IP"
+                            ssh-keyscan -H "$IP" >> "$HOME/.ssh/known_hosts"
+                        done
+                        ansible-playbook -i inventory ansible-playbooks/${params.PLAYBOOK_DIR}/${params.PLAYBOOK_FILE} --vault-password-file <(echo "$LANIAKEA_VAULT_PASSWORD") --private-key "$SSH_KEY" -u root -e "target_hosts=${params.TARGET_HOSTS}"
+                        '''
+                    }
+                }
+            }
+        }
+    }
+
+        post {
+                success {
+                        emailext (
+                        subject: '$DEFAULT_SUBJECT',
+                        body: '$DEFAULT_CONTENT',
+                        to: '$DEFAULT_RECIPIENTS',
+                        attachLog: true
+                        )
+                        cleanWs()
+                }
+                failure {
+                        emailext (
+                        subject: '$DEFAULT_SUBJECT',
+                        body: '$DEFAULT_CONTENT',
+                        to: '$DEFAULT_RECIPIENTS',
+                        attachLog: true
+                        )
+                        cleanWs()
+                }
+        }
+}

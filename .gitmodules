@@ -1,3 +1,6 @@
 [submodule "cloud-images/ansible-playbooks"]
 	path = cloud-images/ansible-playbooks
 	url = https://github.com/Laniakea-elixir-it/ansible-playbooks.git
+[submodule "roles-tests/ansible-playbooks"]
+	path = roles-tests/ansible-playbooks
+	url = https://github.com/Laniakea-elixir-it/ansible-playbooks.git
