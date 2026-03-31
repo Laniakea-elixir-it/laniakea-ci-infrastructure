@@ -34,6 +34,6 @@
         file: "inventory/host_vars/{{ openvpn_server_host }}/vars.yml" # can't be included through var_file, since it is evaluated before vars
   roles:
     - ansible-role-laniakea-jh-config
-    - role: ansible-role-laniakea-orchdash-vpn-gateway
-      openvpn_port: "1195"
-      openvpn_server_subnet: "10.9.0.0" 
+      #    - role: ansible-role-laniakea-orchdash-vpn-gateway
+      #      openvpn_port: "1195"
+      #      openvpn_server_subnet: "10.9.0.0" 
