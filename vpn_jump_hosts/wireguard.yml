@@ -1,6 +1,6 @@
 - hosts: laniakea-dashboard
   vars:
-    bastion_host: elixir-italy-service
+    bastion_host: elixir-italy-services
     wireguard_peer: "{{ wireguard_bastions[bastion_host] | combine({'bastion_host': bastion_host}) }}"
   roles:
     - ansible-role-laniakea-wireguard-setup
