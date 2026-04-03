@@ -1,0 +1,10 @@
+[Interface]
+PrivateKey = {{ dash_privkey_content.content | b64decode | trim }}
+Address    = {{ wireguard_wg_ip[wireguard_peer.iface_dashboard] }}/24
+
+[Peer]
+# Bastion: {{ wireguard_peer.bastion_host }}
+PublicKey           = {{ wg_bastion_pubkey }}
+Endpoint            = {{ wg_bastion_public_ip }}:{{ wireguard_port }}
+AllowedIPs          = {{ wireguard_peer.private_network }}/{{ wireguard_peer.private_prefix }}
+PersistentKeepalive = 25

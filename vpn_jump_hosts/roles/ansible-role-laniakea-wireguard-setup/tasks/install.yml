@@ -1,0 +1,13 @@
+---
+- name: Install WireGuard on dashboard
+  apt:
+    name: wireguard
+    state: present
+    update_cache: true
+
+- name: Install WireGuard on bastion
+  apt:
+    name: wireguard
+    state: present
+    update_cache: true
+  delegate_to: "{{ wireguard_peer.bastion_host }}"

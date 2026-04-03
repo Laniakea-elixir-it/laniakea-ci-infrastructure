@@ -1,0 +1,10 @@
+---
+- name: Install WireGuard on dashboard
+  import_tasks: install.yml
+
+- name: Generate keys and configure bastion
+  import_tasks: bastion.yml
+  delegate_to: "{{ wireguard_peer.bastion_host }}"
+
+- name: Generate keys and configure dashboard interface
+  import_tasks: dashboard.yml

@@ -1,0 +1,57 @@
+---
+# Key generation
+
+- name: "Dashboard | Generate private key for {{ wireguard_peer.iface_dashboard }}"
+  shell: wg genkey > {{ wireguard_config_dir }}/{{ wireguard_peer.iface_dashboard }}_private.key
+  args:
+    creates: "{{ wireguard_config_dir }}/{{ wireguard_peer.iface_dashboard }}_private.key"
+
+- name: "Dashboard | Set permissions on private key"
+  file:
+    path: "{{ wireguard_config_dir }}/{{ wireguard_peer.iface_dashboard }}_private.key"
+    mode: '0600'
+    owner: root
+    group: root
+
+- name: "Dashboard | Generate public key for {{ wireguard_peer.iface_dashboard }}"
+  shell: wg pubkey < {{ wireguard_config_dir }}/{{ wireguard_peer.iface_dashboard }}_private.key > {{ wireguard_config_dir }}/{{ wireguard_peer.iface_dashboard }}_public.key
+  args:
+    creates: "{{ wireguard_config_dir }}/{{ wireguard_peer.iface_dashboard }}_public.key"
+
+# Read keys
+
+- name: "Dashboard | Read private key"
+  slurp:
+    src: "{{ wireguard_config_dir }}/{{ wireguard_peer.iface_dashboard }}_private.key"
+  register: dash_privkey_content
+
+# Retrieve bastion public key and IP from hostvars
+
+- name: "Dashboard | Retrieve bastion facts"
+  set_fact:
+    wg_bastion_pubkey: "{{ hostvars[wireguard_peer.bastion_host]['wg_bastion_pubkey'] }}"
+    wg_bastion_public_ip: "{{ hostvars[wireguard_peer.bastion_host]['ansible_host'] }}"
+    wg_bastion_wg_ip: "{{ wireguard_peer.wg_subnet | regex_replace('/.*', '') | regex_replace('(\\d+\\.\\d+\\.\\d+)\\.\\d+', '\\1.1') }}"
+
+# Deploy interface config
+#
+- name: "Dashboard | Deploy {{ wireguard_peer.iface_dashboard }}.conf"
+  template:
+    src: dashboard_wg.conf.j2
+    dest: "{{ wireguard_config_dir }}/{{ wireguard_peer.iface_dashboard }}.conf"
+    owner: root
+    group: root
+    mode: '0600'
+  register: dash_wg_conf
+
+- name: "Dashboard | Enable and start wg-quick@{{ wireguard_peer.iface_dashboard }}"
+  systemd:
+    name: "wg-quick@{{ wireguard_peer.iface_dashboard }}"
+    enabled: true
+    state: started
+
+- name: "Dashboard | Restart interface if config changed"
+  systemd:
+    name: "wg-quick@{{ wireguard_peer.iface_dashboard }}"
+    state: restarted
+  when: dash_wg_conf.changed

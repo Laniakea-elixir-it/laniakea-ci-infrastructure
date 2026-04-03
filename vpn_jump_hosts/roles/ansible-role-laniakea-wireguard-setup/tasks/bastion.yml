@@ -1,0 +1,102 @@
+---
+# Key generation
+
+- name: "Bastion | Generate private key"
+  shell: wg genkey > {{ wireguard_config_dir }}/bastion_private.key
+  args:
+    creates: "{{ wireguard_config_dir }}/bastion_private.key"
+
+- name: "Bastion | Set permissions on private key"
+  file:
+    path: "{{ wireguard_config_dir }}/bastion_private.key"
+    mode: '0600'
+    owner: root
+    group: root
+
+- name: "Bastion | Generate public key"
+  shell: wg pubkey < {{ wireguard_config_dir }}/bastion_private.key > {{ wireguard_config_dir }}/bastion_public.key
+  args:
+    creates: "{{ wireguard_config_dir }}/bastion_public.key"
+
+# Read keys
+
+- name: "Bastion | Read private key"
+  slurp:
+    src: "{{ wireguard_config_dir }}/bastion_private.key"
+  register: bastion_privkey_content
+
+- name: "Bastion | Read public key"
+  slurp:
+    src: "{{ wireguard_config_dir }}/bastion_public.key"
+  register: bastion_pubkey_content
+
+- name: "Bastion | Store keys as facts accessible from dashboard tasks"
+  set_fact:
+    wg_bastion_privkey: "{{ bastion_privkey_content.content | b64decode | trim }}"
+    wg_bastion_pubkey: "{{ bastion_pubkey_content.content | b64decode | trim }}"
+
+# Read dashboard public keys
+
+- name: "Bastion | Read public key from each dashboard"
+  slurp:
+    src: "{{ wireguard_config_dir }}/{{ wireguard_peer.iface_dashboard }}_public.key"
+  register: dashboard_pubkey_raw
+  delegate_to: "{{ dashboard_host }}"
+  loop: "{{ groups[wireguard_dashboard_group] }}"
+  loop_control:
+    loop_var: dashboard_host
+    label: "{{ dashboard_host }}"
+
+- name: "Bastion | Build dashboard peers list"
+  set_fact:
+    wg_dashboard_peers: "{{ wg_dashboard_peers | default([]) + [
+      {
+        'hostname': item.dashboard_host,
+        'pubkey': item.content | b64decode | trim,
+        'wg_ip': hostvars[item.dashboard_host]['wireguard_wg_ip'][wireguard_peer.iface_dashboard]
+      }
+    ] }}"
+  loop: "{{ dashboard_pubkey_raw.results }}"
+  loop_control:
+    label: "{{ item.dashboard_host }}"
+
+# Deploy wg0.conf
+
+- name: "Bastion | Deploy wg0.conf"
+  template:
+    src: bastion_wg0.conf.j2
+    dest: "{{ wireguard_config_dir }}/wg0.conf"
+    owner: root
+    group: root
+    mode: '0600'
+  register: bastion_wg_conf
+
+- name: "Bastion | Enable ip_forward"
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: true
+    state: present
+    reload: true
+
+- name: "Bastion | Allow WireGuard port in ufw"
+  ufw:
+    rule: allow
+    port: "{{ wireguard_port }}"
+    proto: udp
+
+- name: "Bastion | Enable and start wg-quick@wg0"
+  systemd:
+    name: wg-quick@wg0
+    enabled: true
+    state: started
+
+- name: "Bastion | Restart wg0 if config changed"
+  systemd:
+    name: wg-quick@wg0
+    state: restarted
+  when: bastion_wg_conf.changed
+
+- name: "Bastion | Reset dashboard peers fact for next run"
+  set_fact:
+    wg_dashboard_peers: []
