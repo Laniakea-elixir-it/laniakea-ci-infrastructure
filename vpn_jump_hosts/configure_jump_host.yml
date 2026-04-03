@@ -23,14 +23,14 @@
     - ansible-role-pam-oauth2
 
 # Run this only on Laniakea
-- name: Reconfigure Laniakea dashboard dev
-  hosts: laniakea-dashboard-dev
-  become: true
-  vars:
-    openvpn_server_host: elixir-italy-services
-  pre_tasks:
-    - name: Load VPN server host vars
-      include_vars:
-        file: "inventory/host_vars/{{ openvpn_server_host }}/vars.yml" # can't be included through var_file, since it is evaluated before vars
-  roles:
-    - ansible-role-laniakea-jh-config
+#- name: Reconfigure Laniakea dashboard dev
+#  hosts: laniakea-dashboard-dev
+#  become: true
+#  vars:
+#    openvpn_server_host: elixir-italy-services
+#  pre_tasks:
+#    - name: Load VPN server host vars
+#      include_vars:
+#        file: "inventory/host_vars/{{ openvpn_server_host }}/vars.yml" # can't be included through var_file, since it is evaluated before vars
+#  roles:
+#    - ansible-role-laniakea-jh-config
