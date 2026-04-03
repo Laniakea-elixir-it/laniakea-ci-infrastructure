@@ -7,10 +7,12 @@
   register: dash_privkey_content
 
 # Retrieve bastion public key and IP from hostvars
+- debug:
+   msg: '{{ wg_bastion_pubkey }}'
 
 - name: "Dashboard | Retrieve bastion facts"
   set_fact:
-    wg_bastion_pubkey: "{{ hostvars[wireguard_peer.bastion_host]['wg_bastion_pubkey'] }}"
+    #wg_bastion_pubkey: "{{ hostvars[wireguard_peer.bastion_host]['wg_bastion_pubkey'] }}"
     wg_bastion_public_ip: "{{ hostvars[wireguard_peer.bastion_host]['ansible_host'] }}"
     wg_bastion_wg_ip: "{{ wireguard_peer.wg_subnet | regex_replace('/.*', '') | regex_replace('(\\d+\\.\\d+\\.\\d+)\\.\\d+', '\\1.1') }}"
 
