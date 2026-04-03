@@ -1,4 +1,29 @@
-- hosts: laniakea-dashboard
+---
+# ----------------------------
+# Run this only on Laniakea
+# ----------------------------
+
+# Configure Laniakea dashboards with ovpn files
+# ovpn files are uploaded on vault
+#
+- name: Reconfigure Laniakea dashboard dev
+  hosts: laniakea-dashboard
+  become: true
+  vars:
+    openvpn_server_host: elixir-italy-services
+  pre_tasks:
+    - name: Load VPN server host vars
+      include_vars:
+        file: "inventory/host_vars/{{ openvpn_server_host }}/vars.yml" # can't be included through var_file, since it is evaluated before vars
+  roles:
+    - ansible-role-laniakea-jh-config
+
+# Configure Laniakea dashboards with wireguards
+# to grant laniakea-utils working
+#
+- name: Configure Wireguard
+  hosts: laniakea-dashboard
+  become: true
   vars:
     bastion_host: elixir-italy-services
     wireguard_peer: "{{ wireguard_bastions[bastion_host] | combine({'bastion_host': bastion_host}) }}"
