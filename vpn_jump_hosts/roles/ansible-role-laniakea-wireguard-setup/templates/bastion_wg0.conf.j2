@@ -4,12 +4,8 @@ Address    = {{ wireguard_peer.wg_subnet | regex_replace('/.*', '') | regex_repl
 ListenPort = {{ wireguard_port }}
 
 # Forward traffic from tunnel to tenant private network
-PostUp   = iptables -A FORWARD -i wg0 -j ACCEPT; \
-           iptables -A FORWARD -o wg0 -j ACCEPT; \
-           iptables -t nat -A POSTROUTING -o {{ wireguard_peer.bastion_private_iface }} -j MASQUERADE
-PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; \
-           iptables -D FORWARD -o wg0 -j ACCEPT; \
-           iptables -t nat -D POSTROUTING -o {{ wireguard_peer.bastion_private_iface }} -j MASQUERADE
+PostUp   = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o {{ wireguard_peer.bastion_private_iface }} -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o {{ wireguard_peer.bastion_private_iface }} -j MASQUERADE
 
 {% for d in wg_dashboard_peers %}
 # Dashboard: {{ d.hostname }}
