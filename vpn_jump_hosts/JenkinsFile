@@ -25,7 +25,7 @@ pipeline {
                             ssh-keyscan -H "$IP" >> "$HOME/.ssh/known_hosts"
                         done
                         ansible-playbook -i inventory/hosts configure_jump_host.yml --vault-password-file <(echo "$LANIAKEA_VAULT_PASSWORD") --private-key "$SSH_KEY" -u root
-                        ansible-playbook -i inventory/hosts configure_laniakea-dashboard.yml --vault-password-file <(echo "$LANIAKEA_VAULT_PASSWORD") --private-key "$SSH_KEY" -u root
+                        ansible-playbook -i inventory/hosts configure_laniakea_dashboard.yml --vault-password-file <(echo "$LANIAKEA_VAULT_PASSWORD") --private-key "$SSH_KEY" -u root
                         '''
                     }
                 }
