@@ -2,6 +2,15 @@
 - name: Install WireGuard on dashboard
   import_tasks: install.yml
 
+# Key generation
+- name: Generate keys for bastion
+  import_tasks: bastion_key_generation.yml
+  delegate_to: "{{ wireguard_peer.bastion_host }}"
+
+- name: Generate keys for dashboards
+  import_tasks: dashboard_keys_generation.yml
+
+# Configuration
 - name: Generate keys and configure bastion
   import_tasks: bastion.yml
   delegate_to: "{{ wireguard_peer.bastion_host }}"

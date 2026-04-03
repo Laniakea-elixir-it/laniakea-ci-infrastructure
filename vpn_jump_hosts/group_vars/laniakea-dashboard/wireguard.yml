@@ -7,7 +7,7 @@ wireguard_bastions:
     private_prefix: 24
 
   elixir-italy-services:
-    iface_dashboard: wg_elixir_italy_service
+    iface_dashboard: wg_elixir_italy_services
     bastion_private_iface: ens4
     wg_subnet: "10.10.1.0/24"
     private_network: "172.18.7.0"

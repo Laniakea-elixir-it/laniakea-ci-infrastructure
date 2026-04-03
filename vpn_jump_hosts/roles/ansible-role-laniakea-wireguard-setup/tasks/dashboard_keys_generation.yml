@@ -17,22 +17,3 @@
   shell: wg pubkey < {{ wireguard_config_dir }}/{{ wireguard_peer.iface_dashboard }}_private.key > {{ wireguard_config_dir }}/{{ wireguard_peer.iface_dashboard }}_public.key
   args:
     creates: "{{ wireguard_config_dir }}/{{ wireguard_peer.iface_dashboard }}_public.key"
-
-# Key generation on the bastion
-
-- name: "Bastion | Generate private key"
-  shell: wg genkey > {{ wireguard_config_dir }}/bastion_private.key
-  args:
-    creates: "{{ wireguard_config_dir }}/bastion_private.key"
-
-- name: "Bastion | Set permissions on private key"
-  file:
-    path: "{{ wireguard_config_dir }}/bastion_private.key"
-    mode: '0600'
-    owner: root
-    group: root
-
-- name: "Bastion | Generate public key"
-  shell: wg pubkey < {{ wireguard_config_dir }}/bastion_private.key > {{ wireguard_config_dir }}/bastion_public.key
-  args:
-    creates: "{{ wireguard_config_dir }}/bastion_public.key"
