@@ -1,6 +1,6 @@
 [Interface]
 PrivateKey = {{ wg_bastion_privkey }}
-Address    = {{ wireguard_peer.wg_subnet | regex_replace('/.*', '') | regex_replace('(\d+\.\d+\.\d+)\.\d+', '\1.1') }}/24
+Address = {{ wireguard_peer.bastion_wg_ip }}/24
 ListenPort = {{ wireguard_port }}
 
 # Forward traffic from tunnel to tenant private network
