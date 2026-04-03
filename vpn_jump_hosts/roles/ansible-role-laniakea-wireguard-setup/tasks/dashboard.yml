@@ -1,23 +1,4 @@
 ---
-# Key generation
-
-- name: "Dashboard | Generate private key for {{ wireguard_peer.iface_dashboard }}"
-  shell: wg genkey > {{ wireguard_config_dir }}/{{ wireguard_peer.iface_dashboard }}_private.key
-  args:
-    creates: "{{ wireguard_config_dir }}/{{ wireguard_peer.iface_dashboard }}_private.key"
-
-- name: "Dashboard | Set permissions on private key"
-  file:
-    path: "{{ wireguard_config_dir }}/{{ wireguard_peer.iface_dashboard }}_private.key"
-    mode: '0600'
-    owner: root
-    group: root
-
-- name: "Dashboard | Generate public key for {{ wireguard_peer.iface_dashboard }}"
-  shell: wg pubkey < {{ wireguard_config_dir }}/{{ wireguard_peer.iface_dashboard }}_private.key > {{ wireguard_config_dir }}/{{ wireguard_peer.iface_dashboard }}_public.key
-  args:
-    creates: "{{ wireguard_config_dir }}/{{ wireguard_peer.iface_dashboard }}_public.key"
-
 # Read keys
 
 - name: "Dashboard | Read private key"
