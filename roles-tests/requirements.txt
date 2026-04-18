@@ -1,0 +1,7 @@
+pyyaml
+jinja2
+requests
+openstackclient
+ansible==8.7.0
+setuptools_rust
+python-openstackclient
