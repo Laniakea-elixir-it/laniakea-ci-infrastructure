@@ -1,42 +1,77 @@
 pipeline {
-    agent { label "build-usegalaxy-it.wn1" }
-    options { disableConcurrentBuilds() }
-    
-    environment {
-        ANSIBLE_HOST_KEY_CHECKING = 'False'
-    }
+	agent { label "build-usegalaxy-it.wn1" }
+	options { disableConcurrentBuilds() }
 
-    parameters {
-        string(name: 'TARGET_HOSTS', defaultValue: 'galaxy_25', description: 'Host Ansible target')
-        string(name: 'PLAYBOOK_DIR', defaultValue: 'galaxy', description: 'Playbook directory and name')
-        string(name: 'PLAYBOOK_FILE', defaultValue: 'galaxy.yml', description: 'Playbook name')
-    }
+	environment {
+		ANSIBLE_HOST_KEY_CHECKING = 'False'
+	}
 
-    stages {
-        stage('Deploy VPN Jump Hosts') {
-            steps {
-                withCredentials([
-                    string(credentialsId: 'laniakea_vault_password', variable: 'LANIAKEA_VAULT_PASSWORD'),
-                    sshUserPrivateKey(credentialsId: 'laniakea_robot_ssh_key_pair', keyFileVariable: 'SSH_KEY')
-                ]) {
-                    dir('vpn_jump_hosts') {
-                        sh '''#!/bin/bash
-                        python3 -m venv venv
-                        . venv/bin/activate
-                        pip install -r ./ansible-playbooks/requirements.txt
-                        ansible-galaxy role install -r ./ansible-playbooks/${params.PLAYBOOK_DIR}/requirements.yml -p roles
-                        IPS=$(ansible-vault view inventory/hosts --vault-password-file <(echo "$LANIAKEA_VAULT_PASSWORD") | grep ansible_host | awk -F'ansible_host=' '{print $2}' | awk '{print $1}')
-                        for IP in $IPS; do
-                            ssh-keygen -f "$HOME/.ssh/known_hosts" -R "$IP"
-                            ssh-keyscan -H "$IP" >> "$HOME/.ssh/known_hosts"
-                        done
-                        ansible-playbook -i inventory ansible-playbooks/${params.PLAYBOOK_DIR}/${params.PLAYBOOK_FILE} --vault-password-file <(echo "$LANIAKEA_VAULT_PASSWORD") --private-key "$SSH_KEY" -u root -e "target_hosts=${params.TARGET_HOSTS}"
-                        '''
-                    }
+	parameters {
+		string(name: 'TARGET_HOSTS', defaultValue: 'galaxy_25', description: 'Host Ansible target')
+		string(name: 'PLAYBOOK_DIR', defaultValue: 'galaxy', description: 'Playbook directory and name')
+		string(name: 'PLAYBOOK_FILE', defaultValue: 'galaxy.yml', description: 'Playbook name')
+		string(name: 'IMAGE', defaultValue: 'RockyLinux_9.5_20241118', description: 'Cloud image name')
+	}
+
+	stages {
+                stage('Create build environment') {
+                        steps {
+                                withCredentials([string(credentialsId: 'iam-recas-laniakea-bot-password', variable: 'IAM_CLIENT_PASSWORD')]) {
+                                        sh '''
+                                        python3 -m venv build/
+                                        . build/bin/activate
+                                        pip install -r ./JNK-CI/requirements.txt
+                                        '''
+                                }
+                        }
                 }
-            }
-        }
-    }
+		stage('Deploy VM') {
+			steps {
+				withCredentials([string(credentialsId: 'iam-recas-laniakea-bot-password', variable: 'IAM_CLIENT_PASSWORD')]) {
+					sh '''
+                                	# Openstack Access
+                                	. build/bin/activate
+                                	eval `oidc-agent-service use`
+                                	. /home/ubuntu/usegalaxy-it.sh
+                                	expect JNK-CI/expect.sh $IAM_CLIENT_PASSWORD
+                                	export IAM_ACCESS_TOKEN=$(oidc-token iam-recas-laniakea-bot)
+                                	export OS_TOKEN=$(openstack --os-auth-type v3oidcaccesstoken --os-access-token ${IAM_ACCESS_TOKEN} token issue  -f json | jq -r ".id")
+                                	echo $OS_TOKEN
+
+                                	# Configure Terraform:
+                                	# clone the terraform recipe,
+                                	# configure the tf provider,
+                                	# create the infrastructure using the image var selected in the action trigger,
+                                	# save the public ip of the VM to configure the host file later.
+                                	git clone https://github.com/Laniakea-elixir-it/TerraFormExpress.git
+                                	cd TerraFormExpress
+                                	terraform init
+                                	terraform apply -auto-approve -var="image_name=$IMAGE"
+                                	export VM_IP=$(terraform output -raw public_ip)
+                                	echo $VM_IP
+                                	cd ..
+					'''
+				}
+			}
+		}
+
+		stage('Install Galaxy') {
+			steps {
+                		withCredentials([
+                    			string(credentialsId: 'laniakea_vault_password', variable: 'LANIAKEA_VAULT_PASSWORD'),
+                    			sshUserPrivateKey(credentialsId: 'laniakea_robot_ssh_key_pair', keyFileVariable: 'SSH_KEY')
+				]) {
+                        		sh '''
+					. build/bin/activate
+                        		pip install -r ./ansible-playbooks/requirements.txt
+		                        ansible-galaxy role install -r ./ansible-playbooks/${params.PLAYBOOK_DIR}/requirements.yml -p roles
+
+					ansible-playbook -i hosts ansible-playbooks/${params.PLAYBOOK_DIR}/${params.PLAYBOOK_FILE} --private-key "$SSH_KEY" -e "target_hosts=${params.TARGET_HOSTS}"
+					'''
+				}
+			}
+		}
+	}
 
         post {
                 success {

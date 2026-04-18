@@ -1,0 +1,5 @@
+[galaxyservers]
+VM_IP ansible_user=rocky ansible_python_interpreter=/usr/bin/python3
+
+[cvmfs]
+212.189.202.74 ansible_user=ubuntu
