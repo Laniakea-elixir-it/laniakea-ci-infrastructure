@@ -81,6 +81,7 @@ pipeline {
                         		sh '''
 					. build/bin/activate
 					echo $PWD
+					ls -l
                         		pip install -r ./ansible-playbooks/requirements.txt
 		                        ansible-galaxy role install -r ./ansible-playbooks/${params.PLAYBOOK_DIR}/requirements.yml -p roles
 					ansible-playbook -i hosts ansible-playbooks/${params.PLAYBOOK_DIR}/${params.PLAYBOOK_FILE} --private-key "$SSH_KEY" -e "target_hosts=${params.TARGET_HOSTS}"
