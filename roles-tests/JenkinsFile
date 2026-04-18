@@ -14,6 +14,23 @@ pipeline {
 	}
 
 	stages {
+
+		stage('Checkout submodules') {
+			steps {
+                		checkout([
+                			$class: 'GitSCM',
+                		    	branches: scm.branches,
+                		    	extensions: scm.extensions + [
+                		    		[$class: 'SubmoduleOption',
+                		    			recursiveSubmodules: true,
+                		    	        	parentCredentials: true,
+                		    	        	disableSubmodules: false]
+                		    	],
+                		    	userRemoteConfigs: scm.userRemoteConfigs
+                		])
+            		}
+        	}
+
                 stage('Create build environment') {
                         steps {
                                 withCredentials([string(credentialsId: 'iam-recas-laniakea-bot-password', variable: 'IAM_CLIENT_PASSWORD')]) {
@@ -65,7 +82,6 @@ pipeline {
 					. build/bin/activate
                         		pip install -r ./ansible-playbooks/requirements.txt
 		                        ansible-galaxy role install -r ./ansible-playbooks/${params.PLAYBOOK_DIR}/requirements.yml -p roles
-
 					ansible-playbook -i hosts ansible-playbooks/${params.PLAYBOOK_DIR}/${params.PLAYBOOK_FILE} --private-key "$SSH_KEY" -e "target_hosts=${params.TARGET_HOSTS}"
 					'''
 				}
