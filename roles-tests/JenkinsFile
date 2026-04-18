@@ -19,8 +19,8 @@ pipeline {
                                 withCredentials([string(credentialsId: 'iam-recas-laniakea-bot-password', variable: 'IAM_CLIENT_PASSWORD')]) {
                                         sh '''
                                         python3 -m venv build/
-                                        . build/bin/activate
-                                        pip install -r ./JNK-CI/requirements.txt
+                                        #. build/bin/activate
+                                        #pip install -r ./requirements.txt
                                         '''
                                 }
                         }
