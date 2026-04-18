@@ -67,6 +67,7 @@ pipeline {
 					cd roles-tests
 					git submodule update --init --recursive
 		                        ansible-galaxy role install -r ./ansible-playbooks/${params.PLAYBOOK_DIR}/requirements.yml -p roles
+					cat hosts
 					ansible-playbook -i hosts ansible-playbooks/${params.PLAYBOOK_DIR}/${params.PLAYBOOK_FILE}
 					"""
 				}
