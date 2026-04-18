@@ -65,6 +65,7 @@ pipeline {
                         		sh '''
 					. build/bin/activate
 					cd roles-tests
+					cd ansible-playbooks
 					ls -l
                         		pip install -r ./ansible-playbooks/requirements.txt
 		                        ansible-galaxy role install -r ./ansible-playbooks/${params.PLAYBOOK_DIR}/requirements.yml -p roles
