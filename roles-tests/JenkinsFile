@@ -7,7 +7,7 @@ pipeline {
 	}
 
 	parameters {
-		string(name: 'TARGET_HOSTS', defaultValue: 'galaxy_25', description: 'Host Ansible target')
+		string(name: 'TARGET_HOSTS', defaultValue: 'galaxyservers', description: 'Host Ansible target')
 		string(name: 'PLAYBOOK_DIR', defaultValue: 'galaxy', description: 'Playbook directory and name')
 		string(name: 'PLAYBOOK_FILE', defaultValue: 'galaxy.yml', description: 'Playbook name')
 		string(name: 'IMAGE', defaultValue: 'RockyLinux_9.5_20241118', description: 'Cloud image name')
