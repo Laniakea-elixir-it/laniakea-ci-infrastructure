@@ -29,15 +29,17 @@ pipeline {
 		stage('Deploy VM') {
 			steps {
 				withCredentials([string(credentialsId: 'iam-recas-laniakea-bot-password', variable: 'IAM_CLIENT_PASSWORD')]) {
-					sh '''
+					sh """
                                 	# Openstack Access
                                 	. build/bin/activate
                                 	eval `oidc-agent-service use`
                                 	. /home/ubuntu/usegalaxy-it.sh
                                 	expect ./expect.sh $IAM_CLIENT_PASSWORD
                                 	export IAM_ACCESS_TOKEN=$(oidc-token iam-recas-laniakea-bot)
-                                	export OS_TOKEN=$(openstack --os-auth-type v3oidcaccesstoken --os-access-token ${IAM_ACCESS_TOKEN} token issue  -f json | jq -r ".id")
+                                	export OS_TOKEN=$(openstack --os-auth-type v3oidcaccesstoken --os-access-token ${IAM_ACCESS_TOKEN} token issue  -f json | jq -r '.id')
                                 	echo $OS_TOKEN
+
+					cd roles-tests
 
                                 	# Configure Terraform:
                                 	# clone the terraform recipe,
@@ -51,24 +53,12 @@ pipeline {
                                 	export VM_IP=$(terraform output -raw public_ip)
                                 	echo $VM_IP
                                 	cd ..
-					'''
-				}
-			}
-		}
 
-		stage('Install Galaxy') {
-			steps {
-                		withCredentials([
-                    			string(credentialsId: 'laniakea_vault_password', variable: 'LANIAKEA_VAULT_PASSWORD'),
-                    			sshUserPrivateKey(credentialsId: 'laniakea_robot_ssh_key_pair', keyFileVariable: 'SSH_KEY')
-				]) {
-                        		sh """
-					. build/bin/activate
-					cd roles-tests
+					# Install Galaxy
 					git submodule update --init --recursive
 		                        ansible-galaxy role install -r ./ansible-playbooks/${params.PLAYBOOK_DIR}/requirements.yml -p roles
 					cat hosts
-					ansible-playbook -i hosts ansible-playbooks/${params.PLAYBOOK_DIR}/${params.PLAYBOOK_FILE}
+					ansible-playbook -i ../TerraFormExpress/hosts ansible-playbooks/${params.PLAYBOOK_DIR}/${params.PLAYBOOK_FILE}
 					"""
 				}
 			}
