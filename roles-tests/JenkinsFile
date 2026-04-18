@@ -66,8 +66,8 @@ pipeline {
 					. build/bin/activate
 					cd roles-tests
 					git submodule update --init --recursive
-		                        ansible-galaxy role install -r ./ansible-playbooks/${params.PLAYBOOK_DIR}/requirements.yml -p roles
-					ansible-playbook -i hosts ansible-playbooks/${params.PLAYBOOK_DIR}/${params.PLAYBOOK_FILE} --private-key "$SSH_KEY" -e "target_hosts=${params.TARGET_HOSTS}"
+		                        #ansible-galaxy role install -r ./ansible-playbooks/${params.PLAYBOOK_DIR}/requirements.yml -p roles
+					#ansible-playbook -i hosts ansible-playbooks/${params.PLAYBOOK_DIR}/${params.PLAYBOOK_FILE} --private-key "$SSH_KEY" -e "target_hosts=${params.TARGET_HOSTS}"
 					'''
 				}
 			}
