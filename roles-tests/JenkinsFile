@@ -62,13 +62,13 @@ pipeline {
                     			string(credentialsId: 'laniakea_vault_password', variable: 'LANIAKEA_VAULT_PASSWORD'),
                     			sshUserPrivateKey(credentialsId: 'laniakea_robot_ssh_key_pair', keyFileVariable: 'SSH_KEY')
 				]) {
-                        		sh '''
+                        		sh """
 					. build/bin/activate
 					cd roles-tests
 					git submodule update --init --recursive
-		                        #ansible-galaxy role install -r ./ansible-playbooks/${params.PLAYBOOK_DIR}/requirements.yml -p roles
-					#ansible-playbook -i hosts ansible-playbooks/${params.PLAYBOOK_DIR}/${params.PLAYBOOK_FILE} --private-key "$SSH_KEY" -e "target_hosts=${params.TARGET_HOSTS}"
-					'''
+		                        ansible-galaxy role install -r ./ansible-playbooks/${params.PLAYBOOK_DIR}/requirements.yml -p roles
+					#ansible-playbook -i hosts ansible-playbooks/${params.PLAYBOOK_DIR}/${params.PLAYBOOK_FILE}
+					"""
 				}
 			}
 		}
