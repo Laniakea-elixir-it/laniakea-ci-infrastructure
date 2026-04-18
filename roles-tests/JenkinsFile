@@ -27,9 +27,14 @@ pipeline {
                         }
                 }
 		stage('Deploy VM') {
+		        environment {
+                		PLAYBOOK_DIR  = "${params.PLAYBOOK_DIR}"
+		                PLAYBOOK_FILE = "${params.PLAYBOOK_FILE}"
+                		TARGET_HOSTS  = "${params.TARGET_HOSTS}"
+            		}
 			steps {
 				withCredentials([string(credentialsId: 'iam-recas-laniakea-bot-password', variable: 'IAM_CLIENT_PASSWORD')]) {
-					sh """
+					sh '''
                                 	# Openstack Access
                                 	. build/bin/activate
                                 	eval `oidc-agent-service use`
@@ -59,7 +64,7 @@ pipeline {
 		                        ansible-galaxy role install -r ./ansible-playbooks/${params.PLAYBOOK_DIR}/requirements.yml -p roles
 					cat hosts
 					ansible-playbook -i ../TerraFormExpress/hosts ansible-playbooks/${params.PLAYBOOK_DIR}/${params.PLAYBOOK_FILE}
-					"""
+					'''
 				}
 			}
 		}
