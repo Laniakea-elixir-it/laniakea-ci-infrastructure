@@ -63,7 +63,7 @@ pipeline {
 					git submodule update --init --recursive
 		                        ansible-galaxy role install -r ./ansible-playbooks/$PLAYBOOK_DIR/requirements.yml -p roles
 					cat hosts
-					ansible-playbook -i ../TerraFormExpress/hosts ansible-playbooks/$PLAYBOOK_DIR/$PLAYBOOK_FILE
+					ansible-playbook -i ../TerraFormExpress/hosts ansible-playbooks/$PLAYBOOK_DIR/$PLAYBOOK_FILE -e "target_hosts=$TARGET_HOSTS"
 					'''
 				}
 			}
