@@ -2,10 +2,6 @@ pipeline {
 	agent { label "build-usegalaxy-it.wn1" }
 	options { disableConcurrentBuilds() }
 
-	environment {
-		ANSIBLE_HOST_KEY_CHECKING = 'False'
-	}
-
 	parameters {
 		string(name: 'TARGET_HOSTS', defaultValue: 'galaxyservers', description: 'Host Ansible target')
 		string(name: 'PLAYBOOK_DIR', defaultValue: 'galaxy', description: 'Playbook directory and name')
@@ -64,6 +60,7 @@ pipeline {
 		                        ansible-galaxy role install -r ./ansible-playbooks/$PLAYBOOK_DIR/requirements.yml -p roles
 					sed -i s/VM_IP/$VM_IP/g hosts
 					cat hosts
+					ANSIBLE_HOST_KEY_CHECKING=False 
 					ansible-playbook -i hosts --private-key /home/ubuntu/.ssh/laniakea-robot.key ansible-playbooks/$PLAYBOOK_DIR/$PLAYBOOK_FILE -e "target_hosts=$TARGET_HOSTS"
 					'''
 				}
