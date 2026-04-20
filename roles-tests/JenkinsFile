@@ -58,7 +58,7 @@ pipeline {
                                         # Wait for SSH port 22 to be available
                                         echo "Waiting for SSH on $VM_IP:22..."
                                         timeout 300 bash -c 'until nc -z -w5 $VM_IP 22 2>/dev/null; do echo "SSH not ready, retrying in 5s..."; sleep 5; done'
-                                        echo "SSH is ready!
+                                        echo "SSH is ready!"
 
 					# Install Galaxy
 					git submodule update --init --recursive
