@@ -5,3 +5,4 @@ openstackclient
 ansible==8.7.0
 setuptools_rust
 python-openstackclient
+python-swiftclient
