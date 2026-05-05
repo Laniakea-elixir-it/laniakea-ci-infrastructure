@@ -65,7 +65,7 @@ pipeline {
 		                        ansible-galaxy role install -r ./ansible-playbooks/$PLAYBOOK_DIR/requirements.yml -p roles
 					sed -i s/VM_IP/$VM_IP/g hosts
 					cat hosts
-					ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i hosts --private-key /home/ubuntu/.ssh/laniakea-robot.key ansible-playbooks/$PLAYBOOK_DIR/$PLAYBOOK_FILE -e "target_hosts=$TARGET_HOSTS" -e "galaxy_commit_id=release_26.0"
+					ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i hosts --private-key /home/ubuntu/.ssh/laniakea-robot.key ansible-playbooks/$PLAYBOOK_DIR/$PLAYBOOK_FILE -e "target_hosts=$TARGET_HOSTS" -e "galaxy_commit_id=release_25.1"
 					'''
 				}
 			}
