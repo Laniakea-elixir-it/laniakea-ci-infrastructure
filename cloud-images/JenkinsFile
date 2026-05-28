@@ -10,7 +10,7 @@ pipeline {
 					. build/bin/activate
                                         pip install -r ./cloud-images/requirements.txt
                                         eval `oidc-agent-service use`
-                                        . /home/ubuntu/elixir-italy-dev.sh
+                                        . /home/ubuntu/usegalaxy-it.sh
                                         expect expect.sh $IAM_CLIENT_PASSWORD
                                         export IAM_ACCESS_TOKEN=$(oidc-token iam-recas-laniakea-bot)
 					export OS_TOKEN=$(openstack --os-auth-type v3oidcaccesstoken --os-access-token ${IAM_ACCESS_TOKEN} token issue  -f json | jq -r ".id")
