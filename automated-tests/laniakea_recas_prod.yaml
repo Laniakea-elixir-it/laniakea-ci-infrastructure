@@ -32,7 +32,7 @@ test:
         enabled: yes
         run_more: no # this tosca template doesn't produce a valid endpoint to check with requests.
         delete: always
-        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/single-vm/single_vmi_priov.yaml"
+        tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/single-vm/single_vm_priv.yaml"
         tosca_template_path: "/tmp/laniakea_dev/single_vm_priv.yaml"
         inputs:
             users: []
