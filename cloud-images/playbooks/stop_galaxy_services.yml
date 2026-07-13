@@ -1,0 +1,55 @@
+---
+- hosts: default
+  become: true
+  become_user: root
+  vars:
+    debug: false
+    # SSH laniakea robot key
+    laniakea_robot_key_pub: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDH1TyGvTGFzEBK2lSrcCvKVTQiA7jLQJYIPlsWZcyQzfgDhcJEBt93wJpj9cn8rnJHFFwnoRWfMSZqUn0VD+tByIWdi32fgjD/+6zUbyZojFAiiIQN80/8toktw7duynpDJPNgRt6a7PnsFX24s1jhkN8WZShRf6SpubRAUyxgj6Zuz7KQtieY2x2YRdAAXsKpnOGbMi2mE5G+PLVx/t3FzcHheDqNPz6R5j0Ikq/uiobd+E1hwCCW+P8+qa+OPnrhvuNf24mOApwGvEkKDELHJotTLAdCmfbhpuBqTx3BICPikdzOwpJ4tCierU+SxD1wy7ffCEonrEwNN7gBiT9d'
+  pre_tasks:
+    - name: 'Inject laniakea-robot ssh public key for debug - root'
+      authorized_key:
+        user: 'root'
+        key: '{{ laniakea_robot_key_pub }}'
+      ignore_errors: true
+      when: debug
+
+  tasks:
+    # Stop services
+    - name: stop galaxy
+      command: "/usr/local/bin/galaxyctl -c /home/galaxy/galaxy/config/galaxy.yml stop"
+      become: yes
+    - name: stop TUSd
+      systemd:
+        state: stopped
+        enabled: false
+        name: galaxy-tusd
+    - name: stop nginx
+      systemd:
+        state: stopped
+        enabled: false
+        name: nginx
+    - name: stop postgresql
+      systemd:
+        state: stopped
+        enabled: false
+        name: 'postgresql-{{ postgresql_version }}'
+    - name: stop docker.service
+      systemd:
+        state: stopped
+        enabled: false
+        name: docker.service
+      when: enable_interactive_tools
+    - name: stop docker.socket
+      systemd:
+        state: stopped
+        enabled: false
+        name: docker.socket
+      when: enable_interactive_tools
+
+    # Clean the environment
+    # Otherwise conda will start to install in temp directory
+    - name: 'Clean /export content'
+      file:
+        state: absent
+        path: '{{ export_dir }}'

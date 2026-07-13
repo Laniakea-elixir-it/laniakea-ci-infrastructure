@@ -29,6 +29,12 @@
 			"playbook_file": "./{{ playbook_file }}",
 			"galaxy_force_install": true
                         
-		}
+		}{% if 'galaxy' in playbook_file %},
+		{
+			"type": "ansible",
+			"extra_arguments": ["--extra-vars","@./ansible-playbooks/galaxy/group_vars/galaxy.yml"],
+			"inventory_directory": "./inventory/",
+			"playbook_file": "./ansible-playbooks/stop_galaxy_services.yml"
+		}{% endif %}
 	]
 }
