@@ -26,7 +26,7 @@
                         {% if ansible_galaxy_file %}
                         "galaxy_file": "./{{ ansible_galaxy_file }}",
                         {% endif %}
-			"playbook_file": "./playbooks/{{ playbook_file }}",
+			"playbook_file": "./{{ playbook_file }}",
 			"galaxy_force_install": true
                         
 		}
