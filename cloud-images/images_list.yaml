@@ -7,17 +7,17 @@ reports_repository: 'git@github.com:Laniakea-elixir-it/laniakea-images.git'
 
 images:
     galaxy-express:
-        name: "galaxy-express,release_25.1"
+        name: "galaxy-express,release_26.1"
         version: v1.0.0
-        build: no
+        build: yes
         packer:
             ssh_username: rocky
-            source_image: "9e46d3fc-b7e7-4268-ab19-283cb1296f84" # RockyLinux_9.5_20241118
+            source_image: "a9e76aaa-604a-4cbf-a4c1-8acf9f9156bd" #rockylinux-9.8-20260525
             flavor: xlarge
             volume_size: "10"
             network_id: "4b5f690e-8232-439b-9964-8d28b3108b03" # public net
-            playbook_file: "galaxy.yml"
-            ansible_galaxy_file: "galaxy.yml"
+            playbook_file: "ansible-playbooks/galaxy/galaxy.yml"
+            ansible_galaxy_file: "ansible-playbooks/galaxy/requirements.yml"
 
     rockylinux-lanaiakea-dev:
         name: rockylinux.9.5-laniakea-dev
@@ -35,7 +35,7 @@ images:
     ubuntu-laniakea-dev:
         name: "Ubuntu-22.04-20260522-laniakea-dev"
         version: v1.0.0
-        build: yes
+        build: no
         packer:
             ssh_username: ubuntu
             source_image: "19332caa-3b85-4acc-8889-7176f72abe63" # Ubuntu-22.04-20260522

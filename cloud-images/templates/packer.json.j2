@@ -16,7 +16,7 @@
 		{
 			"type": "ansible",
                         {% if 'galaxy' in playbook_file %}
-                        "extra_arguments": ["--extra-vars","@./inventory/group_vars/galaxyservers.yml"],
+                        "extra_arguments": ["--extra-vars","@./ansible-playbooks/galaxy/group_vars/galaxy.yml"],
                         {% elif 'rockylinux-laniakea-dev' in playbook_file %}
                         "extra_arguments": ["--extra-vars","@./inventory/group_vars/rockylinux-laniakea-dev.yml"],
                         {% elif 'vgcn' in playbook_file %}
@@ -24,7 +24,7 @@
                         {% endif%}
 			"inventory_directory": "./inventory/",
                         {% if ansible_galaxy_file %}
-                        "galaxy_file": "./requirements/{{ ansible_galaxy_file }}",
+                        "galaxy_file": "./{{ ansible_galaxy_file }}",
                         {% endif %}
 			"playbook_file": "./playbooks/{{ playbook_file }}",
 			"galaxy_force_install": true
