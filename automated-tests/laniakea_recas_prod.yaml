@@ -29,7 +29,7 @@ test:
 
     simple_node_vpn:
         name: "simple-node-vpn"
-        enabled: yes
+        enabled: no
         run_more: no # this tosca template doesn't produce a valid endpoint to check with requests.
         delete: always
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/single-vm/single_vm_priv.yaml"
@@ -44,7 +44,7 @@ test:
     #
     galaxy:
         name: "galaxy-minimal"
-        enabled: no # yes by default
+        enabled: yes # yes by default
         run_more: ['endpoint']
         delete: always # always, no, on_success, on_error # TODO add the possibility to not delete the deployment.
         tosca_template: "https://raw.githubusercontent.com/Laniakea-elixir-it/tosca-templates/master/galaxy/galaxy.yaml"
