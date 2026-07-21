@@ -141,6 +141,8 @@ def parse_list(info_list, outpath):
                                                 network_id = image['packer']['network_id'],
                                                 ansible_galaxy_file = ansible_galaxy_file,
                                                 playbook_file = image['packer']['playbook_file']
+                                                os_distro = image['packer']['os_distro']
+                                                os_version = image['packer']['os_version']
                                                )
 
             # Write packer json to file

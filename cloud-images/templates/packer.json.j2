@@ -9,6 +9,13 @@
 			"ssh_ip_version": "4",
 			"networks": [
 				"{{ network_id }}"
+			],
+			"metadata": {
+            			"os_distro": "{{ os_distro}}",
+            			"os_version": "{{ os_version }}"
+        		},
+			"image_tags": [
+				"recas-paas"
 			]
 		}
 	],

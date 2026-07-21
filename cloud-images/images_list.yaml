@@ -8,7 +8,7 @@ reports_repository: 'git@github.com:Laniakea-elixir-it/laniakea-images.git'
 images:
     galaxy-express:
         name: "galaxy-express,release_26.1"
-        version: v1.0.0
+        version: v1.0.1
         build: yes
         packer:
             ssh_username: rocky
@@ -18,6 +18,8 @@ images:
             network_id: "4b5f690e-8232-439b-9964-8d28b3108b03" # public net
             playbook_file: "ansible-playbooks/galaxy/galaxy.yml"
             ansible_galaxy_file: "ansible-playbooks/galaxy/requirements.yml"
+            os_distro: galaxy-express
+            os_version: 1.0.1
 
     rockylinux-lanaiakea-dev:
         name: rockylinux.9.5-laniakea-dev
